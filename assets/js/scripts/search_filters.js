@@ -2,6 +2,7 @@ $(document).ready(function () {
     let starting_id = "";
     let ending_id = "";
     // TODO: Also load the starting id and ending id when the user uses search filters
+    
     $(document).keydown(function (event) {
         if (event.key === "ArrowUp" || event.key === "ArrowDown") {
             console.log("Arrow key pressed!");
@@ -56,3 +57,5 @@ $(document).ready(function () {
         });
     });
 });
+
+

@@ -2,24 +2,24 @@
 
 {% block content %}
 <div class="container">
-  <!-- Full-width Search Container -->
-  <div class="search-container mb-5">
+  <div class="search-container mb-3">
     <div class="row">
       <div class="col-12">
         <div class="card">
           <div class="card-body">
             <div class="input-group">
-              <input type="text" class="form-control" placeholder="Search..." aria-label="Search">
-              <button class="btn btn-primary rounded-pill" type="button">Search</button>
+              <input type="text" class="form-control py-1" placeholder="Search..." aria-label="Search">
+              <button class="btn btn-primary rounded-pill py-1" type="button">Search</button>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
+  
 
   <!-- Advanced Search Collapse -->
-  <div class="mb-4">
+  <div class="mb-5">
     <button class="btn btn-secondary rounded-pill w-100 text-center" type="button" data-bs-toggle="collapse"
       data-bs-target="#advancedSearchCollapse" aria-expanded="false" aria-controls="advancedSearchCollapse">
       Advanced Search
@@ -250,10 +250,11 @@
 
   </div>
 
-  <div class="mb-4">
-    <button class="btn btn-secondary rounded-pill text-center" type="button" id="load_data_assets">
-    More Data
+  <div class="mb-4 d-flex justify-content-center">
+    <button class="btn btn-success rounded-pill" type="button" id="load_data_assets">
+      More Data
     </button>
   </div>
+
 </div>
 {% endblock %}
