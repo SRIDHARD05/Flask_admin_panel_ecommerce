@@ -13,7 +13,6 @@ def load_data():
    ending_id = data.get("ending_id", "")
 
    '''
-
    # TODO:  Fetch the Datas from the database
    # load_data = Load_data().load_data(starting_id,ending_id)
    
