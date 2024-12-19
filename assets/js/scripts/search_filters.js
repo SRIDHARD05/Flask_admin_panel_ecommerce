@@ -73,4 +73,18 @@ $(document).ready(function () {
     });
 });
 
+document.addEventListener('DOMContentLoaded', function () {
+    const canvasBtn = document.getElementById('canvasBtn');
+    const sideNav = document.getElementById('sidenav-main');
+    const offCanvas = document.getElementById('offcanvasExample');
 
+    // Hide sidebar when the offcanvas button is clicked
+    canvasBtn.addEventListener('click', function () {
+        sideNav.classList.add('hide-sidebar');
+    });
+
+    // Show sidebar when the offcanvas is closed
+    offCanvas.addEventListener('hidden.bs.offcanvas', function () {
+        sideNav.classList.remove('hide-sidebar');
+    });
+});

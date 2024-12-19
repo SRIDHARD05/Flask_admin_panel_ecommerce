@@ -1,258 +1,32 @@
 {% extends '__master.html' %}
 
 {% block content %}
+<style>
+  .hide-sidebar {
+    display: none !important;
+  }
+</style>
 <div class="container">
-  <div class="search-container mb-3">
-    <div class="row">
-      <div class="col-12">
-        <div class="card">
-          <div class="card-body">
-            <div class="input-group">
-              <input type="text" class="form-control py-1" placeholder="Search..." aria-label="Search">
-              <button class="btn btn-primary rounded-pill py-1" type="button">Search</button>
-            </div>
-          </div>
-        </div>
-      </div>
+
+  <!-- Offcanvas Trigger Buttons -->
+  <a class="btn btn-primary" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button"
+    aria-controls="offcanvasExample" id="canvasBtn">
+    Open Offcanvas
+  </a>
+
+  <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title" id="offcanvasExampleLabel">Offcanvas</h5>
+      <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
-  </div>
-  
-  <div class="mb-5">
-    <button class="btn btn-secondary rounded-pill w-100 text-center" type="button" data-bs-toggle="collapse"
-      data-bs-target="#advancedSearchCollapse" aria-expanded="false" aria-controls="advancedSearchCollapse">
-      Advanced Search
-    </button>
-    <div class="collapse mt-3" id="advancedSearchCollapse">
-      <div class="card">
-        <div class="card-body">
-          <div class="row mb-3">
-            <div class="col-md-3">
-              <select class="form-select text-center">
-                <option selected disabled>Category</option>
-                <option value="1">Category 1</option>
-                <option value="2">Category 2</option>
-                <option value="3">Category 3</option>
-              </select>
-            </div>
-            <div class="col-md-3">
-              <select class="form-select text-center">
-                <option selected disabled>Status</option>
-                <option value="active">Active</option>
-                <option value="inactive">Inactive</option>
-              </select>
-            </div>
-            <div class="col-md-3">
-              <select class="form-select text-center">
-                <option selected disabled>Sort By</option>
-                <option value="asc">Ascending</option>
-                <option value="desc">Descending</option>
-              </select>
-            </div>
-            <div class="col-md-3">
-              <select class="form-select text-center">
-                <option selected disabled>Location</option>
-                <option value="1">Location 1</option>
-                <option value="2">Location 2</option>
-                <option value="3">Location 3</option>
-              </select>
-            </div>
-          </div>
-          <div class="row mb-3">
-            <div class="col-md-3">
-              <select class="form-select text-center">
-                <option selected disabled>Time Range</option>
-                <option value="today">Today</option>
-                <option value="week">This Week</option>
-                <option value="month">This Month</option>
-              </select>
-            </div>
-            <div class="col-md-3">
-              <button class="btn btn-success rounded-pill w-100 text-center" type="button">More Filters</button>
-            </div>
-            <div class="col-md-3">
-              <button class="btn btn-primary rounded-pill w-100 text-center" type="button">Apply Filters</button>
-            </div>
-            <div class="col-md-3">
-              <button class="btn btn-warning rounded-pill w-100 text-center" type="button">Clear All</button>
-            </div>
-          </div>
-        </div>
-      </div>
+    <div class="offcanvas-body">
+      Some text as placeholder. Add your offcanvas content here.
     </div>
   </div>
 
-  <div class="row mb-4">
-    <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-      <div class="card">
-        <div class="card-header p-2 ps-3">
-          <div class="d-flex justify-content-between">
-            <div>
-             <a class="text-sm mb-0 text-capitalize product-uuid" data-id="sample-product-id">Sample Product Id</a>
-              <h4 class="mb-0">$53k</h4>
-            </div>
-            <div class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow text-center border-radius-lg">
-              <i class="material-symbols-rounded opacity-10">weekend</i>
-            </div>
-          </div>
-        </div>
-        <hr class="dark horizontal my-0">
-        <div class="card-footer p-2 ps-3">
-          <p class="mb-0 text-sm"><span class="text-success font-weight-bolder">+55% </span>than last week</p>
-        </div>
-      </div>
-    </div>
 
-    <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-      <div class="card">
-        <div class="card-header p-2 ps-3">
-          <div class="d-flex justify-content-between">
-            <div>
-              <a class="text-sm mb-0 text-capitalize product-uuid" data-id="sample-product-id">Sample Product Id</a>
-              <h4 class="mb-0">2300</h4>
-            </div>
-            <div class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow text-center border-radius-lg">
-              <i class="material-symbols-rounded opacity-10">person</i>
-            </div>
-          </div>
-        </div>
-        <hr class="dark horizontal my-0">
-        <div class="card-footer p-2 ps-3">
-          <p class="mb-0 text-sm"><span class="text-success font-weight-bolder">+3% </span>than last month</p>
-        </div>
-      </div>
-    </div>
 
-    <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-      <div class="card">
-        <div class="card-header p-2 ps-3">
-          <div class="d-flex justify-content-between">
-            <div>
-              <a class="text-sm mb-0 text-capitalize product-uuid" data-id="sample-product-id">Sample Product Id</a>
-              <h4 class="mb-0">3,462</h4>
-            </div>
-            <div class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow text-center border-radius-lg">
-              <i class="material-symbols-rounded opacity-10">leaderboard</i>
-            </div>
-          </div>
-        </div>
-        <hr class="dark horizontal my-0">
-        <div class="card-footer p-2 ps-3">
-          <p class="mb-0 text-sm"><span class="text-danger font-weight-bolder">-2% </span>than yesterday</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-xl-3 col-sm-6">
-      <div class="card">
-        <div class="card-header p-2 ps-3">
-          <div class="d-flex justify-content-between">
-            <div>
-              <a class="text-sm mb-0 text-capitalize product-uuid" data-id="sample-product-id">Sample Product Id</a>
-              <h4 class="mb-0">$103,430</h4>
-            </div>
-            <div class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow text-center border-radius-lg">
-              <i class="material-symbols-rounded opacity-10">weekend</i>
-            </div>
-          </div>
-        </div>
-        <hr class="dark horizontal my-0">
-        <div class="card-footer p-2 ps-3">
-          <p class="mb-0 text-sm"><span class="text-success font-weight-bolder">+5% </span>than yesterday</p>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="row mb-4">
-    <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-      <div class="card">
-        <div class="card-header p-2 ps-3">
-          <div class="d-flex justify-content-between">
-            <div>
-              <a class="text-sm mb-0 text-capitalize product-uuid" data-id="sample-product-id">Sample Product Id</a>
-              <h4 class="mb-0">$53k</h4>
-            </div>
-            <div class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow text-center border-radius-lg">
-              <i class="material-symbols-rounded opacity-10">weekend</i>
-            </div>
-          </div>
-        </div>
-        <hr class="dark horizontal my-0">
-        <div class="card-footer p-2 ps-3">
-          <p class="mb-0 text-sm"><span class="text-success font-weight-bolder">+55% </span>than last week</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-      <div class="card">
-        <div class="card-header p-2 ps-3">
-          <div class="d-flex justify-content-between">
-            <div>
-              <a class="text-sm mb-0 text-capitalize product-uuid" data-id="sample-product-id">Sample Product Id</a>
-              <h4 class="mb-0">2300</h4>
-            </div>
-            <div class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow text-center border-radius-lg">
-              <i class="material-symbols-rounded opacity-10">person</i>
-            </div>
-          </div>
-        </div>
-        <hr class="dark horizontal my-0">
-        <div class="card-footer p-2 ps-3">
-          <p class="mb-0 text-sm"><span class="text-success font-weight-bolder">+3% </span>than last month</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-      <div class="card">
-        <div class="card-header p-2 ps-3">
-          <div class="d-flex justify-content-between">
-            <div>
-              <a class="text-sm mb-0 text-capitalize product-uuid" data-id="sample-product-id">Sample Product Id</a>
-              <h4 class="mb-0">3,462</h4>
-            </div>
-            <div class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow text-center border-radius-lg">
-              <i class="material-symbols-rounded opacity-10">leaderboard</i>
-            </div>
-          </div>
-        </div>
-        <hr class="dark horizontal my-0">
-        <div class="card-footer p-2 ps-3">
-          <p class="mb-0 text-sm"><span class="text-danger font-weight-bolder">-2% </span>than yesterday</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-xl-3 col-sm-6">
-      <div class="card">
-        <div class="card-header p-2 ps-3">
-          <div class="d-flex justify-content-between">
-            <div>
-              <a class="text-sm mb-0 text-capitalize product-uuid" data-id="sample-product-id">Sample Product Id</a>
-              <h4 class="mb-0">$103,430</h4>
-            </div>
-            <div class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow text-center border-radius-lg">
-              <i class="material-symbols-rounded opacity-10">weekend</i>
-            </div>
-          </div>
-        </div>
-        <hr class="dark horizontal my-0">
-        <div class="card-footer p-2 ps-3">
-          <p class="mb-0 text-sm"><span class="text-success font-weight-bolder">+5% </span>than yesterday</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div id="load_assets_container">
-
-  </div>
-
-  <div class="mb-4 d-flex justify-content-center">
-    <button class="btn btn-success rounded-pill" type="button" id="load_data_assets">
-      More Data
-    </button>
-  </div>
 
 </div>
+
 {% endblock %}
