@@ -1,0 +1,1348 @@
+{% extends '__master.html' %}
+
+{% block content %}
+<style>
+    .hide-sidebar {
+        display: none !important;
+    }
+</style>
+<div class="container">
+    <a class="btn btn-primary" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button"
+        aria-controls="offcanvasExample">
+        Open Product Details
+    </a>
+
+    <div class="offcanvas offcanvas-end w-75" tabindex="-1" id="offcanvasExample"
+        aria-labelledby="offcanvasExampleLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasExampleLabel">Product Details</h5>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <!-- First Container -->
+            <div class="container">
+                <div class="row">
+                    <!-- First Column -->
+                    <div class="col-md-6">
+                        <!-- Row 1: Product Title -->
+                        <div class="row mb-4">
+                            <h4 class="text-muted">Product Title</h4>
+                        </div>
+                        <!-- Row 2: Single Product Asset -->
+                        <div class="row mb-4">
+                            <img src="https://via.placeholder.com/80" alt="Asset" class="img-fluid rounded">
+                        </div>
+                        <!-- Row 3: Performance Metrics -->
+                        <div class="row">
+                            <div class="d-flex flex-wrap gap-3">
+                                <button type="button" class="btn btn-light">
+                                    <span>Likes</span>
+                                    <span class="badge badge-primary">120</span>
+                                </button>
+                                <button type="button" class="btn btn-light">
+                                    <span>Shares</span>
+                                    <span class="badge badge-primary">50</span>
+                                </button>
+                                <button type="button" class="btn btn-light">
+                                    <span>Comments</span>
+                                    <span class="badge badge-primary">30</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Second Column -->
+                    <div class="col-md-6">
+                        <!-- Row 1: FAQ for Product Details -->
+                        <div class="row">
+                            <h5>Product Details</h5>
+                            <div class="accordion" id="productDetailsAccordion">
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="faqOne">
+                                        <button class="accordion-button collapsed" type="button"
+                                            data-bs-toggle="collapse" data-bs-target="#collapseFaqOne"
+                                            aria-expanded="false" aria-controls="collapseFaqOne">
+                                            FAQ 1
+                                        </button>
+                                    </h2>
+                                    <div id="collapseFaqOne" class="accordion-collapse collapse"
+                                        aria-labelledby="faqOne" data-bs-parent="#productDetailsAccordion">
+                                        <div class="accordion-body">Details about FAQ 1.</div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="faqTwo">
+                                        <button class="accordion-button collapsed" type="button"
+                                            data-bs-toggle="collapse" data-bs-target="#collapseFaqTwo"
+                                            aria-expanded="false" aria-controls="collapseFaqTwo">
+                                            FAQ 2
+                                        </button>
+                                    </h2>
+                                    <div id="collapseFaqTwo" class="accordion-collapse collapse"
+                                        aria-labelledby="faqTwo" data-bs-parent="#productDetailsAccordion">
+                                        <div class="accordion-body">Details about FAQ 2.</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <br><br> <!-- Add space between containers -->
+
+            <!-- Second Container -->
+            <div class="container">
+                <div class="row">
+                    <!-- Column 1: Reduced size product assets -->
+                    <div class="col-md-6">
+                        <img src="https://via.placeholder.com/80" alt="Product 1" class="img-fluid rounded mb-2">
+                        <img src="https://via.placeholder.com/80" alt="Product 2" class="img-fluid rounded mb-2">
+                        <img src="https://via.placeholder.com/80" alt="Product 3" class="img-fluid rounded mb-2">
+                    </div>
+                    <!-- Column 2: Reduced size product assets -->
+                    <div class="col-md-6">
+                        <img src="https://via.placeholder.com/80" alt="Product 4" class="img-fluid rounded mb-2">
+                        <img src="https://via.placeholder.com/80" alt="Product 5" class="img-fluid rounded mb-2">
+                        <img src="https://via.placeholder.com/80" alt="Product 6" class="img-fluid rounded mb-2">
+                    </div>
+                </div>
+                <!-- Load More Button -->
+                <div class="row">
+                    <div class="col-12 text-center mt-4">
+                        <button class="btn btn-primary">Load More</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+</div>
+
+{% endblock %}
+
+
+
+
+<div class="offcanvas offcanvas-end w-65" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasExampleLabel">Product Details</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <!-- First Container -->
+        <div class="container">
+            <div class="row">
+                <!-- First Column -->
+                <div class="col-md-6">
+                    <!-- Row 1: Product Title -->
+                    <div class="row mb-4">
+                        <h4>Title</h4>
+                    </div>
+                    <!-- Row 2: Product Assets -->
+                    <div class="row mb-4">
+                        <iframe class="embed-responsive-item w-100" height="200"
+                            src="https://www.youtube.com/embed/R6Y4bI3GzKw" title="YouTube video player" frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            allowfullscreen></iframe>
+                    </div>
+                    <!-- Row 3: Performance Metrics -->
+                    <div class="row">
+                        <div class="d-flex flex-wrap gap-3">
+                            <button type="button" class="btn btn-light">
+                                <span>Likes</span>
+                                <span class="badge badge-primary">120</span>
+                            </button>
+                            <button type="button" class="btn btn-light">
+                                <span>Shares</span>
+                                <span class="badge badge-primary">50</span>
+                            </button>
+                            <button type="button" class="btn btn-light">
+                                <span>Comments</span>
+                                <span class="badge badge-primary">30</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Second Column -->
+                <div class="col-md-6">
+                    <!-- Row 1: Product Description -->
+                    <div class="row mb-4">
+                        <h5>Product Description</h5>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ut nisi euismod, tempor massa
+                            non,
+                            facilisis nunc.</p>
+                    </div>
+                    <!-- Row 2: Product Details -->
+                    <div class="row">
+                        <h5>Product Details</h5>
+                        <p>Aliquam quis tellus sit amet urna scelerisque lacinia. Phasellus condimentum, ligula nec
+                            efficitur
+                            varius, elit justo vehicula nulla.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Second Container -->
+        <div class="container mt-5">
+            <div class="row g-3">
+                <!-- Video Grid -->
+                <div class="col-md-6">
+                    <iframe class="embed-responsive-item w-100" height="200"
+                        src="https://www.youtube.com/embed/R6Y4bI3GzKw" title="YouTube video player" frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowfullscreen></iframe>
+                </div>
+                <div class="col-md-6">
+                    <iframe class="embed-responsive-item w-100" height="200"
+                        src="https://www.youtube.com/embed/R6Y4bI3GzKw" title="YouTube video player" frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowfullscreen></iframe>
+                </div>
+                <div class="col-md-6">
+                    <iframe class="embed-responsive-item w-100" height="200"
+                        src="https://www.youtube.com/embed/R6Y4bI3GzKw" title="YouTube video player" frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowfullscreen></iframe>
+                </div>
+                <div class="col-md-6">
+                    <iframe class="embed-responsive-item w-100" height="200"
+                        src="https://www.youtube.com/embed/R6Y4bI3GzKw" title="YouTube video player" frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowfullscreen></iframe>
+                </div>
+            </div>
+            <!-- Load More Button -->
+            <div class="row">
+                <div class="col-12 text-center mt-4">
+                    <button class="btn btn-primary">Load More</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="offcanvas offcanvas-end w-65" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+    <div class="offcanvas-body">
+        <!-- First Container -->
+        <div class="container">
+            <div class="row">
+                <!-- First Column -->
+                <div class="col-md-6">
+                    <!-- Row 1: Product Title -->
+                    <div class="row mb-4">
+                        <h4>Title</h4>
+                    </div>
+                    <!-- Row 2: Product Assets -->
+                    <div class="row mb-4">
+                        <iframe class="embed-responsive-item w-100" height="200"
+                            src="https://www.youtube.com/embed/R6Y4bI3GzKw" title="YouTube video player" frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            allowfullscreen></iframe>
+                    </div>
+                    <!-- Row 3: Performance Metrics -->
+                    <div class="row">
+                        <div class="d-flex flex-wrap gap-1">
+                            <button type="button" class="btn btn-light">
+                                <span>Likes</span>
+                                <span class="badge badge-primary">120</span>
+                            </button>
+                            <button type="button" class="btn btn-light">
+                                <span>Shares</span>
+                                <span class="badge badge-primary">50</span>
+                            </button>
+                            <button type="button" class="btn btn-light">
+                                <span>Comments</span>
+                                <span class="badge badge-primary">30</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Second Column -->
+                <div class="col-md-6">
+                    <!-- Row 1: Product Description -->
+                    <div class="row mb-4">
+                        <h5>Product Description</h5>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ut nisi euismod, tempor massa
+                            non,
+                            facilisis nunc.
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit a ipsa incidunt culpa
+                            possimus
+                            accusamus doloremque voluptatum quae. Sint provident porro molestias iste perferendis nulla
+                            dolorem
+                            sapiente harum maiores ab!Lorem
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis, debitis quas rerum illo
+                            similique
+                            itaque qui adipisci voluptate doloremque aspernatur sit ducimus voluptates, doloribus
+                            voluptatum
+                            deserunt quaerat nemo quia ab.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="product-details-container"></div>
+
+        <!-- Second Container -->
+        <div class="container mt-5">
+            <div class="row g-3">
+                <!-- Video Grid -->
+                <div class="col-md-6">
+                    <iframe class="embed-responsive-item w-100" height="200"
+                        src="https://www.youtube.com/embed/R6Y4bI3GzKw" title="YouTube video player" frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowfullscreen></iframe>
+                </div>
+                <div class="col-md-6">
+                    <iframe class="embed-responsive-item w-100" height="200"
+                        src="https://www.youtube.com/embed/R6Y4bI3GzKw" title="YouTube video player" frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowfullscreen></iframe>
+                </div>
+                <div class="col-md-6">
+                    <iframe class="embed-responsive-item w-100" height="200"
+                        src="https://www.youtube.com/embed/R6Y4bI3GzKw" title="YouTube video player" frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowfullscreen></iframe>
+                </div>
+                <div class="col-md-6">
+                    <iframe class="embed-responsive-item w-100" height="200"
+                        src="https://www.youtube.com/embed/R6Y4bI3GzKw" title="YouTube video player" frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowfullscreen></iframe>
+                </div>
+            </div>
+            <!-- Load More Button -->
+            <div class="row">
+                <div class="col-12 text-center mt-4">
+                    <button class="btn btn-primary">Load More</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+{% extends '__master.html' %}
+
+{% block content %}
+<style>
+    .hide-sidebar {
+        display: none !important;
+    }
+</style>
+
+<style>
+    .video-thumbnail {
+        width: 100%;
+        height: auto;
+    }
+
+    .video-title {
+        font-size: 16px;
+        font-weight: bold;
+    }
+
+    .video-channel {
+        font-size: 14px;
+        color: gray;
+    }
+
+    .video-stats {
+        font-size: 12px;
+        color: gray;
+    }
+
+    .sidebar {
+        background-color: #f1f1f1;
+        padding: 15px;
+        border-radius: 8px;
+    }
+
+    .sidebar-title {
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+</style>
+<div class="container">
+
+    <!-- 
+  <a class="btn btn-primary" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button"
+    aria-controls="offcanvasExample" id="canvasBtn">
+    Open Offcanvas
+  </a>
+
+  <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title" id="offcanvasExampleLabel">Offcanvas</h5>
+      <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+      Some text as placeholder. Add your offcanvas content here.
+    </div>
+  </div> -->
+
+
+    <!-- <div class="accordion-1">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-10 mx-auto">
+          <div class="accordion" id="accordionRental">
+            <div class="accordion-item mb-3">
+              <h5 class="accordion-header" id="headingOne">
+                <button class="accordion-button border-bottom font-weight-bold collapsed" type="button"
+                  data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false"
+                  aria-controls="collapseOne">
+                  How do I order?
+                  <span class="position-absolute end-0 me-3">
+                    <i class="fa fa-plus collapse-close text-xs pt-1" aria-hidden="true"></i>
+                    <i class="fa fa-minus collapse-open text-xs pt-1" aria-hidden="true"></i>
+                  </span>
+                </button>
+              </h5>
+              <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
+                data-bs-parent="#accordionRental">
+                <div class="accordion-body text-sm opacity-8">
+                  We’re not always in the position that we want to be at. We’re constantly growing. We’re constantly
+                  making mistakes. We’re constantly trying to express ourselves and actualize our dreams. If you have
+                  the opportunity to play this game
+                  of life you need to appreciate every moment. A lot of people don’t appreciate the moment until it’s
+                  passed.
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item mb-3">
+              <h5 class="accordion-header" id="headingTwo">
+                <button class="accordion-button border-bottom font-weight-bold" type="button" data-bs-toggle="collapse"
+                  data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                  How can I make the payment?
+                  <span class="position-absolute end-0 me-3">
+                    <i class="fa fa-plus collapse-close text-xs pt-1" aria-hidden="true"></i>
+                    <i class="fa fa-minus collapse-open text-xs pt-1" aria-hidden="true"></i>
+                  </span>
+                </button>
+              </h5>
+              <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
+                data-bs-parent="#accordionRental">
+                <div class="accordion-body text-sm opacity-8">
+                  It really matters and then like it really doesn’t matter. What matters is the people who are sparked
+                  by it. And the people who are like offended by it, it doesn’t matter. Because it's about motivating
+                  the doers. Because I’m here to follow my dreams and inspire other people to follow their dreams, too.
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item mb-3">
+              <h5 class="accordion-header" id="headingThree">
+                <button class="accordion-button border-bottom font-weight-bold" type="button" data-bs-toggle="collapse"
+                  data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                  How much time does it take to receive the order?
+                  <span class="position-absolute end-0 me-3">
+                    <i class="fa fa-plus collapse-close text-xs pt-1" aria-hidden="true"></i>
+                    <i class="fa fa-minus collapse-open text-xs pt-1" aria-hidden="true"></i>
+                  </span>
+                </button>
+              </h5>
+              <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
+                data-bs-parent="#accordionRental">
+                <div class="accordion-body text-sm opacity-8">
+                  The time is now for it to be okay to be great. People in this world shun people for being great. For
+                  being a bright color. For standing out. But the time is now to be okay to be the greatest you.
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item mb-3">
+              <h5 class="accordion-header" id="headingFour">
+                <button class="accordion-button border-bottom font-weight-bold" type="button" data-bs-toggle="collapse"
+                  data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                  Can I resell the products?
+                  <span class="position-absolute end-0 me-3">
+                    <i class="fa fa-plus collapse-close text-xs pt-1" aria-hidden="true"></i>
+                    <i class="fa fa-minus collapse-open text-xs pt-1" aria-hidden="true"></i>
+                  </span>
+                </button>
+              </h5>
+              <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour"
+                data-bs-parent="#accordionRental">
+                <div class="accordion-body text-sm opacity-8">
+                  I always felt like I could do anything. That’s the main thing people are controlled by! Thoughts-
+                  their perception of themselves! They're slowed down by their perception of themselves.
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item mb-3">
+              <h5 class="accordion-header" id="headingFifth">
+                <button class="accordion-button border-bottom font-weight-bold" type="button" data-bs-toggle="collapse"
+                  data-bs-target="#collapseFifth" aria-expanded="false" aria-controls="collapseFifth">
+                  Where do I find the shipping details?
+                  <span class="position-absolute end-0 me-3">
+                    <i class="fa fa-plus collapse-close text-xs pt-1" aria-hidden="true"></i>
+                    <i class="fa fa-minus collapse-open text-xs pt-1" aria-hidden="true"></i>
+                  </span>
+                </button>
+              </h5>
+              <div id="collapseFifth" class="accordion-collapse collapse" aria-labelledby="headingFifth"
+                data-bs-parent="#accordionRental">
+                <div class="accordion-body text-sm opacity-8">
+                  There’s nothing I really wanted to do in life that I wasn’t able to get good at. That’s my skill. I’m
+                  not really specifically talented at anything except for the ability to learn.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> 
+
+    <!-- <a class="btn btn-primary" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button"
+    aria-controls="offcanvasExample">
+    Open Product Details
+  </a>
+-->
+  <div class="offcanvas offcanvas-end w-65" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+    <div class="offcanvas-body">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="row mb-4">
+              <h4>Title</h4>
+            </div>
+            <div class="row mb-4">
+              <iframe class="embed-responsive-item w-100" height="200" src="https://www.youtube.com/embed/R6Y4bI3GzKw"
+                title="YouTube video player" frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen></iframe>
+            </div>
+            <div class="row">
+              <div class="d-flex justify-content-center gap-3">
+                <button type="button"
+                  class="btn btn-outline-primary d-flex align-items-center p-2 rounded-3 shadow-sm hover-effect">
+                  <i class="fa-solid fa-thumbs-up fa-lg me-2"></i>
+                  <span class="badge badge-primary bg-primary text-white rounded-pill py-1 px-2">120</span>
+                </button>
+                <button type="button"
+                  class="btn btn-outline-success d-flex align-items-center p-2 rounded-3 shadow-sm hover-effect">
+                  <i class="fa-solid fa-share fa-lg me-2"></i>
+                  <span class="badge badge-success bg-success text-white rounded-pill py-1 px-2">50</span>
+                </button>
+                <button type="button"
+                  class="btn btn-outline-info d-flex align-items-center p-2 rounded-3 shadow-sm hover-effect">
+                  <i class="fa-solid fa-comment fa-lg me-2"></i>
+                  <span class="badge badge-info bg-info text-white rounded-pill py-1 px-2">30</span>
+                </button>
+              </div>
+            </div>
+
+            <style>
+              .hover-effect:hover {
+                transform: scale(1.1);
+                transition: all 0.3s ease-in-out;
+              }
+
+              .badge {
+                font-size: 0.9rem;
+                font-weight: bold;
+              }
+
+              .fa-lg {
+                font-size: 1.2rem;
+              }
+
+              .d-flex {
+                display: flex;
+                flex-wrap: nowrap;
+              }
+
+              .gap-3 {
+                gap: 15px;
+              }
+
+              .justify-content-center {
+                justify-content: center;
+              }
+
+              .btn {
+                padding: 0.5rem 1rem;
+                font-size: 0.9rem;
+              }
+            </style>
+          </div>
+          <div class="col-md-6">
+            <div class="row mb-4">
+              <h5>Product Description</h5>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ut nisi euismod, tempor massa non,
+                facilisis nunc. Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit a ipsa incidunt culpa
+                possimus accusamus doloremque voluptatum quae. Sint provident porro molestias iste perferendis nulla
+                dolorem sapiente harum maiores ab! Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis,
+                debitis quas rerum illo similique itaque qui adipisci voluptate doloremque aspernatur sit ducimus
+                voluptates, doloribus voluptatum deserunt quaerat nemo quia ab.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="details-container">
+        <div class="accordion-1">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-11 mx-auto">
+                <div class="accordion" id="accordionRental">
+                  <div class="accordion-item mb-3">
+                    <h5 class="accordion-header" id="headingOne">
+                      <button class="accordion-button border-bottom font-weight-bold collapsed" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false"
+                        aria-controls="collapseOne">
+                        How do I order?
+                        <span class="position-absolute end-0 me-3">
+                          <i class="fa fa-plus collapse-close text-xs pt-1" aria-hidden="true"></i>
+                          <i class="fa fa-minus collapse-open text-xs pt-1" aria-hidden="true"></i>
+                        </span>
+                      </button>
+                    </h5>
+                    <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
+                      data-bs-parent="#accordionRental">
+                      <div class="accordion-body text-sm opacity-8">
+                        We’re not always in the position that we want to be at. We’re constantly growing. We’re
+                        constantly making mistakes. We’re constantly trying to express ourselves and actualize our
+                        dreams. If you have the opportunity to play this game of life you need to appreciate every
+                        moment. A lot of people don’t appreciate the moment until it’s passed.
+                      </div>
+                    </div>
+                  </div>
+                  <div class="accordion-item mb-3">
+                    <h5 class="accordion-header" id="headingTwo">
+                      <button class="accordion-button border-bottom font-weight-bold" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false"
+                        aria-controls="collapseTwo">
+                        How can I make the payment?
+                        <span class="position-absolute end-0 me-3">
+                          <i class="fa fa-plus collapse-close text-xs pt-1" aria-hidden="true"></i>
+                          <i class="fa fa-minus collapse-open text-xs pt-1" aria-hidden="true"></i>
+                        </span>
+                      </button>
+                    </h5>
+                    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
+                      data-bs-parent="#accordionRental">
+                      <div class="accordion-body text-sm opacity-8">
+                        It really matters and then like it really doesn’t matter. What matters is the people who are
+                        sparked by it. And the people who are like offended by it, it doesn’t matter. Because it's about
+                        motivating the doers. Because I’m here to follow my dreams and inspire other people to follow
+                        their dreams, too.
+                      </div>
+                    </div>
+                  </div>
+                  <div class="accordion-item mb-3">
+                    <h5 class="accordion-header" id="headingThree">
+                      <button class="accordion-button border-bottom font-weight-bold" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false"
+                        aria-controls="collapseThree">
+                        How much time does it take to receive the order?
+                        <span class="position-absolute end-0 me-3">
+                          <i class="fa fa-plus collapse-close text-xs pt-1" aria-hidden="true"></i>
+                          <i class="fa fa-minus collapse-open text-xs pt-1" aria-hidden="true"></i>
+                        </span>
+                      </button>
+                    </h5>
+                    <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
+                      data-bs-parent="#accordionRental">
+                      <div class="accordion-body text-sm opacity-8">
+                        The time is now for it to be okay to be great. People in this world shun people for being great.
+                        For being a bright color. For standing out. But the time is now to be okay to be the greatest
+                        you.
+                      </div>
+                    </div>
+                  </div>
+                  <div class="accordion-item mb-3">
+                    <h5 class="accordion-header" id="headingFour">
+                      <button class="accordion-button border-bottom font-weight-bold" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false"
+                        aria-controls="collapseFour">
+                        Can I resell the products?
+                        <span class="position-absolute end-0 me-3">
+                          <i class="fa fa-plus collapse-close text-xs pt-1" aria-hidden="true"></i>
+                          <i class="fa fa-minus collapse-open text-xs pt-1" aria-hidden="true"></i>
+                        </span>
+                      </button>
+                    </h5>
+                    <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour"
+                      data-bs-parent="#accordionRental">
+                      <div class="accordion-body text-sm opacity-8">
+                        I always felt like I could do anything. That’s the main thing people are controlled by!
+                        Thoughts- their perception of themselves! They're slowed down by their perception of themselves.
+                      </div>
+                    </div>
+                  </div>
+                  <div class="accordion-item mb-3">
+                    <h5 class="accordion-header" id="headingFifth">
+                      <button class="accordion-button border-bottom font-weight-bold" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#collapseFifth" aria-expanded="false"
+                        aria-controls="collapseFifth">
+                        Where do I find the shipping details?
+                        <span class="position-absolute end-0 me-3">
+                          <i class="fa fa-plus collapse-close text-xs pt-1" aria-hidden="true"></i>
+                          <i class="fa fa-minus collapse-open text-xs pt-1" aria-hidden="true"></i>
+                        </span>
+                      </button>
+                    </h5>
+                    <div id="collapseFifth" class="accordion-collapse collapse" aria-labelledby="headingFifth"
+                      data-bs-parent="#accordionRental">
+                      <div class="accordion-body text-sm opacity-8">
+                        There’s nothing I really wanted to do in life that I wasn’t able to get good at. That’s my
+                        skill. I’m not really specifically talented at anything except for the ability to learn.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br>
+      </div>
+      <div class="container mt-5">
+        <div class="row g-3">
+          <div class="col-md-6">
+            <iframe class="embed-responsive-item w-100" height="200" src="https://www.youtube.com/embed/R6Y4bI3GzKw"
+              title="YouTube video player" frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen></iframe>
+          </div>
+          <div class="col-md-6">
+            <iframe class="embed-responsive-item w-100" height="200" src="https://www.youtube.com/embed/R6Y4bI3GzKw"
+              title="YouTube video player" frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen></iframe>
+          </div>
+          <div class="col-md-6">
+            <iframe class="embed-responsive-item w-100" height="200" src="https://www.youtube.com/embed/R6Y4bI3GzKw"
+              title="YouTube video player" frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen></iframe>
+          </div>
+          <div class="col-md-6">
+            <iframe class="embed-responsive-item w-100" height="200" src="https://www.youtube.com/embed/R6Y4bI3GzKw"
+              title="YouTube video player" frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen></iframe>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 text-center mt-4">
+            <button class="btn btn-primary">Load More</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+ 
+
+</div>
+
+{% endblock %}
+
+
+
+<div class="offcanvas offcanvas-end w-65" tabindex="-1" id="offcanvas-{{data.product_uuid}}"
+    aria-labelledby="offcanvasLabel-{{data.product_uuid}}">
+    <div class="offcanvas-body">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="row mb-4">
+                        <h4>{{data.title}}</h4>
+                    </div>
+                    <div class="row mb-4">
+                        <iframe class="embed-responsive-item w-100" height="200"
+                            src="https://www.youtube.com/embed/{{data.video_id}}" title="YouTube video player"
+                            frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            allowfullscreen></iframe>
+                    </div>
+                    <div class="row">
+                        <div class="d-flex"
+                            style="display: flex; flex-wrap: nowrap; gap: 15px; justify-content: center;">
+                            <button type="button" class="btn btn-outline-primary">
+                                <i class="fa-solid fa-thumbs-up fa-lg"></i>
+                                <span class="badge badge-primary">{{data.likes}}</span>
+                            </button>
+                            <button type="button" class="btn btn-outline-success">
+                                <i class="fa-solid fa-share fa-lg"></i>
+                                <span class="badge badge-success">{{data.shares}}</span>
+                            </button>
+                            <button type="button" class="btn btn-outline-info">
+                                <i class="fa-solid fa-comment fa-lg"></i>
+                                <span class="badge badge-info">{{data.comments}}</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="row mb-4">
+                        <h5>Product Description</h5>
+                        <p>{{data.description}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 
+<a class="btn btn-primary" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button"
+    aria-controls="offcanvasExample">
+    Open Product Details
+</a> -->
+
+
+
+<div class="offcanvas offcanvas-end w-65" tabindex="-1" id="offcanvas-{{data.product_uuid}}" aria-labelledby="offcanvasLabel-{{data.product_uuid}}">
+    <div class="offcanvas-body">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="row mb-4">
+                        <h4>Title</h4>
+                    </div>
+                    <div class="row mb-4">
+                        <iframe class="embed-responsive-item w-100" height="200"
+                            src="https://www.youtube.com/embed/R6Y4bI3GzKw" title="YouTube video player" frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            allowfullscreen></iframe>
+                    </div>
+                    <div class="row">
+                        <div class="d-flex justify-content-center gap-3">
+                            <button type="button"
+                                class="btn btn-outline-primary d-flex align-items-center p-2 rounded-3 shadow-sm hover-effect">
+                                <i class="fa-solid fa-thumbs-up fa-lg me-2"></i>
+                                <span
+                                    class="badge badge-primary bg-primary text-white rounded-pill py-1 px-2">120</span>
+                            </button>
+                            <button type="button"
+                                class="btn btn-outline-success d-flex align-items-center p-2 rounded-3 shadow-sm hover-effect">
+                                <i class="fa-solid fa-share fa-lg me-2"></i>
+                                <span class="badge badge-success bg-success text-white rounded-pill py-1 px-2">50</span>
+                            </button>
+                            <button type="button"
+                                class="btn btn-outline-info d-flex align-items-center p-2 rounded-3 shadow-sm hover-effect">
+                                <i class="fa-solid fa-comment fa-lg me-2"></i>
+                                <span class="badge badge-info bg-info text-white rounded-pill py-1 px-2">30</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <style>
+                        .hover-effect:hover {
+                            transform: scale(1.1);
+                            transition: all 0.3s ease-in-out;
+                        }
+
+                        .badge {
+                            font-size: 0.9rem;
+                            font-weight: bold;
+                        }
+
+                        .fa-lg {
+                            font-size: 1.2rem;
+                        }
+
+                        .d-flex {
+                            display: flex;
+                            flex-wrap: nowrap;
+                        }
+
+                        .gap-3 {
+                            gap: 15px;
+                        }
+
+                        .justify-content-center {
+                            justify-content: center;
+                        }
+
+                        .btn {
+                            padding: 0.5rem 1rem;
+                            font-size: 0.9rem;
+                        }
+                    </style>
+                </div>
+                <div class="col-md-6">
+                    <div class="row mb-4">
+                        <h5>Product Description</h5>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ut nisi euismod, tempor massa
+                            non,
+                            facilisis nunc. Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit a ipsa
+                            incidunt culpa
+                            possimus accusamus doloremque voluptatum quae. Sint provident porro molestias iste
+                            perferendis nulla
+                            dolorem sapiente harum maiores ab! Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                            Veritatis,
+                            debitis quas rerum illo similique itaque qui adipisci voluptate doloremque aspernatur sit
+                            ducimus
+                            voluptates, doloribus voluptatum deserunt quaerat nemo quia ab.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="details-container">
+            <div class="accordion-1">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-11 mx-auto">
+                            <div class="accordion" id="accordionRental">
+                                <div class="accordion-item mb-3">
+                                    <h5 class="accordion-header" id="headingOne">
+                                        <button class="accordion-button border-bottom font-weight-bold collapsed"
+                                            type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
+                                            aria-expanded="false" aria-controls="collapseOne">
+                                            How do I order?
+                                            <span class="position-absolute end-0 me-3">
+                                                <i class="fa fa-plus collapse-close text-xs pt-1"
+                                                    aria-hidden="true"></i>
+                                                <i class="fa fa-minus collapse-open text-xs pt-1"
+                                                    aria-hidden="true"></i>
+                                            </span>
+                                        </button>
+                                    </h5>
+                                    <div id="collapseOne" class="accordion-collapse collapse"
+                                        aria-labelledby="headingOne" data-bs-parent="#accordionRental">
+                                        <div class="accordion-body text-sm opacity-8">
+                                            We’re not always in the position that we want to be at. We’re constantly
+                                            growing. We’re
+                                            constantly making mistakes. We’re constantly trying to express ourselves and
+                                            actualize our
+                                            dreams. If you have the opportunity to play this game of life you need to
+                                            appreciate every
+                                            moment. A lot of people don’t appreciate the moment until it’s passed.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item mb-3">
+                                    <h5 class="accordion-header" id="headingTwo">
+                                        <button class="accordion-button border-bottom font-weight-bold" type="button"
+                                            data-bs-toggle="collapse" data-bs-target="#collapseTwo"
+                                            aria-expanded="false" aria-controls="collapseTwo">
+                                            How can I make the payment?
+                                            <span class="position-absolute end-0 me-3">
+                                                <i class="fa fa-plus collapse-close text-xs pt-1"
+                                                    aria-hidden="true"></i>
+                                                <i class="fa fa-minus collapse-open text-xs pt-1"
+                                                    aria-hidden="true"></i>
+                                            </span>
+                                        </button>
+                                    </h5>
+                                    <div id="collapseTwo" class="accordion-collapse collapse"
+                                        aria-labelledby="headingTwo" data-bs-parent="#accordionRental">
+                                        <div class="accordion-body text-sm opacity-8">
+                                            It really matters and then like it really doesn’t matter. What matters is
+                                            the people who are
+                                            sparked by it. And the people who are like offended by it, it doesn’t
+                                            matter. Because it's about
+                                            motivating the doers. Because I’m here to follow my dreams and inspire other
+                                            people to follow
+                                            their dreams, too.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item mb-3">
+                                    <h5 class="accordion-header" id="headingThree">
+                                        <button class="accordion-button border-bottom font-weight-bold" type="button"
+                                            data-bs-toggle="collapse" data-bs-target="#collapseThree"
+                                            aria-expanded="false" aria-controls="collapseThree">
+                                            How much time does it take to receive the order?
+                                            <span class="position-absolute end-0 me-3">
+                                                <i class="fa fa-plus collapse-close text-xs pt-1"
+                                                    aria-hidden="true"></i>
+                                                <i class="fa fa-minus collapse-open text-xs pt-1"
+                                                    aria-hidden="true"></i>
+                                            </span>
+                                        </button>
+                                    </h5>
+                                    <div id="collapseThree" class="accordion-collapse collapse"
+                                        aria-labelledby="headingThree" data-bs-parent="#accordionRental">
+                                        <div class="accordion-body text-sm opacity-8">
+                                            The time is now for it to be okay to be great. People in this world shun
+                                            people for being great.
+                                            For being a bright color. For standing out. But the time is now to be okay
+                                            to be the greatest
+                                            you.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item mb-3">
+                                    <h5 class="accordion-header" id="headingFour">
+                                        <button class="accordion-button border-bottom font-weight-bold" type="button"
+                                            data-bs-toggle="collapse" data-bs-target="#collapseFour"
+                                            aria-expanded="false" aria-controls="collapseFour">
+                                            Can I resell the products?
+                                            <span class="position-absolute end-0 me-3">
+                                                <i class="fa fa-plus collapse-close text-xs pt-1"
+                                                    aria-hidden="true"></i>
+                                                <i class="fa fa-minus collapse-open text-xs pt-1"
+                                                    aria-hidden="true"></i>
+                                            </span>
+                                        </button>
+                                    </h5>
+                                    <div id="collapseFour" class="accordion-collapse collapse"
+                                        aria-labelledby="headingFour" data-bs-parent="#accordionRental">
+                                        <div class="accordion-body text-sm opacity-8">
+                                            I always felt like I could do anything. That’s the main thing people are
+                                            controlled by!
+                                            Thoughts- their perception of themselves! They're slowed down by their
+                                            perception of themselves.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item mb-3">
+                                    <h5 class="accordion-header" id="headingFifth">
+                                        <button class="accordion-button border-bottom font-weight-bold" type="button"
+                                            data-bs-toggle="collapse" data-bs-target="#collapseFifth"
+                                            aria-expanded="false" aria-controls="collapseFifth">
+                                            Where do I find the shipping details?
+                                            <span class="position-absolute end-0 me-3">
+                                                <i class="fa fa-plus collapse-close text-xs pt-1"
+                                                    aria-hidden="true"></i>
+                                                <i class="fa fa-minus collapse-open text-xs pt-1"
+                                                    aria-hidden="true"></i>
+                                            </span>
+                                        </button>
+                                    </h5>
+                                    <div id="collapseFifth" class="accordion-collapse collapse"
+                                        aria-labelledby="headingFifth" data-bs-parent="#accordionRental">
+                                        <div class="accordion-body text-sm opacity-8">
+                                            There’s nothing I really wanted to do in life that I wasn’t able to get good
+                                            at. That’s my
+                                            skill. I’m not really specifically talented at anything except for the
+                                            ability to learn.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+        </div>
+        <div class="container mt-5">
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <iframe class="embed-responsive-item w-100" height="200"
+                        src="https://www.youtube.com/embed/R6Y4bI3GzKw" title="YouTube video player" frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowfullscreen></iframe>
+                </div>
+                <div class="col-md-6">
+                    <iframe class="embed-responsive-item w-100" height="200"
+                        src="https://www.youtube.com/embed/R6Y4bI3GzKw" title="YouTube video player" frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowfullscreen></iframe>
+                </div>
+                <div class="col-md-6">
+                    <iframe class="embed-responsive-item w-100" height="200"
+                        src="https://www.youtube.com/embed/R6Y4bI3GzKw" title="YouTube video player" frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowfullscreen></iframe>
+                </div>
+                <div class="col-md-6">
+                    <iframe class="embed-responsive-item w-100" height="200"
+                        src="https://www.youtube.com/embed/R6Y4bI3GzKw" title="YouTube video player" frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowfullscreen></iframe>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 text-center mt-4">
+                    <button class="btn btn-primary">Load More</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="offcanvas offcanvas-end w-65" tabindex="-1" id="offcanvas-{{data.product_uuid}}" aria-labelledby="offcanvasLabel-{{data.product_uuid}}">
+    <div class="offcanvas-body">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="row mb-4">
+                        <h4>Title</h4>
+                    </div>
+                    <div class="row mb-4">
+                        <iframe class="embed-responsive-item w-100" height="200"
+                            src="https://www.youtube.com/embed/R6Y4bI3GzKw" title="YouTube video player" frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            allowfullscreen></iframe>
+                    </div>
+                    <div class="row">
+                        <div class="d-flex justify-content-center gap-3">
+                            <button type="button"
+                                class="btn btn-outline-primary d-flex align-items-center p-2 rounded-3 shadow-sm hover-effect">
+                                <i class="fa-solid fa-thumbs-up fa-lg me-2"></i>
+                                <span
+                                    class="badge badge-primary bg-primary text-white rounded-pill py-1 px-2">120</span>
+                            </button>
+                            <button type="button"
+                                class="btn btn-outline-success d-flex align-items-center p-2 rounded-3 shadow-sm hover-effect">
+                                <i class="fa-solid fa-share fa-lg me-2"></i>
+                                <span class="badge badge-success bg-success text-white rounded-pill py-1 px-2">50</span>
+                            </button>
+                            <button type="button"
+                                class="btn btn-outline-info d-flex align-items-center p-2 rounded-3 shadow-sm hover-effect">
+                                <i class="fa-solid fa-comment fa-lg me-2"></i>
+                                <span class="badge badge-info bg-info text-white rounded-pill py-1 px-2">30</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <style>
+                        .hover-effect:hover {
+                            transform: scale(1.1);
+                            transition: all 0.3s ease-in-out;
+                        }
+
+                        .badge {
+                            font-size: 0.9rem;
+                            font-weight: bold;
+                        }
+
+                        .fa-lg {
+                            font-size: 1.2rem;
+                        }
+
+                        .d-flex {
+                            display: flex;
+                            flex-wrap: nowrap;
+                        }
+
+                        .gap-3 {
+                            gap: 15px;
+                        }
+
+                        .justify-content-center {
+                            justify-content: center;
+                        }
+
+                        .btn {
+                            padding: 0.5rem 1rem;
+                            font-size: 0.9rem;
+                        }
+                    </style>
+                </div>
+                <div class="col-md-6">
+                    <div class="row mb-4">
+                        <h5>Product Description</h5>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ut nisi euismod, tempor massa
+                            non,
+                            facilisis nunc. Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit a ipsa
+                            incidunt culpa
+                            possimus accusamus doloremque voluptatum quae. Sint provident porro molestias iste
+                            perferendis nulla
+                            dolorem sapiente harum maiores ab! Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                            Veritatis,
+                            debitis quas rerum illo similique itaque qui adipisci voluptate doloremque aspernatur sit
+                            ducimus
+                            voluptates, doloribus voluptatum deserunt quaerat nemo quia ab.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="details-container">
+            <div class="accordion-1">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-11 mx-auto">
+                            <div class="accordion" id="accordionRental">
+                                <div class="accordion-item mb-3">
+                                    <h5 class="accordion-header" id="headingOne">
+                                        <button class="accordion-button border-bottom font-weight-bold collapsed"
+                                            type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
+                                            aria-expanded="false" aria-controls="collapseOne">
+                                            How do I order?
+                                            <span class="position-absolute end-0 me-3">
+                                                <i class="fa fa-plus collapse-close text-xs pt-1"
+                                                    aria-hidden="true"></i>
+                                                <i class="fa fa-minus collapse-open text-xs pt-1"
+                                                    aria-hidden="true"></i>
+                                            </span>
+                                        </button>
+                                    </h5>
+                                    <div id="collapseOne" class="accordion-collapse collapse"
+                                        aria-labelledby="headingOne" data-bs-parent="#accordionRental">
+                                        <div class="accordion-body text-sm opacity-8">
+                                            We’re not always in the position that we want to be at. We’re constantly
+                                            growing. We’re
+                                            constantly making mistakes. We’re constantly trying to express ourselves and
+                                            actualize our
+                                            dreams. If you have the opportunity to play this game of life you need to
+                                            appreciate every
+                                            moment. A lot of people don’t appreciate the moment until it’s passed.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item mb-3">
+                                    <h5 class="accordion-header" id="headingTwo">
+                                        <button class="accordion-button border-bottom font-weight-bold" type="button"
+                                            data-bs-toggle="collapse" data-bs-target="#collapseTwo"
+                                            aria-expanded="false" aria-controls="collapseTwo">
+                                            How can I make the payment?
+                                            <span class="position-absolute end-0 me-3">
+                                                <i class="fa fa-plus collapse-close text-xs pt-1"
+                                                    aria-hidden="true"></i>
+                                                <i class="fa fa-minus collapse-open text-xs pt-1"
+                                                    aria-hidden="true"></i>
+                                            </span>
+                                        </button>
+                                    </h5>
+                                    <div id="collapseTwo" class="accordion-collapse collapse"
+                                        aria-labelledby="headingTwo" data-bs-parent="#accordionRental">
+                                        <div class="accordion-body text-sm opacity-8">
+                                            It really matters and then like it really doesn’t matter. What matters is
+                                            the people who are
+                                            sparked by it. And the people who are like offended by it, it doesn’t
+                                            matter. Because it's about
+                                            motivating the doers. Because I’m here to follow my dreams and inspire other
+                                            people to follow
+                                            their dreams, too.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item mb-3">
+                                    <h5 class="accordion-header" id="headingThree">
+                                        <button class="accordion-button border-bottom font-weight-bold" type="button"
+                                            data-bs-toggle="collapse" data-bs-target="#collapseThree"
+                                            aria-expanded="false" aria-controls="collapseThree">
+                                            How much time does it take to receive the order?
+                                            <span class="position-absolute end-0 me-3">
+                                                <i class="fa fa-plus collapse-close text-xs pt-1"
+                                                    aria-hidden="true"></i>
+                                                <i class="fa fa-minus collapse-open text-xs pt-1"
+                                                    aria-hidden="true"></i>
+                                            </span>
+                                        </button>
+                                    </h5>
+                                    <div id="collapseThree" class="accordion-collapse collapse"
+                                        aria-labelledby="headingThree" data-bs-parent="#accordionRental">
+                                        <div class="accordion-body text-sm opacity-8">
+                                            The time is now for it to be okay to be great. People in this world shun
+                                            people for being great.
+                                            For being a bright color. For standing out. But the time is now to be okay
+                                            to be the greatest
+                                            you.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item mb-3">
+                                    <h5 class="accordion-header" id="headingFour">
+                                        <button class="accordion-button border-bottom font-weight-bold" type="button"
+                                            data-bs-toggle="collapse" data-bs-target="#collapseFour"
+                                            aria-expanded="false" aria-controls="collapseFour">
+                                            Can I resell the products?
+                                            <span class="position-absolute end-0 me-3">
+                                                <i class="fa fa-plus collapse-close text-xs pt-1"
+                                                    aria-hidden="true"></i>
+                                                <i class="fa fa-minus collapse-open text-xs pt-1"
+                                                    aria-hidden="true"></i>
+                                            </span>
+                                        </button>
+                                    </h5>
+                                    <div id="collapseFour" class="accordion-collapse collapse"
+                                        aria-labelledby="headingFour" data-bs-parent="#accordionRental">
+                                        <div class="accordion-body text-sm opacity-8">
+                                            I always felt like I could do anything. That’s the main thing people are
+                                            controlled by!
+                                            Thoughts- their perception of themselves! They're slowed down by their
+                                            perception of themselves.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item mb-3">
+                                    <h5 class="accordion-header" id="headingFifth">
+                                        <button class="accordion-button border-bottom font-weight-bold" type="button"
+                                            data-bs-toggle="collapse" data-bs-target="#collapseFifth"
+                                            aria-expanded="false" aria-controls="collapseFifth">
+                                            Where do I find the shipping details?
+                                            <span class="position-absolute end-0 me-3">
+                                                <i class="fa fa-plus collapse-close text-xs pt-1"
+                                                    aria-hidden="true"></i>
+                                                <i class="fa fa-minus collapse-open text-xs pt-1"
+                                                    aria-hidden="true"></i>
+                                            </span>
+                                        </button>
+                                    </h5>
+                                    <div id="collapseFifth" class="accordion-collapse collapse"
+                                        aria-labelledby="headingFifth" data-bs-parent="#accordionRental">
+                                        <div class="accordion-body text-sm opacity-8">
+                                            There’s nothing I really wanted to do in life that I wasn’t able to get good
+                                            at. That’s my
+                                            skill. I’m not really specifically talented at anything except for the
+                                            ability to learn.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+        </div>
+        <div class="container mt-5">
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <iframe class="embed-responsive-item w-100" height="200"
+                        src="https://www.youtube.com/embed/R6Y4bI3GzKw" title="YouTube video player" frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowfullscreen></iframe>
+                </div>
+                <div class="col-md-6">
+                    <iframe class="embed-responsive-item w-100" height="200"
+                        src="https://www.youtube.com/embed/R6Y4bI3GzKw" title="YouTube video player" frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowfullscreen></iframe>
+                </div>
+                <div class="col-md-6">
+                    <iframe class="embed-responsive-item w-100" height="200"
+                        src="https://www.youtube.com/embed/R6Y4bI3GzKw" title="YouTube video player" frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowfullscreen></iframe>
+                </div>
+                <div class="col-md-6">
+                    <iframe class="embed-responsive-item w-100" height="200"
+                        src="https://www.youtube.com/embed/R6Y4bI3GzKw" title="YouTube video player" frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowfullscreen></iframe>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 text-center mt-4">
+                    <button class="btn btn-primary">Load More</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+

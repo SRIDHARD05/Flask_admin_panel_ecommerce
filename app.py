@@ -9,7 +9,7 @@ import base64
 # from src import get_config
 # from src.User import User
 # from src.API import API
-from blueprints import search_filters
+from blueprints import search_filters, products
 
 app = Flask(__name__, static_folder='assets')
 # app.secret_key = get_config("secret_key")
@@ -19,7 +19,16 @@ def home():
     # Rendering the template for the home page
     return render_template('dashboard.html')
 
+
+
+@app.route('/sdfsdfsdf')
+def sample_page():
+    return render_template('dashboard.html')
+
+
 app.register_blueprint(search_filters.bp)
+app.register_blueprint(products.bp)
+
 
 if __name__ == '__main__':
    app.run(host='0.0.0.0', port=7000, debug=True)
