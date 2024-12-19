@@ -2,7 +2,7 @@ $(document).ready(function () {
     let starting_id = "";
     let ending_id = "";
     // TODO: Also load the starting id and ending id when the user uses search filters
-    
+
     $(document).keydown(function (event) {
         if (event.key === "ArrowUp" || event.key === "ArrowDown") {
             console.log("Arrow key pressed!");
@@ -23,7 +23,10 @@ $(document).ready(function () {
                 }),
                 success: function (response) {
                     $("#load_assets_container").append(response['template']);
-                    console.log(response['template']);
+                    $('.product-uuid').click(function () {
+                        var productUuid = $(this).data('id');
+                        console.log('Product UUID:', productUuid);
+                    });
                 },
                 error: function (xhr, status, error) {
                     console.error("Error:", error);
@@ -49,12 +52,24 @@ $(document).ready(function () {
             }),
             success: function (response) {
                 $("#load_assets_container").append(response['template']);
-                console.log(response['template']);
+                // console.log(response['template']);
+                $('.product-uuid').on('click', function () {
+                    var productUuid = $(this).data('id');
+                    console.log('Product UUID: ' + productUuid);
+                });
             },
             error: function (xhr, status, error) {
                 console.error("Error:", error);
             }
         });
+    });
+});
+
+
+$(document).ready(function () {
+    $('.product-uuid').click(function () {
+        var productUuid = $(this).data('id');
+        console.log('Product UUID:', productUuid);
     });
 });
 
