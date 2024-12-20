@@ -1,0 +1,56 @@
+{% extends '__master.html' %}
+
+{% block content %}
+<div class="container">
+  <div class="row" style="margin-bottom: 20px;">
+    {% for video in videos %}
+    <div class="col-xl-4 col-md-6 col-sm-12" style="margin-bottom: 20px;">
+      <div class="card card-frame" style="border: 1px solid #ddd; border-radius: 10px; padding: 10px;">
+        <div class="card-body" style="padding: 0;">
+          <video data-id="video-{{ video.id }}" src="{{ video.src }}" class="video-container"
+            style="width: 100%; height: {{ video.height }}px; border-radius: 10px;" controls
+            controlsList="nodownload"></video>
+
+          <div class="progress-bar-container"
+            style="width: 100%; height: 5px; background: #eee; border-radius: 2px; margin-top: 5px;">
+            <div class="progress-bar-filled" style="height: 100%; width: 0; background: #76c7c0;"></div>
+          </div>
+
+          <div class="video-details" style="margin-top: 10px; text-align: center;">
+            <div>
+              <img src="{{ video.like_thumb }}" alt="Like Thumbnail"
+                style="width: 20px; height: 20px; vertical-align: middle; margin-right: 5px;">
+              <span>Likes: <span class="likes-count">{{ video.likes }}</span></span>
+            </div>
+            <div>
+              <img src="{{ video.share_thumb }}" alt="Share Thumbnail"
+                style="width: 20px; height: 20px; vertical-align: middle; margin-right: 5px;">
+              <span>Shares: <span class="shares-count">{{ video.shares }}</span></span>
+            </div>
+            <div>
+              <img src="{{ video.comment_thumb }}" alt="Comment Thumbnail"
+                style="width: 20px; height: 20px; vertical-align: middle; margin-right: 5px;">
+              <span>Comments: <span class="comments-count">{{ video.comments }}</span></span>
+            </div>
+            <div style="margin-top: 10px;">
+              <button class="btn btn-primary" style="margin-right: 10px;">Share</button>
+              <button class="btn btn-secondary">Comment</button>
+            </div>
+            <div style="margin-top: 10px;">
+              <button class="btn btn-primary btn-rounded col-xl-10 {{ video.product_uuid }}"
+                style="margin-right: 10px;">Know More
+                About {{ video.title }}</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {% if loop.index % 3 == 0 %}
+  </div>
+  <div class="row" style="margin-bottom: 20px;">
+    {% endif %}
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

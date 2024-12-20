@@ -2,6 +2,7 @@ $(document).ready(function () {
     let starting_id = "";
     let ending_id = "";
     // TODO: Also load the starting id and ending id when the user uses search filters
+    // TODO: Convert this templates to the oruginal data that is fetched from the Database
 
     $(document).keydown(function (event) {
         if (event.key === "ArrowUp" || event.key === "ArrowDown") {
@@ -23,8 +24,36 @@ $(document).ready(function () {
                 }),
                 success: function (response) {
                     $("#load_assets_container").append(response['template']);
-                    $(document).on('click', '.product-uuid', function () {
-                        var uuid = $(this).data('id');
+                    $('.video-container').each(function () {
+                        const video = $(this)[0];
+                        const videoId = $(this).data('id');
+                        const progressBar = $(this).siblings('.progress-bar-container');
+                        const progressBarFilled = progressBar.find('.progress-bar-filled');
+                        video.addEventListener('timeupdate', function () {
+                            const percentage = (video.currentTime / video.duration) * 100;
+                            progressBarFilled.css('width', percentage + '%');
+                        });
+                        progressBar.click(function (e) {
+                            const position = (e.pageX - $(this).offset().left) / $(this).width();
+                            video.currentTime = position * video.duration;
+                        });
+                        $(this).hover(
+                            function () {
+                                video.play();
+                            },
+                            function () {
+                                video.pause();
+                            }
+                        );
+                        $(this).siblings('.video-details').find('.btn-primary').click(function () {
+                            let likesCount = parseInt($(this).siblings('.likes-count').text());
+                            likesCount++;
+                            $(this).siblings('.likes-count').text(likesCount);
+                            console.log(`Video ID ${videoId} liked! Total likes:`);
+                        });
+                    });
+                    $('.product_uuid').click(function () {
+                        var uuid = $(this).attr('id');
                         let product_data = response.data.find(function (product) {
                             return product.product_uuid === uuid;
                         });
@@ -110,6 +139,7 @@ $(document).ready(function () {
             success: function (response) {
                 $("#load_assets_container").append(response['template']);
                 console.log(response['template']);
+                // TODO: Create a program to open the canvas based on the above implementations
                 $('.product-uuid').on('click', function () {
                     var productUuid = $(this).data('id');
                     // console.log('Product UUID: ' + productUuid);

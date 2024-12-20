@@ -3,29 +3,11 @@ import base64
 
 
 from src.Load_data import Load_data
-bp = Blueprint("products", __name__, url_prefix="/products")
+bp = Blueprint("save_posts", __name__, url_prefix="/saved_posts")
 
 
-# TODO: Identify wheather the product data is fetched from the db or Ajax request
-
-@bp.route('/<string:product_name>/<string:product_uuid>/show', methods=['POST','GET'])
-def products_data(product_name, product_uuid):
-    if request.method == 'POST':
-        data = request.get_json()
-        # return jsonify({
-        #     'product_name': product_name,
-        #     'product_uuid': product_uuid,
-        #     'url': data['url'],
-        #     'data' : data
-        # }), 200
-        return render_template('show_product.html',data=data)
-
-    elif request.method == 'GET':
-        return render_template('show_product.html')
-
-
-@bp.route('/show', methods=['GET'])
-def data():
+@bp.route('/')
+def dashboard():
     datas = [
         {
             "src": "/assets/videos/videoplayback_1.mp4",
@@ -52,7 +34,9 @@ def data():
             "category_2_descriptions": "Description X",
             "category_3_descriptions": "Description A",
             "category_4_descriptions": "Description M",
-            "category_5_descriptions": "Description P"
+            "saved_dated" : "12-04-2003",
+            "category_5_descriptions": "Description P",
+            "saved_dated" : "12-04-2003"
         },
         {
             "src": "/assets/videos/videoplayback_1.mp4",
@@ -79,6 +63,7 @@ def data():
             "category_2_descriptions": "Description Y",
             "category_3_descriptions": "Description II",
             "category_4_descriptions": "Description N",
+            "saved_dated" : "12-04-2003",
             "category_5_descriptions": "Description Q"
         },
         {
@@ -106,6 +91,7 @@ def data():
             "category_2_descriptions": "Description Z",
             "category_3_descriptions": "Description III",
             "category_4_descriptions": "Description O",
+            "saved_dated" : "12-04-2003",
             "category_5_descriptions": "Description R"
         },
         {
@@ -133,6 +119,7 @@ def data():
             "category_2_descriptions": "Description W",
             "category_3_descriptions": "Description IV",
             "category_4_descriptions": "Description T",
+            "saved_dated" : "12-04-2003",
             "category_5_descriptions": "Description S"
         },
         {
@@ -160,6 +147,7 @@ def data():
             "category_2_descriptions": "Description V",
             "category_3_descriptions": "Description V",
             "category_4_descriptions": "Description U",
+            "saved_dated" : "12-04-2003",
             "category_5_descriptions": "Description D"
         },
         {
@@ -187,6 +175,7 @@ def data():
             "category_2_descriptions": "Description W",
             "category_3_descriptions": "Description VI",
             "category_4_descriptions": "Description Y",
+            "saved_dated" : "12-04-2003",
             "category_5_descriptions": "Description T"
         },
         {
@@ -214,6 +203,7 @@ def data():
             "category_2_descriptions": "Description P",
             "category_3_descriptions": "Description VII",
             "category_4_descriptions": "Description Z",
+            "saved_dated" : "12-04-2003",
             "category_5_descriptions": "Description J"
         },
         {
@@ -241,10 +231,10 @@ def data():
             "category_2_descriptions": "Description Q",
             "category_3_descriptions": "Description VIII",
             "category_4_descriptions": "Description L",
+            "saved_dated" : "12-04-2003",
             "category_5_descriptions": "Description W"
         }
     ]
-
 
     data = []
     for product in datas:
@@ -278,4 +268,4 @@ def data():
             'category_5_descriptions': product['category_5_descriptions']
     })
 
-    return render_template('show_product.html',videos = data)
+    return render_template('history.html', videos=data)

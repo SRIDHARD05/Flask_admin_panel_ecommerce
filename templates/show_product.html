@@ -1,21 +1,215 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends '__master.html' %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
+{% block content %}
+<div class="container-fluid py-2">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col d-flux justify-content-start"><h5 class="mb-4">Product Details</h5></div>
+                        <div class="col d-flux justify-content-end"><div class="btn"></div></div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-xl-5 col-lg-6 text-center">
+                            <img class="w-100 border-radius-lg shadow-lg mx-auto"
+                                src="../../../assets/img/products/product-details-1.jpg" alt="chair">
+                            <div class="my-gallery d-flex mt-4 pt-2" itemscope=""
+                                itemtype="http://schema.org/ImageGallery" data-pswp-uid="1">
+                                <figure itemprop="associatedMedia" itemscope=""
+                                    itemtype="http://schema.org/ImageObject">
+                                    <a href="../../../assets/img/products/product-details-2.jpg" itemprop="contentUrl"
+                                        data-size="500x600">
+                                        <img class="w-100 min-height-100 max-height-100 border-radius-lg shadow"
+                                            src="../../../assets/img/products/product-details-2.jpg"
+                                            alt="Image description">
+                                    </a>
+                                </figure>
+                                <figure class="ms-3" itemprop="associatedMedia" itemscope=""
+                                    itemtype="http://schema.org/ImageObject">
+                                    <a href="../../../assets/img/products/product-details-3.jpg" itemprop="contentUrl"
+                                        data-size="500x600">
+                                        <img class="w-100 min-height-100 max-height-100 border-radius-lg shadow"
+                                            src="../../../assets/img/products/product-details-3.jpg"
+                                            itemprop="thumbnail" alt="Image description">
+                                    </a>
+                                </figure>
+                                <figure class="ms-3" itemprop="associatedMedia" itemscope=""
+                                    itemtype="http://schema.org/ImageObject">
+                                    <a href="../../../assets/img/products/product-details-4.jpg" itemprop="contentUrl"
+                                        data-size="500x600">
+                                        <img class="w-100 min-height-100 max-height-100 border-radius-lg shadow"
+                                            src="../../../assets/img/products/product-details-4.jpg"
+                                            itemprop="thumbnail" alt="Image description">
+                                    </a>
+                                </figure>
+                                <figure class="ms-3" itemprop="associatedMedia" itemscope=""
+                                    itemtype="http://schema.org/ImageObject">
+                                    <a href="../../../assets/img/products/product-details-5.jpg" itemprop="contentUrl"
+                                        data-size="500x600">
+                                        <img class="w-100 min-height-100 max-height-100 border-radius-lg shadow"
+                                            src="../../../assets/img/products/product-details-5.jpg"
+                                            itemprop="thumbnail" alt="Image description">
+                                    </a>
+                                </figure>
+                            </div>
+                            <!-- Root element of PhotoSwipe. Must have class pswp. -->
+                            <div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+                                <!-- Background of PhotoSwipe.
+It's a separate element, as animating opacity is faster than rgba(). -->
+                                <div class="pswp__bg"></div>
+                                <!-- Slides wrapper with overflow:hidden. -->
+                                <div class="pswp__scroll-wrap">
+                                    <!-- Container that holds slides. PhotoSwipe keeps only 3 slides in DOM to save memory. -->
+                                    <!-- don't modify these 3 pswp__item elements, data is added later on. -->
+                                    <div class="pswp__container">
+                                        <div class="pswp__item"></div>
+                                        <div class="pswp__item"></div>
+                                        <div class="pswp__item"></div>
+                                    </div>
+                                    <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+                                    <div class="pswp__ui pswp__ui--hidden">
+                                        <div class="pswp__top-bar">
+                                            <!--  Controls are self-explanatory. Order can be changed. -->
+                                            <div class="pswp__counter"></div>
+                                            <button class="btn btn-white btn-sm pswp__button pswp__button--close">Close
+                                                (Esc)</button>
+                                            <button
+                                                class="btn btn-white btn-sm pswp__button pswp__button--fs">Fullscreen</button>
+                                            <button
+                                                class="btn btn-white btn-sm pswp__button pswp__button--arrow--left">Prev
+                                            </button>
+                                            <button
+                                                class="btn btn-white btn-sm pswp__button pswp__button--arrow--right">Next
+                                            </button>
+                                            <!-- Preloader demo https://codepen.io/dimsemenov/pen/yyBWoR -->
+                                            <!-- element will get class pswp__preloader--active when preloader is running -->
+                                            <div class="pswp__preloader">
+                                                <div class="pswp__preloader__icn">
+                                                    <div class="pswp__preloader__cut">
+                                                        <div class="pswp__preloader__donut"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                                            <div class="pswp__share-tooltip"></div>
+                                        </div>
+                                        <div class="pswp__caption">
+                                            <div class="pswp__caption__center"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-5 mx-auto">
+                            <h3 class="mt-lg-0 mt-4">Minimal Bar Stool</h3>
+                            <div class="rating">
+                                <i class="material-symbols-rounded text-lg">grade</i>
+                                <i class="material-symbols-rounded text-lg">grade</i>
+                                <i class="material-symbols-rounded text-lg">grade</i>
+                                <i class="material-symbols-rounded text-lg">grade</i>
+                                <i class="material-symbols-rounded text-lg">star_outline</i>
+                            </div>
+                            <br>
+                            <h6 class="mb-0 mt-3">Price</h6>
+                            <h5>$1,419</h5>
+                            <span class="badge badge-success">In Stock</span>
+                            <br>
+                            <label class="mt-4">Description</label>
+                            <ul>
+                                <li>The most beautiful curves of this swivel stool adds an elegant touch to any
+                                    environment</li>
+                                <li>Memory swivel seat returns to original seat position</li>
+                                <li>Comfortable integrated layered chair seat cushion design</li>
+                                <li>Fully assembled! No assembly required</li>
+                            </ul>
+                            <div class="row mt-4">
+                                <div class="col-lg-5 mt-lg-0 mt-2">
+                                    <!-- TODO: Add Buttons -->
+                                </div>
+                                <div class="col-lg-5 mt-lg-0 mt-2">
 
-<body>
-    <div class="container">
-        {% if data %}
-        <p>{{ data['title'] }}</p>
-        {% else %}
-        <p>No data available.</p>
-        {% endif %}
+                                </div>
+                                <div class="col-lg-2">
 
+                                </div>
+                            </div>
+                            <div class="row mt-4">
+                                <div class="col-lg-5">
+                                    <button class="btn bg-gradient-dark mb-0 mt-lg-auto w-100" type="button"
+                                        name="button">Add to cart</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-5">
+                        <div class="col-12">
+                            <h5>Other Products</h5>
+                            <div class="row" style="margin-bottom: 20px;">
+                                {% for video in videos %}
+                                <div class="col-xl-3 col-md-4 col-sm-6" style="margin-bottom: 20px;">
+                                    <div class="card card-frame"
+                                        style="border: 1px solid #ddd; border-radius: 10px; padding: 10px;">
+                                        <div class="card-body" style="padding: 0;">
+                                            <video data-id="video-{{ video.id }}" src="{{ video.src }}"
+                                                class="video-container"
+                                                style="width: 100%; height: {{ video.height }}px; border-radius: 10px;"
+                                                controls controlsList="nodownload"></video>
+
+                                            <div class="progress-bar-container"
+                                                style="width: 100%; height: 5px; background: #eee; border-radius: 2px; margin-top: 5px;">
+                                                <div class="progress-bar-filled"
+                                                    style="height: 100%; width: 0; background: #76c7c0;"></div>
+                                            </div>
+
+                                            <div class="video-details" style="margin-top: 10px; text-align: center;">
+                                                <div>
+                                                    <img src="{{ video.like_thumb }}" alt="Like Thumbnail"
+                                                        style="width: 20px; height: 20px; vertical-align: middle; margin-right: 5px;">
+                                                    <span>Likes: <span class="likes-count">{{ video.likes
+                                                            }}</span></span>
+                                                </div>
+                                                <div>
+                                                    <img src="{{ video.share_thumb }}" alt="Share Thumbnail"
+                                                        style="width: 20px; height: 20px; vertical-align: middle; margin-right: 5px;">
+                                                    <span>Shares: <span class="shares-count">{{ video.shares
+                                                            }}</span></span>
+                                                </div>
+                                                <div>
+                                                    <img src="{{ video.comment_thumb }}" alt="Comment Thumbnail"
+                                                        style="width: 20px; height: 20px; vertical-align: middle; margin-right: 5px;">
+                                                    <span>Comments: <span class="comments-count">{{ video.comments
+                                                            }}</span></span>
+                                                </div>
+                                                <div style="margin-top: 10px;">
+                                                    <button class="btn btn-primary"
+                                                        style="margin-right: 10px;">Share</button>
+                                                    <button class="btn btn-secondary">Comment</button>
+                                                </div>
+                                                <div style="margin-top: 10px;">
+                                                    <button
+                                                        class="btn btn-primary btn-rounded col-xl-10 {{ video.product_uuid }}"
+                                                        style="margin-right: 10px;">Know More
+                                                        About {{ video.title }}</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% if loop.index % 4 == 0 %}
+                            </div>
+                            <div class="row" style="margin-bottom: 20px;">
+                                {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
     </div>
-</body>
-
-</html>
+</div>
+{% endblock %}
