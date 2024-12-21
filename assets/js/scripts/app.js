@@ -56,3 +56,64 @@ $(document).ready(function () {
         // }
     }
 });
+
+document.addEventListener('DOMContentLoaded', function () {
+    const popover = new Popover('#popover-trigger', {
+        placement: 'bottom',
+        trigger: 'click',
+        content: [
+            {
+                type: 'input',
+                id: 'input-field',
+                name: 'username',
+                label: 'Enter your username',
+                placeholder: 'Username',
+                defaultValue: '',
+                class: 'form-control',
+                validation: /^[a-zA-Z0-9_]+$/
+            },
+            {
+                type: 'checkbox',
+                id: 'checkbox-agree',
+                name: 'agree',
+                label: 'I agree to the terms and conditions',
+                class: 'form-check-input',
+                items: [
+                    {
+                        id: 'terms',
+                        name: 'terms',
+                        label: 'I accept the terms',
+                        checked: false
+                    },
+                    {
+                        id: 'privacy',
+                        name: 'privacy',
+                        label: 'I accept the privacy policy',
+                        checked: false
+                    }
+                ]
+            }
+        ],
+        submit: {
+            id: 'submit-btn',
+            name: 'Submit',
+            class: 'btn btn-primary',
+            type: 'submit',
+            onClick: function (values) {
+                console.log(values);
+            }
+        },
+        cancel: {
+            id: 'cancel-btn',
+            name: 'Cancel',
+            class: 'btn btn-secondary',
+            type: 'hide',
+            onClick: function () {
+                console.log('Popover canceled');
+                $('.popover').popover('hide');
+            }
+        }
+    });
+});
+
+

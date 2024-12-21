@@ -1,7 +1,7 @@
 {% extends '__master.html' %}
 
 {% block content %}
-<div class="container" style="max-width: 1200px; margin: auto; padding: 20px;">
+<!-- <div class="container" style="max-width: 1200px; margin: auto; padding: 20px;">
     <div class="search-container" style="margin-bottom: 20px;">
         <div class="row">
             <div class="col-12">
@@ -90,7 +90,7 @@
             </div>
         </div>
     </div>
-    <!-- TODO: Add the UUID For Tabs Navigations with their Templates generations -->
+
     <div class="tabs-container">
         <div class="card custom-card">
             <div class="card-header">
@@ -116,7 +116,6 @@
             </div>
             <div class="card-body">
                 <div class="tab-content" id="tabContent">
-                    <!-- Tab 1 Content -->
                     <div class="tab-pane fade show active" id="tab1" role="tabpanel" aria-labelledby="tab1-tab">
                         <div class="row" style="margin-bottom: 20px;">
                             {% for video in videos %}
@@ -174,7 +173,6 @@
                         </div>
                     </div>
 
-                    <!-- Tab 2 Content -->
                     <div class="tab-pane fade" id="tab2" role="tabpanel" aria-labelledby="tab2-tab">
                         <div class="row" style="margin-bottom: 20px;">
                             {% for video in videos %}
@@ -232,7 +230,6 @@
                         </div>
                     </div>
 
-                    <!-- Tab 3 Content -->
                     <div class="tab-pane fade" id="tab3" role="tabpanel" aria-labelledby="tab3-tab">
                         <div class="row" style="margin-bottom: 20px;">
                             {% for video in videos %}
@@ -290,7 +287,6 @@
                         </div>
                     </div>
 
-                    <!-- Tab 4 Content -->
                     <div class="tab-pane fade" id="tab4" role="tabpanel" aria-labelledby="tab4-tab">
                         <div class="row" style="margin-bottom: 20px;">
                             {% for video in videos %}
@@ -351,10 +347,11 @@
             </div>
         </div>
     </div>
+</div> -->
 
 
-
+<div class="container" style="max-width: 1200px; margin: auto; padding: 20px;">
+    <button id="popover-trigger" class="btn btn-primary">Open Popover</button>
 </div>
-
 
 {% endblock %}
