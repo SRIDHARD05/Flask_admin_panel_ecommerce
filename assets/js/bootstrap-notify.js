@@ -1,29 +1,4 @@
-/*
-
-
-
-     Creative Tim Modifications
-
-     Lines: 238, 239 was changed from top: 5px to top: 50% and we added margin-top: -13px. In this way the close button will be aligned vertically
-     Line:222 - modified when the icon is set, we add the class "alert-with-icon", so there will be enough space for the icon.
-
-
-
-
-*/
-
-
-/*
- * Project: Bootstrap Notify = v3.1.5
- * Description: Turns standard Bootstrap alerts into "Growl-like" notifications.
- * Author: Mouse0270 aka Robert McIntosh
- * License: MIT License
- * Website: https://github.com/mouse0270/bootstrap-growl
- */
-
-/* global define:false, require: false, jQuery:false */
-
-(function(factory) {
+(function (factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
     define(['jquery'], factory);
@@ -34,7 +9,7 @@
     // Browser globals
     factory(jQuery);
   }
-}(function($) {
+}(function ($) {
   // Create the defaults once
   var defaults = {
     element: 'body',
@@ -68,10 +43,10 @@
     template: '<div data-notify="container" class="col-xs-11 col-sm-4 alert alert-{0}" role="alert"><button type="button" aria-hidden="true" class="close" data-notify="dismiss"><i class="tim-icons icon-simple-remove"></i></button><span data-notify="icon"></span> <span data-notify="title">{1}</span> <span data-notify="message">{2}</span><div class="progress" data-notify="progressbar"><div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div></div><a href="{3}" target="{4}" data-notify="url"></a></div>'
   };
 
-  String.format = function() {
+  String.format = function () {
     var args = arguments;
     var str = arguments[0];
-    return str.replace(/(\{\{\d\}\}|\{\d\})/g, function(str) {
+    return str.replace(/(\{\{\d\}\}|\{\d\})/g, function (str) {
       if (str.substring(0, 2) === "{{") return str;
       var num = parseInt(str.match(/\d/)[0]);
       return args[num + 1];
@@ -81,7 +56,7 @@
   function isDuplicateNotification(notification) {
     var isDupe = false;
 
-    $('[data-notify="container"]').each(function(i, el) {
+    $('[data-notify="container"]').each(function (i, el) {
       var $el = $(el);
       var title = $el.find('[data-notify="title"]').html().trim();
       var message = $el.find('[data-notify="message"]').html().trim();
@@ -140,7 +115,7 @@
   }
 
   $.extend(Notify.prototype, {
-    init: function() {
+    init: function () {
       var self = this;
 
       this.buildNotify();
@@ -156,7 +131,7 @@
 
       this.notify = {
         $ele: this.$ele,
-        update: function(command, update) {
+        update: function (command, update) {
           var commands = {};
           if (typeof command === "string") {
             commands[command] = update;
@@ -201,13 +176,13 @@
           var posX = this.$ele.outerHeight() + parseInt(self.settings.spacing) + parseInt(self.settings.offset.y);
           self.reposition(posX);
         },
-        close: function() {
+        close: function () {
           self.close();
         }
       };
 
     },
-    buildNotify: function() {
+    buildNotify: function () {
       var content = this.settings.content;
       this.$ele = $(String.format(this.settings.template, this.settings.type, content.title, content.message, content.url, content.target));
       this.$ele.attr('data-notify-position', this.settings.placement.from + '-' + this.settings.placement.align);
@@ -218,7 +193,7 @@
         this.$ele.find('[data-notify="progressbar"]').remove();
       }
     },
-    setIcon: function() {
+    setIcon: function () {
       this.$ele.addClass('alert-with-icon');
 
       if (this.settings.icon_type.toLowerCase() === 'class') {
@@ -231,7 +206,7 @@
         }
       }
     },
-    styleDismiss: function() {
+    styleDismiss: function () {
       this.$ele.find('[data-notify="dismiss"]').css({
         position: 'absolute',
         right: '10px',
@@ -240,7 +215,7 @@
         zIndex: this.settings.z_index + 2
       });
     },
-    styleURL: function() {
+    styleURL: function () {
       this.$ele.find('[data-notify="url"]').css({
         backgroundImage: 'url(data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7)',
         height: '100%',
@@ -251,7 +226,7 @@
         zIndex: this.settings.z_index + 1
       });
     },
-    placement: function() {
+    placement: function () {
       var self = this,
         offsetAmt = this.settings.offset.y,
         css = {
@@ -264,7 +239,7 @@
         hasAnimation = false,
         settings = this.settings;
 
-      $('[data-notify-position="' + this.settings.placement.from + '-' + this.settings.placement.align + '"]:not([data-closing="true"])').each(function() {
+      $('[data-notify-position="' + this.settings.placement.from + '-' + this.settings.placement.align + '"]:not([data-closing="true"])').each(function () {
         offsetAmt = Math.max(offsetAmt, parseInt($(this).css(settings.placement.from)) + parseInt($(this).outerHeight()) + parseInt(settings.spacing));
       });
       if (this.settings.newest_on_top === true) {
@@ -283,7 +258,7 @@
           break;
       }
       this.$ele.css(css).addClass(this.settings.animate.enter);
-      $.each(Array('webkit-', 'moz-', 'o-', 'ms-', ''), function(index, prefix) {
+      $.each(Array('webkit-', 'moz-', 'o-', 'ms-', ''), function (index, prefix) {
         self.$ele[0].style[prefix + 'AnimationIterationCount'] = 1;
       });
 
@@ -298,16 +273,16 @@
         self.settings.onShow.call(this.$ele);
       }
 
-      this.$ele.one(this.animations.start, function() {
+      this.$ele.one(this.animations.start, function () {
         hasAnimation = true;
-      }).one(this.animations.end, function() {
+      }).one(this.animations.end, function () {
         self.$ele.removeClass(self.settings.animate.enter);
         if ($.isFunction(self.settings.onShown)) {
           self.settings.onShown.call(this);
         }
       });
 
-      setTimeout(function() {
+      setTimeout(function () {
         if (!hasAnimation) {
           if ($.isFunction(self.settings.onShown)) {
             self.settings.onShown.call(this);
@@ -315,31 +290,31 @@
         }
       }, 600);
     },
-    bind: function() {
+    bind: function () {
       var self = this;
 
-      this.$ele.find('[data-notify="dismiss"]').on('click', function() {
+      this.$ele.find('[data-notify="dismiss"]').on('click', function () {
         self.close();
       });
 
       if ($.isFunction(self.settings.onClick)) {
-        this.$ele.on('click', function(event) {
+        this.$ele.on('click', function (event) {
           if (event.target != self.$ele.find('[data-notify="dismiss"]')[0]) {
             self.settings.onClick.call(this, event);
           }
         });
       }
 
-      this.$ele.mouseover(function() {
+      this.$ele.mouseover(function () {
         $(this).data('data-hover', "true");
-      }).mouseout(function() {
+      }).mouseout(function () {
         $(this).data('data-hover', "false");
       });
       this.$ele.data('data-hover', "false");
 
       if (this.settings.delay > 0) {
         self.$ele.data('notify-delay', self.settings.delay);
-        var timer = setInterval(function() {
+        var timer = setInterval(function () {
           var delay = parseInt(self.$ele.data('notify-delay')) - self.settings.timer;
           if ((self.$ele.data('data-hover') === 'false' && self.settings.mouse_over === "pause") || self.settings.mouse_over != "pause") {
             var percent = ((self.settings.delay - delay) / self.settings.delay) * 100;
@@ -353,7 +328,7 @@
         }, self.settings.timer);
       }
     },
-    close: function() {
+    close: function () {
       var self = this,
         posX = parseInt(this.$ele.css(this.settings.placement.from)),
         hasAnimation = false;
@@ -365,16 +340,16 @@
         self.settings.onClose.call(this.$ele);
       }
 
-      this.$ele.one(this.animations.start, function() {
+      this.$ele.one(this.animations.start, function () {
         hasAnimation = true;
-      }).one(this.animations.end, function() {
+      }).one(this.animations.end, function () {
         $(this).remove();
         if ($.isFunction(self.settings.onClosed)) {
           self.settings.onClosed.call(this);
         }
       });
 
-      setTimeout(function() {
+      setTimeout(function () {
         if (!hasAnimation) {
           self.$ele.remove();
           if (self.settings.onClosed) {
@@ -383,30 +358,30 @@
         }
       }, 600);
     },
-    reposition: function(posX) {
+    reposition: function (posX) {
       var self = this,
         notifies = '[data-notify-position="' + this.settings.placement.from + '-' + this.settings.placement.align + '"]:not([data-closing="true"])',
         $elements = this.$ele.nextAll(notifies);
       if (this.settings.newest_on_top === true) {
         $elements = this.$ele.prevAll(notifies);
       }
-      $elements.each(function() {
+      $elements.each(function () {
         $(this).css(self.settings.placement.from, posX);
         posX = (parseInt(posX) + parseInt(self.settings.spacing)) + $(this).outerHeight();
       });
     }
   });
 
-  $.notify = function(content, options) {
+  $.notify = function (content, options) {
     var plugin = new Notify(this, content, options);
     return plugin.notify;
   };
-  $.notifyDefaults = function(options) {
+  $.notifyDefaults = function (options) {
     defaults = $.extend(true, {}, defaults, options);
     return defaults;
   };
 
-  $.notifyClose = function(selector) {
+  $.notifyClose = function (selector) {
 
     if (typeof selector === "undefined" || selector === "all") {
       $('[data-notify]').find('[data-notify="dismiss"]').trigger('click');
@@ -419,7 +394,7 @@
     }
   };
 
-  $.notifyCloseExcept = function(selector) {
+  $.notifyCloseExcept = function (selector) {
 
     if (selector === 'success' || selector === 'info' || selector === 'warning' || selector === 'danger') {
       $('[data-notify]').not('.alert-' + selector).find('[data-notify="dismiss"]').trigger('click');

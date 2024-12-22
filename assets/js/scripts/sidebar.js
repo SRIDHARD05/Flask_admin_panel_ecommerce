@@ -7,7 +7,6 @@ function search_filter_nav_bar_templates_generations(starting_id, destination_ur
             contentType: "application/json",
             success: function (response) {
                 $('.nav-container-child').append(response);
-                console.log(response);
             },
             error: function (xhr, status, error) {
                 console.error("Error:", error);
@@ -18,11 +17,10 @@ function search_filter_nav_bar_templates_generations(starting_id, destination_ur
     $(document).on("click", ending_id, function () {
         $('.nav-container-child').children().remove();
         $.ajax({
-            url: "/sidebar/search/navbar",
+            url: "/sidebar/search/tab1/navbar",
             type: "GET",
             contentType: "application/json",
             success: function (response) {
-                console.log(response);
                 $('.nav-container-parent').append(response);
             },
             error: function (xhr, status, error) {
@@ -33,25 +31,60 @@ function search_filter_nav_bar_templates_generations(starting_id, destination_ur
 }
 
 
+$('a[data-bs-toggle="tab"]').on('shown.bs.tab', function (e) {
+    var activeTabId = $(e.target).attr('id');
 
+    if (activeTabId === "tab1-tab") {
+        $('.nav_bar').children().remove();
 
-$(document).ready(function () {
-    search_filter_nav_bar_templates_generations("#dates-nav-link", "/sidebar/search/dates", "#nav-bar-dates-search-back-btn");
-    search_filter_nav_bar_templates_generations("#reactions-nav-link", "/sidebar/search/reactions", "#nav-bar-reactions-search-back-btn");
-    search_filter_nav_bar_templates_generations("#target-audience-nav-link", "/sidebar/search/target_audience", "#nav-bar-target-audience-search-back-btn");
+        $.ajax({
+            url: "/sidebar/search/tab1/navbar",
+            type: "GET",
+            contentType: "application/json",
+            success: function (response) {
+                $(".nav_bar").append(response);
+            },
+            error: function (xhr, status, error) {
+                console.error("Error:", error);
+            }
+        });
+
+    } else if (activeTabId === "tab2-tab") {
+        $('.nav_bar').children().remove();
+
+        var template = `
+            <li class="nav-item">
+                <a class="nav-link text-dark" href="#">
+                    <i class="material-symbols-rounded opacity-5">view_in_ar</i>
+                    <span class="nav-link-text ms-1">Tab 2</span>
+                </a>
+            </li>`;
+
+        $(".nav_bar").append(template);
+    } else if (activeTabId === "tab3-tab") {
+        $('.nav_bar').children().remove();
+        var template = `
+            <li class="nav-item">
+                <a class="nav-link text-dark" href="#">
+                    <i class="material-symbols-rounded opacity-5">view_in_ar</i>
+                    <span class="nav-link-text ms-1">Tab 3</span>
+                </a>
+            </li>`;
+        $(".nav_bar").append(template);
+    } else if (activeTabId === "tab4-tab") {
+        $('.nav_bar').children().remove();
+        var template = `
+            <li class="nav-item">
+                <a class="nav-link text-dark" href="#">
+                    <i class="material-symbols-rounded opacity-5">view_in_ar</i>
+                    <span class="nav-link-text ms-1">Tab 4</span>
+                </a>
+            </li>`;
+        $(".nav_bar").append(template);
+    } else {
+    }
 });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+search_filter_nav_bar_templates_generations("#main-tab-dates-nav-link", "/sidebar/search/tab1/dates", "#nav-bar-dates-search-back-btn");
+search_filter_nav_bar_templates_generations("#main-tab-reactions-nav-link", "/sidebar/search/tab1/reactions", "#nav-bar-reactions-search-back-btn");
+search_filter_nav_bar_templates_generations("#main-tab-target-audience-nav-link", "/sidebar/search/tab1/target_audience", "#nav-bar-target-audience-search-back-btn");
