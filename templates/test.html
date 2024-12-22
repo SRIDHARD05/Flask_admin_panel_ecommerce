@@ -2,7 +2,14 @@
 
 {% block content %}
 <div class="container" style="max-width: 1200px; margin: auto; padding: 20px;">
-    <div class="search-container" style="margin-bottom: 20px;">
+    <button id="my-drop-dowm" class="btn btn-primary">Toggle Dropdown</button>
+
+    &nbsp; &nbsp;&nbsp;
+    <!-- TODO: Convert this templates to Home Page 
+            1. create a container with 3 rows first row having a 2 coloumns -> first coloumn having a input search and second coloumn having a options <ascending and descending order> 
+            2. second row having a user search results selections options
+            3. third row having a multiple search rounded btns like top 10 trending ,top 100 of this year like that-->
+    <!-- <div class="search-container" style="margin-bottom: 20px;">
         <div class="row">
             <div class="col-12">
                 <div class="card" style="border: 1px solid #ddd; border-radius: 10px;">
@@ -19,8 +26,7 @@
             </div>
         </div>
     </div>
-
-    <!-- <div style="margin-bottom: 30px;">
+     <div style="margin-bottom: 30px;">
         <button class="btn btn-secondary" style="border-radius: 20px; width: 100%; text-align: center; padding: 10px;"
             type="button" data-bs-toggle="collapse" data-bs-target="#advancedSearchCollapse" aria-expanded="false"
             aria-controls="advancedSearchCollapse">
@@ -142,7 +148,7 @@
                                     <div class="progress-bar-filled"
                                         style="height: 100%; width: 0; background: #76c7c0;"></div>
                                 </div>
-                                <!-- <div class="video-details" style="margin-top: 10px; text-align: center;">
+                                <div class="video-details" style="margin-top: 10px; text-align: center;">
                                     <div>
                                         <img src="{{ video.like_thumb }}" alt="Like Thumbnail"
                                             style="width: 20px; height: 20px; vertical-align: middle; margin-right: 5px;">
@@ -169,7 +175,7 @@
                                             style="margin-right: 10px;">Know More About {{ video.title
                                             }}</button>
                                     </div>
-                                </div> -->
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -196,7 +202,7 @@
                                     <div class="progress-bar-filled"
                                         style="height: 100%; width: 0; background: #76c7c0;"></div>
                                 </div>
-                                <!-- <div class="video-details" style="margin-top: 10px; text-align: center;">
+                                <div class="video-details" style="margin-top: 10px; text-align: center;">
                                     <div>
                                         <img src="{{ video.like_thumb }}" alt="Like Thumbnail"
                                             style="width: 20px; height: 20px; vertical-align: middle; margin-right: 5px;">
@@ -223,7 +229,7 @@
                                             style="margin-right: 10px;">Know More About {{ video.title
                                             }}</button>
                                     </div>
-                                </div> -->
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -250,7 +256,7 @@
                                     <div class="progress-bar-filled"
                                         style="height: 100%; width: 0; background: #76c7c0;"></div>
                                 </div>
-                                <!-- <div class="video-details" style="margin-top: 10px; text-align: center;">
+                                <div class="video-details" style="margin-top: 10px; text-align: center;">
                                     <div>
                                         <img src="{{ video.like_thumb }}" alt="Like Thumbnail"
                                             style="width: 20px; height: 20px; vertical-align: middle; margin-right: 5px;">
@@ -277,7 +283,7 @@
                                             style="margin-right: 10px;">Know More About {{ video.title
                                             }}</button>
                                     </div>
-                                </div> -->
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -304,7 +310,7 @@
                                     <div class="progress-bar-filled"
                                         style="height: 100%; width: 0; background: #76c7c0;"></div>
                                 </div>
-                                <!-- <div class="video-details" style="margin-top: 10px; text-align: center;">
+                                <div class="video-details" style="margin-top: 10px; text-align: center;">
                                     <div>
                                         <img src="{{ video.like_thumb }}" alt="Like Thumbnail"
                                             style="width: 20px; height: 20px; vertical-align: middle; margin-right: 5px;">
@@ -331,7 +337,7 @@
                                             style="margin-right: 10px;">Know More About {{ video.title
                                             }}</button>
                                     </div>
-                                </div> -->
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -345,12 +351,5 @@
         </div>
     </div>
 </div>
-
-
-<!-- <div class="container" style="max-width: 1200px; margin: auto; padding: 20px;">
-    <button id="popover-trigger" class="btn btn-primary">Open Popover</button>
-</div> -->
-
-
 
 {% endblock %}

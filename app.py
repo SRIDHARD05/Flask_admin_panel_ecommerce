@@ -30,6 +30,10 @@ def sample_page():
 def popover():
     return render_template('popovers.html')
 
+@app.route('/test2')
+def test3():
+    return render_template('test3.html')
+
 
 @app.route('/test')
 def test():
