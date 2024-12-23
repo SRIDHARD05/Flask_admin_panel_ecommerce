@@ -58,27 +58,24 @@ $(document).ready(function () {
 });
 
 
-
-document.addEventListener('DOMContentLoaded', () => {
-    var dropdown = new Dropdown({
-        buttonSelector: '#my-drop-down',  
-        items: [
-            { name: 'Action', class: 'btn-primary', id: 'action1', href: 'https://youtube.com', data: { key: 'value1' } },
-            { name: 'Another Action', class: 'another-class', id: 'action2', href: '#', data: { key: 'value2' } },
-            { name: 'Something else here', class: '', id: 'action3', href: '#', data: { key: 'value3' } },
-        ],
-        onItemClick: function (item) {
-            console.log('Item clicked:', item.id, item.name, item.data);
-            alert(`You clicked on: ${item.name} (ID: ${item.id}) with data: ${JSON.stringify(item.data)}`);
-        }
-    });
-});
-
-
-
-// $(document).ready(function () {
-//     $("#my-drop-down").click(function () {
-//         console.log("Button clicked!");
-//         alert("alskfdg");
+// document.addEventListener('DOMContentLoaded', () => {
+//     var dropdown = new Dropdown({
+//         buttonSelector: '#my-drop-down',  
+//         items: [
+//             { name: 'Action', class: 'btn-primary', id: 'action1', href: 'https://youtube.com', data: { key: 'value1' } },
+//             { name: 'Another Action', class: 'another-class', id: 'action2', href: '#', data: { key: 'value2' } },
+//             { name: 'Something else here', class: '', id: 'action3', href: '#', data: { key: 'value3' } },
+//         ],
+//         onItemClick: function (item) {
+//             console.log('Item clicked:', item.id, item.name, item.data);
+//             alert(`You clicked on: ${item.name} (ID: ${item.id}) with data: ${JSON.stringify(item.data)}`);
+//         }
 //     });
 // });
+
+$(document).ready(function () {
+    $('#my-test-btn').on('click', function (e) {
+
+    });
+})
+

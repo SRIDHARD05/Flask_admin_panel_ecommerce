@@ -9,7 +9,7 @@ import base64
 # from src import get_config
 # from src.User import User
 # from src.API import API
-from blueprints import search_filters, products, videos, dashboard, users, pricing, save_posts, errors, credits, sidebar
+from blueprints import search_filters, products, videos, dashboard, users, pricing, save_posts, errors, credits, sidebar, queries
 
 app = Flask(__name__, static_folder='assets')
 # app.secret_key = get_config("secret_key")
@@ -337,6 +337,7 @@ app.register_blueprint(pricing.bp)
 app.register_blueprint(save_posts.bp)
 app.register_blueprint(errors.bp)
 app.register_blueprint(credits.bp)
+app.register_blueprint(queries.bp)
 app.register_blueprint(sidebar.bp)
 
 if __name__ == '__main__':
