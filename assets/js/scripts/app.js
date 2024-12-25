@@ -73,9 +73,59 @@ $(document).ready(function () {
 //     });
 // });
 
-$(document).ready(function () {
-    $('#my-test-btn').on('click', function (e) {
-
+function loader_start() {
+    $.ajax({
+        url: "/loader",
+        type: "GET",
+        contentType: "application/json",
+        success: function (response) {
+            $(document.body).append(response);
+            $("#loader-modal").modal('show');
+            $('#loader-modal').on('show.bs.modal', function () {
+                $(this).removeAttr('inert');
+            });
+        },
+        error: function (xhr, status, error) {
+            alert(error);
+        }
     });
-})
 
+    $('#loader-modal').on('hide.bs.modal', function (event) {
+        const triggerElement = $(event.relatedTarget);
+        if (!triggerElement.hasClass('close-modal-btn')) {
+            event.preventDefault();
+        }
+    });
+}
+
+
+function loader_end() {
+    $("#loader-modal").modal('hide');
+    $('#loader-modal').on('hide.bs.modal', function () {
+        $(this).attr('inert', 'true');
+    });
+    $("#loader-modal").on('hidden.bs.modal', function (e) {
+        $("#loader-modal").remove();
+    })
+}
+
+
+$(document).ready(function () {
+    $("#test-btn").click(function () {
+        loader_start()
+        $.ajax({
+            url: "/test/functions",
+            type: "GET",
+            contentType: "application/json",
+            success: function (response) {
+                if (response['status'] === '200') {
+                    loader_end()
+                    console.log("success");
+                }
+            },
+            error: function (xhr, status, error) {
+                alert(error);
+            }
+        });
+    });
+});

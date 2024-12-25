@@ -1,0 +1,54 @@
+<div class="modal fade" id="loader-modal" tabindex="-1" role="dialog" aria-labelledby="loader-modalLabel"
+    aria-hidden="true" data-bs-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-body d-flex flex-column justify-content-center align-items-center" style="height: 120px;">
+                <style>
+                    .loader-settings {
+                        width: 50px;
+                        aspect-ratio: 1;
+                        display: grid;
+                        color: #854f1d;
+                        background: radial-gradient(farthest-side, currentColor calc(100% - 6px), #0000 calc(100% - 5px) 0);
+                        -webkit-mask: radial-gradient(farthest-side, #0000 calc(100% - 13px), #000 calc(100% - 12px));
+                        border-radius: 50%;
+                        animation: l19 2s infinite linear;
+                        margin-bottom: 10px;
+                    }
+
+                    .loader-settings::before,
+                    .loader-settings::after {
+                        content: "";
+                        grid-area: 1/1;
+                        background:
+                            linear-gradient(currentColor 0 0) center,
+                            linear-gradient(currentColor 0 0) center;
+                        background-size: 100% 10px, 10px 100%;
+                        background-repeat: no-repeat;
+                    }
+
+                    .loader-settings::after {
+                        transform: rotate(45deg);
+                    }
+
+                    @keyframes l19 {
+                        100% {
+                            transform: rotate(1turn)
+                        }
+                    }
+
+                    .h5 {
+                        font-size: 18px;
+                        margin-top: 10px;
+                        font-weight: 500;
+                        text-align: center;
+                    }
+                </style>
+
+                <div class="loader-settings"></div>
+
+                <div class="h5">Processing...</div>
+            </div>
+        </div>
+    </div>
+</div>

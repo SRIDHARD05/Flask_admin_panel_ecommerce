@@ -1,26 +1,22 @@
 import sys
-# sys.path.append('/home/sibidharan/iotweb')
-
-from flask import Flask
-from flask import Flask, redirect, url_for, request, render_template, session
+from flask import Flask, redirect, url_for, request, render_template, session, jsonify
 import os
 import math
 import base64
-# from src import get_config
-# from src.User import User
-# from src.API import API
+import time
 from blueprints import search_filters, products, videos, dashboard, users, pricing, save_posts, errors, credits, sidebar, queries
+import json
+import pandas as pd
+from datetime import datetime
+import subprocess
 
-app = Flask(__name__, static_folder='assets')
-# app.secret_key = get_config("secret_key")
+app = Flask(__name__, static_folder='assets', static_url_path="/")
 
 @app.route('/')
 def home():
     return {
         'page' : 'Home Page'
     }
-
-
 
 @app.route('/videos')
 def sample_page():
@@ -35,11 +31,64 @@ def test3():
     return render_template('test3.html')
 
 
+@app.route('/test/functions', methods=['GET'])
+def process_completions():
+    # Define your URLs to test
+    urls = [
+        "https://spicestore.stanford.edu"
+    ]
+
+    # Create a name for the report files
+    name = "LighthouseReport"
+    getdate = datetime.now().strftime("%Y-%m-%d")
+
+    try:
+        # Loop through each URL and run Lighthouse
+        for url in urls:
+            output_path = f"{name}_{getdate}.report.json"
+            command = f'lighthouse {url} --output=json --output-path={output_path} --chrome-flags="--headless"'
+
+            # Run Lighthouse using subprocess
+            try:
+                subprocess.check_output(command, shell=True, text=True)
+                print(f"Lighthouse command completed for URL: {url}")
+            except subprocess.CalledProcessError as e:
+                print(f"Error executing Lighthouse command for {url}: {e}")
+                return jsonify({
+                    'status': '500',
+                    'message': f"Error executing command for {url}",
+                    'error': str(e)
+                }), 500
+
+            # Check if the JSON file is created
+            if os.path.exists(output_path):
+                print(f"JSON report created: {output_path}")
+                # Return success response immediately after the JSON file is created
+                return jsonify({
+                    'status': '200',
+                    'message': f"JSON report created: {output_path}"
+                }), 200
+            else:
+                print(f"JSON report not found: {output_path}")
+                return jsonify({
+                    'status': '404',
+                    'message': f"JSON report not found for {url}"
+                }), 404
+
+    except Exception as e:
+        print(f"Unexpected error: {e}")
+        return jsonify({
+            'status': '500',
+            'message': 'Unexpected error occurred',
+            'error': str(e)
+        }), 500
+
+
 @app.route('/test')
 def test():
     datas = [
         {
-            "src": "/assets/videos/videoplayback_1.mp4",
+            "src": "/videos/videoplayback_1.mp4",
             "height": 300,
             "likes": 120,
             "shares": 30,
@@ -68,7 +117,7 @@ def test():
             "saved_dated" : "12-04-2003"
         },
         {
-            "src": "/assets/videos/videoplayback_1.mp4",
+            "src": "/videos/videoplayback_1.mp4",
             "height": 300,
             "likes": 200,
             "shares": 45,
@@ -96,7 +145,7 @@ def test():
             "category_5_descriptions": "Description Q"
         },
         {
-            "src": "/assets/videos/videoplayback_1.mp4",
+            "src": "/videos/videoplayback_1.mp4",
             "height": 300,
             "likes": 310,
             "shares": 80,
@@ -124,7 +173,7 @@ def test():
             "category_5_descriptions": "Description R"
         },
         {
-            "src": "/assets/videos/videoplayback_1.mp4",
+            "src": "/videos/videoplayback_1.mp4",
             "height": 300,
             "likes": 50,
             "shares": 10,
@@ -152,7 +201,7 @@ def test():
             "category_5_descriptions": "Description S"
         },
         {
-            "src": "/assets/videos/videoplayback_1.mp4",
+            "src": "/videos/videoplayback_1.mp4",
             "height": 300,
             "likes": 420,
             "shares": 90,
@@ -180,7 +229,7 @@ def test():
             "category_5_descriptions": "Description D"
         },
         {
-            "src": "/assets/videos/videoplayback_1.mp4",
+            "src": "/videos/videoplayback_1.mp4",
             "height": 300,
             "likes": 350,
             "shares": 50,
@@ -208,7 +257,7 @@ def test():
             "category_5_descriptions": "Description T"
         },
         {
-            "src": "/assets/videos/videoplayback_1.mp4",
+            "src": "/videos/videoplayback_1.mp4",
             "height": 300,
             "likes": 180,
             "shares": 40,
@@ -236,7 +285,7 @@ def test():
             "category_5_descriptions": "Description J"
         },
         {
-            "src": "/assets/videos/videoplayback_1.mp4",
+            "src": "/videos/videoplayback_1.mp4",
             "height": 300,
             "likes": 500,
             "shares": 100,
@@ -264,7 +313,7 @@ def test():
             "category_5_descriptions": "Description W"
         },
         {
-            "src": "/assets/videos/videoplayback_1.mp4",
+            "src": "/videos/videoplayback_1.mp4",
             "height": 300,
             "likes": 500,
             "shares": 100,
@@ -328,6 +377,12 @@ def test():
     return render_template('test.html', videos=data)
 
 
+
+@app.route('/loader')
+def loader():
+    return render_template('components/loaders/loader.html')
+
+
 app.register_blueprint(search_filters.bp)
 app.register_blueprint(products.bp)
 app.register_blueprint(videos.bp)
@@ -342,3 +397,7 @@ app.register_blueprint(sidebar.bp)
 
 if __name__ == '__main__':
    app.run(host='0.0.0.0', port=7000, debug=True)
+
+
+
+
