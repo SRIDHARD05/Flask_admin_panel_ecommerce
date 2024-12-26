@@ -58,25 +58,13 @@ $(document).ready(function () {
 });
 
 
-// document.addEventListener('DOMContentLoaded', () => {
-//     var dropdown = new Dropdown({
-//         buttonSelector: '#my-drop-down',  
-//         items: [
-//             { name: 'Action', class: 'btn-primary', id: 'action1', href: 'https://youtube.com', data: { key: 'value1' } },
-//             { name: 'Another Action', class: 'another-class', id: 'action2', href: '#', data: { key: 'value2' } },
-//             { name: 'Something else here', class: '', id: 'action3', href: '#', data: { key: 'value3' } },
-//         ],
-//         onItemClick: function (item) {
-//             console.log('Item clicked:', item.id, item.name, item.data);
-//             alert(`You clicked on: ${item.name} (ID: ${item.id}) with data: ${JSON.stringify(item.data)}`);
-//         }
-//     });
-// });
+function loader_start(response) {
+    let hide = (response === "yes") ? "yes" : (response === "no" ? "no" : "default_value");
 
-function loader_start() {
     $.ajax({
         url: "/loader",
         type: "GET",
+        data: JSON.stringify({ 'hide': hide }),
         contentType: "application/json",
         success: function (response) {
             $(document.body).append(response);
@@ -84,6 +72,26 @@ function loader_start() {
             $('#loader-modal').on('show.bs.modal', function () {
                 $(this).removeAttr('inert');
             });
+
+            if (hide === "yes") {
+                $('#loader-modal').modal({
+                    backdrop: 'static',
+                    keyboard: false
+                });
+
+                $('#loader-modal').on('click', function (e) {
+                    if ($(e.target).is('#loader-modal')) {
+                        $('#loader-modal').modal('hide');
+                        $("#loader-modal").remove();
+                    }
+                });
+            } else {
+
+                $('#loader-modal').modal({
+                    backdrop: true,
+                    keyboard: true
+                });
+            }
         },
         error: function (xhr, status, error) {
             alert(error);
@@ -110,22 +118,41 @@ function loader_end() {
 }
 
 
-$(document).ready(function () {
-    $("#test-btn").click(function () {
-        loader_start()
-        $.ajax({
-            url: "/test/functions",
-            type: "GET",
-            contentType: "application/json",
-            success: function (response) {
-                if (response['status'] === '200') {
-                    loader_end()
-                    console.log("success");
-                }
-            },
-            error: function (xhr, status, error) {
-                alert(error);
-            }
-        });
+// $(document).ready(function () {
+//     $("#test-btn").click(function () {
+//         loader_start('no')
+//         $.ajax({
+//             url: "/test/functions",
+//             type: "GET",
+//             contentType: "application/json",
+//             success: function (response) {
+//                 if (response['status'] === '200') {
+//                     loader_end()
+//                     console.log("success");
+//                 }
+//             },
+//             error: function (xhr, status, error) {
+//                 alert(error);
+//             }
+//         });
+//     });
+// });
+
+// window.onbeforeunload = function () {
+//     return "Are you sure you want to leave? Unsaved changes may be lost.";
+// };
+
+document.addEventListener('DOMContentLoaded', function() {
+    var calendarEl = document.getElementById('calendar');
+
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',   
+        events: [
+            { title: 'Event 1', date: '2024-12-28' },
+            { title: 'Event 2', date: '2024-12-29' }
+        ]
     });
+
+    // Render the calendar
+    calendar.render();
 });

@@ -12,6 +12,10 @@ import subprocess
 
 app = Flask(__name__, static_folder='assets', static_url_path="/")
 
+# Set the maximum content length to 100 MB (for large data)
+app.config['MAX_CONTENT_LENGTH'] = 100 * 1024 * 1024  # 100 MB
+
+
 @app.route('/')
 def home():
     return {
@@ -33,22 +37,18 @@ def test3():
 
 @app.route('/test/functions', methods=['GET'])
 def process_completions():
-    # Define your URLs to test
     urls = [
         "https://spicestore.stanford.edu"
     ]
 
-    # Create a name for the report files
     name = "LighthouseReport"
     getdate = datetime.now().strftime("%Y-%m-%d")
 
     try:
-        # Loop through each URL and run Lighthouse
         for url in urls:
             output_path = f"{name}_{getdate}.report.json"
             command = f'lighthouse {url} --output=json --output-path={output_path} --chrome-flags="--headless"'
 
-            # Run Lighthouse using subprocess
             try:
                 subprocess.check_output(command, shell=True, text=True)
                 print(f"Lighthouse command completed for URL: {url}")
@@ -60,10 +60,8 @@ def process_completions():
                     'error': str(e)
                 }), 500
 
-            # Check if the JSON file is created
             if os.path.exists(output_path):
                 print(f"JSON report created: {output_path}")
-                # Return success response immediately after the JSON file is created
                 return jsonify({
                     'status': '200',
                     'message': f"JSON report created: {output_path}"

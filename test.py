@@ -1,29 +1,22 @@
 from pymongo import MongoClient
 from mongogettersetter import MongoGetterSetter
-
+from src.LightHouseReport import LightHouseReport
 # Connect to the MongoDB database and collection
 
-client = MongoClient("mongodb+srv://sridhardcse:sridhar@cluster0.59wpv.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
-db = client["sample_mflix"]
-collection = db["movies"]
-
-# Wrapper for MongoDB Collection with metaclass, use this inside your actual class.
-class EmployeeCollection(metaclass=MongoGetterSetter):
-    def __init__(self, _id):
-        self._filter_query = {"id": _id} # or the ObjectID, at your convinence
-        self._collection = collection # Should be a pymongo.MongoClient[database].collection
-
-class Employee:
-    def __init__(self, _id):
-        self._filter_query = {"id": _id}
-        self._collection = collection
-        self.collection = EmployeeCollection(_id)
-
-        # Create a new document if it doesn't exist
-        if self.collection.get() is None:
-            self._collection.insert_one(self._filter_query)
-    
-    def someOtherOperation(self):
-        self.collection.hello = "Hello World"  
+# client = MongoClient("mongodb+srv://sridhardcse:sridhar@cluster0.59wpv.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
+# db = client["sample_mflix"]
+# collection = db["movies"]
 
 
+
+import json
+
+# Load the JSON file
+with open('LighthouseReport_2024-12-25.report.json', encoding='utf-8') as file:
+    data = json.load(file)
+
+# Instantiate LightHouseReport
+lhr = LightHouseReport(data)
+
+# Access the `is_https` property
+print(lhr.is_https)
