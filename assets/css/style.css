@@ -1,0 +1,67 @@
+button[id="datetimes"] {
+    border: 2px solid #4CAF50;
+    border-radius: 8px;
+    padding: 10px 15px;
+    font-size: 16px;
+    color: #333;
+    width: 300px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+button[id="datetimes"]::placeholder {
+    color: #888;
+    font-style: italic;
+}
+
+button[id="datetimes"]:focus {
+    outline: none;
+    border-color: #2196F3;
+    /* Blue border on focus */
+    box-shadow: 0 0 8px rgba(33, 150, 243, 0.4);
+}
+
+.daterangepicker {
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.daterangepicker .calendar-table {
+    border-radius: 8px;
+    border: 1px solid #ddd;
+}
+
+.daterangepicker .calendar-table td.available:hover {
+    background-color: #f0f8ff;
+    color: #000;
+}
+
+.daterangepicker .calendar-table td.active,
+.daterangepicker .calendar-table td.start-date,
+.daterangepicker .calendar-table td.end-date {
+    background-color: #4CAF50;
+    color: #fff;
+}
+
+.daterangepicker .ranges .range_inputs .applyBtn {
+    background-color: #4CAF50;
+    color: #fff;
+    border-radius: 5px;
+    padding: 5px 10px;
+    border: none;
+}
+
+.daterangepicker .ranges .range_inputs .cancelBtn {
+    background-color: #f44336;
+    color: #fff;
+    border-radius: 5px;
+    padding: 5px 10px;
+    border: none;
+}
+
+.daterangepicker .ranges .range_inputs .applyBtn:hover {
+    background-color: #45a049;
+}
+
+.daterangepicker .ranges .range_inputs .cancelBtn:hover {
+    background-color: #e53935;
+}
