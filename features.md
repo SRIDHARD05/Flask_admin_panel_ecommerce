@@ -49,6 +49,8 @@
 ### Section 12: Collections of Shopify Stores -> Scrape the Stores From the Google SERT Pages
 ### Section 13: Easy Web Data Scraper
 ### Section 14: Price Analys Tools
+### Section 15: Store Sitemaps Generator
+### Section 16: Store Robots.txt file Generator
 
 
 https://sellercenter.io/en

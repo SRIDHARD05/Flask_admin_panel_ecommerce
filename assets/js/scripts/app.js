@@ -139,23 +139,52 @@ $(document).ready(function () {
 //     return "Are you sure you want to leave? Unsaved changes may be lost.";
 // };
 
+// TODO: add the Custom Buttons inside the Calender and also add the 
+// $(function () {
+//     $('button[id="datetimes"]').daterangepicker(
+//         {
+//             opens: 'left',
+//         },
+//         function (start, end, label) {
+//             console.log(
+//                 'New date and time range selected: ' +
+//                 start.format('YYYY-MM-DD HH:mm:ss') +
+//                 ' to ' +
+//                 end.format('YYYY-MM-DD HH:mm:ss') +
+//                 ' (predefined range: ' + label + ')'
+//             );
+//         }
+//     );
 
-$(function () {
-    $('button[id="datetimes"]').daterangepicker({
-        "showDropdowns": true,
-        "showWeekNumbers": true,
-        "showISOWeekNumbers": true,
-        "timePicker": true,
-        "timePicker24Hour": true,
-        "timePickerSeconds": true,
-        "startDate": "12/21/2024 12:00",
-        "endDate": "12/27/2024 12:00",
-        "locale": {
-            "format": "MM/DD/YYYY HH:mm:ss"
-        },
-        "opens": "right",
-        "drops": "down"
-    }, function (start, end, label) {
-        console.log('New date and time range selected: ' + start.format('YYYY-MM-DD HH:mm:ss') + ' to ' + end.format('YYYY-MM-DD HH:mm:ss') + ' (predefined range: ' + label + ')');
-    });
-});
+//     $('button[id="datetimes"]').on('show.daterangepicker', function (event, picker) {
+//         const customButtons = `
+//             <div class="custom-buttons" style="display: flex; flex-direction: column; align-items: stretch; gap: 10px; margin-bottom: 10px;">
+//                 <button class="btn btn-sm btn-secondary" id="clear-dates">Clear Dates</button>
+//                 <button class="btn btn-sm btn-warning" id="quick-select">Quick Select</button>
+//             </div>
+//         `;
+
+//         // Append custom buttons to the top of the ranges container
+//         if (!$('.daterangepicker .custom-buttons').length) {
+//             $('.daterangepicker .ranges').prepend(customButtons);
+
+//             // Add event listeners to the custom buttons
+//             $('#clear-dates').on('click', function () {
+//                 picker.setStartDate(moment());
+//                 picker.setEndDate(moment());
+//                 picker.updateView();
+//                 console.log('Dates cleared!');
+//             });
+
+//             $('#quick-select').on('click', function () {
+//                 const start = moment().subtract(3, 'days');
+//                 const end = moment();
+//                 picker.setStartDate(start);
+//                 picker.setEndDate(end);
+//                 picker.updateView();
+//                 console.log('Quick Select applied: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+//             });
+//         }
+//     });
+// });
+
