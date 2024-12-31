@@ -7455,7 +7455,7 @@
       },
       "guidanceLevel": 2
     },
-    "efficient-animated-content" : {
+    "efficient-animated-content": {
       "id": "efficient-animated-content",
       "title": "Use video formats for animated content",
       "description": "Large GIFs are inefficient for delivering animated content. Consider using MPEG4/WebM videos for animations and PNG/WebP for static images instead of GIF to save network bytes. [Learn more about efficient video formats](https://developer.chrome.com/docs/lighthouse/performance/efficient-animated-content/)",
@@ -9167,7 +9167,7 @@
       "width": 412,
       "height": 3585
     },
-    "nodes": {
+    "nodes" : {
       "page-0-DIV": {
         "id": "",
         "top": 183,
