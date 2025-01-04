@@ -57,8 +57,8 @@ $(document).ready(function () {
     }
 });
 
-function loader_start(response) {
-    let hide = (response === "yes") ? "yes" : (response === "no" ? "no" : "default_value");
+function loader_start(is_hide) {
+    let hide = (is_hide === "yes") ? "yes" : (is_hide === "no" ? "no" : "default_value");
 
     $.ajax({
         url: "/loader",
@@ -135,11 +135,8 @@ $(document).ready(function () {
     });
 });
 
-// window.onbeforeunload = function () {
-//     return "Are you sure you want to leave? Unsaved changes may be lost.";
-// };
 
-// TODO: add the Custom Buttons inside the Calender and also add the 
+// TODO: add the Custom Buttons inside the Calender and also add the
 // $(function () {
 //     $('button[id="datetimes"]').daterangepicker(
 //         {
@@ -188,3 +185,121 @@ $(document).ready(function () {
 //     });
 // });
 
+
+function show_password_toggle(input_toggle_id, icon_toggle_id, eye_icon_id) {
+    var $passwordInput = $(input_toggle_id);
+    var $toggleButton = $(icon_toggle_id);
+    var $eyeIcon = $(eye_icon_id);
+
+    $toggleButton.on('click', function () {
+        if ($passwordInput.attr('type') === 'password') {
+            $passwordInput.attr('type', 'text');
+            $eyeIcon.removeClass('fa-eye').addClass('fa-eye-slash');
+        } else {
+            $passwordInput.attr('type', 'password');
+            $eyeIcon.removeClass('fa-eye-slash').addClass('fa-eye');
+        }
+    });
+}
+
+function validatePassword(password) {
+    const regexLength = /.{8,}/;
+    const regexUpperCase = /[A-Z]/;
+    const regexLowerCase = /[a-z]/;
+    const regexNumber = /\d/;
+    const regexSpecialChar = /[!@#$%^&*(),.?":{}|<>]/;
+
+    const isLengthValid = regexLength.test(password);
+    const hasUpperCase = regexUpperCase.test(password);
+    const hasLowerCase = regexLowerCase.test(password);
+    const hasNumber = regexNumber.test(password);
+    const hasSpecialChar = regexSpecialChar.test(password);
+
+    if (isLengthValid) {
+        $('#minLength').html('<i class="fas fa-check text-success"></i> Minimum 8 characters');
+    } else {
+        $('#minLength').html('<i class="fas fa-times text-danger"></i> Minimum 8 characters');
+    }
+
+    if (hasUpperCase) {
+        $('#uppercase').html('<i class="fas fa-check text-success"></i> At least one uppercase letter');
+    } else {
+        $('#uppercase').html('<i class="fas fa-times text-danger"></i> At least one uppercase letter');
+    }
+
+    if (hasLowerCase) {
+        $('#lowercase').html('<i class="fas fa-check text-success"></i> At least one lowercase letter');
+    } else {
+        $('#lowercase').html('<i class="fas fa-times text-danger"></i> At least one lowercase letter');
+    }
+
+    if (hasSpecialChar) {
+        $('#symbol').html('<i class="fas fa-check text-success"></i> At least one symbol (@$!%*?&)');
+    } else {
+        $('#symbol').html('<i class="fas fa-times text-danger"></i> At least one symbol (@$!%*?&)');
+    }
+
+    if (isLengthValid && hasUpperCase && hasLowerCase && hasNumber && hasSpecialChar) {
+        return $('#password-signup-password').val()
+    } else {
+        console.log("Please enter the valid password");
+    }
+}
+
+function checkPasswordMatch(password, repeatPassword) {
+    $(".password-on-equal").empty();
+
+    if (password === repeatPassword && repeatPassword !== '') {
+        const template = `
+            <div class="valid-message" style="color: green;">
+                <i class="fas fa-check-circle"></i> Passwords match completely.
+            </div>`;
+        $(".password-on-equal").append(template);
+
+        setTimeout(function () {
+            $(".password-on-equal").empty();
+        }, 1500);
+
+    } else if (repeatPassword === '') {
+        const template = `
+            <div class="info-message" style="color: orange;">
+                <i class="fas fa-info-circle"></i> Repeat password is empty.
+            </div>`;
+        $(".password-on-equal").append(template);
+    } else {
+        const template = `
+            <div class="invalid-message" style="color: red;">
+                <i class="fas fa-times-circle"></i> Passwords do not match.
+            </div>`;
+        $(".password-on-equal").append(template);
+    }
+}
+
+$(document).ready(function () {
+    show_password_toggle('#password-signin-password', '.toggle-signin-password', '.signin-password-eye-icon');
+    show_password_toggle('#password-signup-password', '.toggle-signup-password', '.password-eye-icon');
+    show_password_toggle('#password-signup-repassword', '.toggle-signup-repassword', '.repeat-password-eye-icon');
+
+    let current_password = '';
+    $('#password-signup-password').on('input', function () {
+        const userInput = $(this).val();
+        $(".password-on-validations").empty();
+        let template = `
+            <div class="form-group">
+                <ul>
+                    <li id="minLength"><i class="fas fa-times text-danger"></i> Minimum 8 characters</li>
+                    <li id="uppercase"><i class="fas fa-times text-danger"></i> At least one uppercase letter</li>
+                    <li id="lowercase"><i class="fas fa-times text-danger"></i> At least one lowercase letter</li>
+                    <li id="symbol"><i class="fas fa-times text-danger"></i> At least one symbol (@$!%*?&)</li>
+                </ul>
+            </div>`;
+        $(".password-on-validations").append(template);
+        validatePassword(userInput);
+        current_password = userInput;
+    });
+    $('#password-signup-repassword').on('input', function () {
+        $(".password-on-validations").remove();
+        const repeatPassword = $(this).val();
+        checkPasswordMatch(current_password, repeatPassword);
+    });
+});

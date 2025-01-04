@@ -4,17 +4,17 @@ import os
 import math
 import base64
 import time
-from blueprints import search_filters, products, videos, dashboard, users, pricing, save_posts, errors, credits, sidebar, queries
+from blueprints import search_filters, products, videos, dashboard, users, pricing, save_posts, credits, sidebar, queries, shopify_seo
 import json
 import pandas as pd
 from datetime import datetime
 import subprocess
+from src import get_config
 
 app = Flask(__name__, static_folder='assets', static_url_path="/")
 
-# Set the maximum content length to 100 MB (for large data)
-app.config['MAX_CONTENT_LENGTH'] = 100 * 1024 * 1024  # 100 MB
-
+app.config['MAX_CONTENT_LENGTH'] = 100 * 1024 * 1024  
+app.config['SECRET_KEY'] = get_config("user_secret")
 
 @app.route('/')
 def home():
@@ -33,54 +33,6 @@ def popover():
 @app.route('/test2')
 def test3():
     return render_template('test3.html')
-
-
-@app.route('/test/functions', methods=['GET'])
-def process_completions():
-    urls = [
-        "https://spicestore.stanford.edu"
-    ]
-
-    name = "LighthouseReport"
-    getdate = datetime.now().strftime("%Y-%m-%d")
-
-    try:
-        for url in urls:
-            output_path = f"{name}_{getdate}.report.json"
-            command = f'lighthouse {url} --output=json --output-path={output_path} --chrome-flags="--headless"'
-
-            try:
-                subprocess.check_output(command, shell=True, text=True)
-                print(f"Lighthouse command completed for URL: {url}")
-            except subprocess.CalledProcessError as e:
-                print(f"Error executing Lighthouse command for {url}: {e}")
-                return jsonify({
-                    'status': '500',
-                    'message': f"Error executing command for {url}",
-                    'error': str(e)
-                }), 500
-
-            if os.path.exists(output_path):
-                print(f"JSON report created: {output_path}")
-                return jsonify({
-                    'status': '200',
-                    'message': f"JSON report created: {output_path}"
-                }), 200
-            else:
-                print(f"JSON report not found: {output_path}")
-                return jsonify({
-                    'status': '404',
-                    'message': f"JSON report not found for {url}"
-                }), 404
-
-    except Exception as e:
-        print(f"Unexpected error: {e}")
-        return jsonify({
-            'status': '500',
-            'message': 'Unexpected error occurred',
-            'error': str(e)
-        }), 500
-
 
 @app.route('/test')
 def test():
@@ -375,12 +327,43 @@ def test():
     return render_template('test.html', videos=data)
 
 
-
 @app.route('/loader')
 def loader():
     return render_template('components/loaders/loader.html')
 
 
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('components/error/error_404.html'), 404
+
+@app.errorhandler(500)
+def page_not__found(e):
+    return render_template('components/error/error_500.html'), 500
+
+"""
+TODO: For Page Prefix based Error Pages
+
+@app.errorhandler(404)
+def page_not_found(e):
+    # if a request is in our blog URL space
+    if request.path.startswith('/blog/'):
+        # we return a custom blog 404 page
+        return render_template("blog/404.html"), 404
+    else:
+        # otherwise we return our generic site-wide 404 page
+        return render_template("404.html"), 404
+
+@app.errorhandler(405)
+def method_not_allowed(e):
+    # if a request has the wrong method to our API
+    if request.path.startswith('/api/'):
+        # we return a json saying so
+        return jsonify(message="Method Not Allowed"), 405
+    else:
+        # otherwise we return a generic site-wide 405 page
+        return render_template("405.html"), 405
+
+"""
 app.register_blueprint(search_filters.bp)
 app.register_blueprint(products.bp)
 app.register_blueprint(videos.bp)
@@ -388,10 +371,12 @@ app.register_blueprint(dashboard.bp)
 app.register_blueprint(users.bp)
 app.register_blueprint(pricing.bp)
 app.register_blueprint(save_posts.bp)
-app.register_blueprint(errors.bp)
 app.register_blueprint(credits.bp)
 app.register_blueprint(queries.bp)
 app.register_blueprint(sidebar.bp)
+app.register_blueprint(shopify_seo.bp)
+
+
 
 if __name__ == '__main__':
    app.run(host='0.0.0.0', port=7000, debug=True)

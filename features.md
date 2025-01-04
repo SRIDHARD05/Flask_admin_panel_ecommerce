@@ -111,9 +111,7 @@ Sort Specific Collection by Newest	View newest products within a specific collec
 Filter by Tags for New Products	If new products are tagged specifically, filter by those tags.	https://[storename].myshopify.com/collections/all?filter.tags=new
 Check Seasonal Collections	Access collections created for specific seasons or promotions that may include recent launches.	https://[storename].myshopify.com/collections/[seasonal-collection-name]
 
-
 https://fashor.com/collections/evergreen-energy?price=500-10000&sort_by=best-selling
-
 
 Filter Products by Price - /collections/{collection_handle}?price={min}-{max}
 
@@ -142,14 +140,12 @@ Filter products using a search query. - /search?q={search_term}
 Filter by Product Availability - 
 /collections/summer-collection?filter.v.availability=1
 
-
 Filter by Vendor Name - first get the /collection then goto vendors and 
 /collections/all?filter.v.vendor={vendor_name}
 
 Sort Products by Best-Selling for a Specific Vendor - /collections/all?filter.v.vendor={vendor_name}&sort_by=best-selling
 
 https://app.ppspy.com/shopify-store-detail?id=12326200
-
 
 Track the Shopify themes -> inspect the page elements the search "shopify.theme" in the the source code of the page
 Track the Shopify Installed Apps -> Inspect the page elements the search "apps" in the source code of the page
