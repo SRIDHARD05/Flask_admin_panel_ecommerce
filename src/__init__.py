@@ -3,6 +3,8 @@ import hashlib
 from datetime import datetime, timedelta
 import logging
 from datetime import datetime
+import hmac
+import hashlib
 
 def get_config(key):
     config_file = "D:/GITHUB/python_flask/config.json"
@@ -15,6 +17,12 @@ def get_config(key):
     else:
         raise Exception("Key {} is not found in config.json".format(key))
     
+
+SECRET_KEY = get_config('products_secret_key').encode()
+
+def hash_data(id):
+    return hmac.new(SECRET_KEY, id.encode(), hashlib.sha256).hexdigest()
+
 
 import logging
 from pymongo import MongoClient

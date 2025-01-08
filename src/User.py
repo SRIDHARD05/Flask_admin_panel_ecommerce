@@ -79,3 +79,5 @@ class User:
     @staticmethod
     def get_user():
         return db.users.find_one({'email' : session['email']})
+
+    

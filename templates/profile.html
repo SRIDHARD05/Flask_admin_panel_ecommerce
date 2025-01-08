@@ -66,7 +66,6 @@
             </div>
         </div>
         <div class="col-lg-9 mt-lg-0 mt-4">
-            <!-- Card Profile -->
             <div class="card card-body" id="profile">
                 <div class="row justify-content-center align-items-center">
                     <div class="col-sm-auto col-4">
@@ -85,31 +84,40 @@
                             </p>
                         </div>
                     </div>
-                    <div class="col-sm-auto ms-sm-auto mt-sm-0 mt-3 d-flex">
-                        <label class="form-check-label mb-0">
-                            <small id="profileVisibility">Switch to invisible</small>
-                        </label>
-                        <div class="form-check form-switch ms-2 my-auto is-filled">
-                            <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault23" checked=""
-                                onchange="visible()">
+                    <div class="col-sm-auto ms-sm-auto mt-sm-0 mt-3 d-flex" style="align-items: center;">
+                        <div class="d-flex align-items-center ms-2 my-auto">
+                            <!-- Input Group for File Upload -->
+                            <div class="input-group" style="max-width: 300px;">
+                                <!-- File Input (Hidden) -->
+                                <input type="file" class="form-control" id="profileImageInput" onchange="showFileName()"
+                                    accept="image/*" style="display: none;">
+                                <!-- Custom Label for File Input -->
+                                <label class="input-group-text" for="profileImageInput"
+                                    style="cursor: pointer; background-color: #f8f9fa; border: 1px solid #ced4da; padding: 0.375rem 0.75rem; font-size: 0.875rem;">
+                                    Upload Profile Image
+                                </label>
+                            </div>
+                            <!-- Display Selected File Name -->
+                            <div id="file-name"
+                                style="font-size: 0.875rem; color: #6c757d; margin-left: 10px; max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- Card Basic Info -->
             <div class="card mt-4" id="basic-info">
                 <div class="card-header">
                     <h5>Basic Info</h5>
                 </div>
                 <div class="card-body pt-0">
-                    <form action="/profile/user/save" method="post">
+                    <form>
                         <div class="row">
                             <div class="col-6">
                                 <div class="input-group input-group-static">
                                     <label>First Name</label>
-                                    <input type="text" class="form-control" name="first_name" placeholder="Alec"
-                                        onfocus="focused(this)" onfocusout="defocused(this)"
-                                        value="{{ user_data.username }}">
+                                    <input type="text" class="form-control" name="first_name"
+                                        placeholder="Enter your Name" onfocus="focused(this)"
+                                        onfocusout="defocused(this)" value="{{ user_data.first_name }}">
                                 </div>
                             </div>
                             <div class="col-6">
@@ -117,7 +125,7 @@
                                     <label>Last Name</label>
                                     <input type="text" class="form-control" name="last_name"
                                         placeholder="Enter your Last name " onfocus="focused(this)"
-                                        onfocusout="defocused(this)">
+                                        onfocusout="defocused(this)" value="{{ user_data.last_name }}">
                                 </div>
                             </div>
                         </div>
@@ -126,16 +134,17 @@
                                 <div class="input-group input-group-static">
                                     <label>Email</label>
                                     <input type="email" class="form-control" name="email"
-                                        placeholder="Enter your mail ID Here" value="{{ user_data.email }}"
-                                        onfocus="focused(this)" onfocusout="defocused(this)">
+                                        placeholder="Enter your mail ID Here" value="{{ session.email }}"
+                                        onfocus="focused(this)" onfocusout="defocused(this)" disabled>
                                 </div>
                             </div>
                             <div class="col-6">
                                 <!-- TODO: Change other Items -->
                                 <div class="input-group input-group-static">
                                     <label>Confirm Email</label>
-                                    <input type="email" class="form-control" placeholder="Enter your mail ID Here"
-                                        onfocus="focused(this)" onfocusout="defocused(this)">
+                                    <input type="conform-email" class="form-control"
+                                        placeholder="Enter your mail ID Here" onfocus="focused(this)"
+                                        onfocusout="defocused(this)">
                                 </div>
                             </div>
                         </div>
@@ -145,7 +154,7 @@
                                     <label>Your location</label>
                                     <input type="text" class="form-control" name="location"
                                         placeholder="Enter your location" onfocus="focused(this)"
-                                        onfocusout="defocused(this)">
+                                        onfocusout="defocused(this)" value="{{ user_data.location }}">
                                 </div>
                             </div>
                             <div class="col-6">
@@ -153,35 +162,63 @@
                                     <label>Phone Number</label>
                                     <input type="number" class="form-control" name="phonenumber"
                                         placeholder="Enter your phone number" onfocus="focused(this)"
-                                        onfocusout="defocused(this)">
+                                        onfocusout="defocused(this)" value="{{ user_data.phonenumber }}">
                                 </div>
                             </div>
                         </div>
-                        <button class="btn bg-gradient-dark btn-sm float-end mt-6 mb-0 save-user-profile">Update
-                            password</button>
+                        <button class="btn bg-gradient-dark btn-sm float-end mt-6 mb-0 save-user-profile"
+                            type="button">Update
+                            Profile</button>
                     </form>
                 </div>
             </div>
-            <!-- Card Change Password -->
+
             <div class="card mt-4" id="password">
                 <div class="card-header">
                     <h5>Change Password</h5>
                 </div>
                 <div class="card-body pt-0">
-                    <div class="input-group input-group-outline">
-                        <label class="form-label">Current password</label>
-                        <input type="password" class="form-control" onfocus="focused(this)"
-                            onfocusout="defocused(this)">
+                    <div class="row mt-1">
+                        <div class="col-6">
+                            <div class="input-group input-group-outline">
+                                <label class="form-label">Current password</label>
+                                <input type="password" class="form-control" name="current-password"
+                                    id="current-password" onfocus="focused(this)" onfocusout="defocused(this)">
+                                <button type="button" class="input-group-text toggle-current-password"
+                                    style="margin-right:10px">
+                                    <i class="fa-solid fa-eye password-eye-icon" id="current-password-eye"></i>
+                                </button>
+                            </div>
+                        </div>
                     </div>
-                    <div class="input-group input-group-outline my-4">
-                        <label class="form-label">New password</label>
-                        <input type="password" class="form-control" onfocus="focused(this)"
-                            onfocusout="defocused(this)">
+                    <div class="row mt-1">
+                        <div class="col-6">
+                            <div class="input-group input-group-outline my-4">
+                                <label class="form-label">New password</label>
+                                <input type="password" class="form-control" name="reset-password-new-password-first"
+                                    id="new-password" onfocus="focused(this)" onfocusout="defocused(this)">
+                                <button type="button" class="input-group-text toggle-new-password"
+                                    style="margin-right:10px">
+                                    <i class="fa-solid fa-eye password-eye-icon" id="new-password-eye"></i>
+                                </button>
+                                <div class="password-on-validations"></div>
+
+                            </div>
+                        </div>
                     </div>
-                    <div class="input-group input-group-outline">
-                        <label class="form-label">Confirm New password</label>
-                        <input type="password" class="form-control" onfocus="focused(this)"
-                            onfocusout="defocused(this)">
+                    <div class="row mt-1">
+                        <div class="col-6">
+                            <div class="input-group input-group-outline">
+                                <label class="form-label">Confirm New password</label>
+                                <input type="password" class="form-control" name="reset-password-new-password-last"
+                                    id="confirm-password" onfocus="focused(this)" onfocusout="defocused(this)">
+                                <button type="button" class="input-group-text toggle-confirm-password"
+                                    style="margin-right:10px">
+                                    <i class="fa-solid fa-eye password-eye-icon" id="confirm-password-eye"></i>
+                                </button>
+                            </div>
+                            <div class="password-on-equal"></div>
+                        </div>
                     </div>
                     <h5 class="mt-5">Password requirements</h5>
                     <p class="text-muted mb-2">
@@ -189,7 +226,7 @@
                     </p>
                     <ul class="text-muted ps-4 mb-0 float-start">
                         <li>
-                            <span class="text-sm">One special characters</span>
+                            <span class="text-sm">One special character</span>
                         </li>
                         <li>
                             <span class="text-sm">Min 6 characters</span>
@@ -201,7 +238,10 @@
                             <span class="text-sm">Change it often</span>
                         </li>
                     </ul>
-                    <button class="btn bg-gradient-dark btn-sm float-end mt-6 mb-0">Update password</button>
+
+                    <!-- Update Password Button -->
+                    <button class="btn bg-gradient-dark btn-sm float-end mt-6 mb-0" id="auth-update-password">Update
+                        password</button>
                 </div>
             </div>
             <!-- Card Change Password -->
