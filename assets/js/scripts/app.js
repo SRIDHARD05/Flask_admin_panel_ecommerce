@@ -260,26 +260,33 @@ function checkPasswordMatch(password, repeatPassword) {
             $(".password-on-equal").empty();
         }, 1500);
 
+        return true; // Return true if passwords match
     } else if (repeatPassword === '') {
         const template = `
             <div class="info-message" style="color: orange;">
                 <i class="fas fa-info-circle"></i> Repeat password is empty.
             </div>`;
         $(".password-on-equal").append(template);
+
+        return false; // Return false if repeatPassword is empty
     } else {
         const template = `
             <div class="invalid-message" style="color: red;">
                 <i class="fas fa-times-circle"></i> Passwords do not match.
             </div>`;
         $(".password-on-equal").append(template);
+
+        return false; // Return false if passwords do not match
     }
 }
+
 
 $(document).ready(function () {
     show_password_toggle('#password-signin-password', '.toggle-signin-password', '.signin-password-eye-icon');
     show_password_toggle('#password-signup-password', '.toggle-signup-password', '.password-eye-icon');
     show_password_toggle('#password-signup-repassword', '.toggle-signup-repassword', '.repeat-password-eye-icon');
 
+    let is_valid_password = false;
     let current_password = '';
     $('#password-signup-password').on('input', function () {
         const userInput = $(this).val();
@@ -300,6 +307,63 @@ $(document).ready(function () {
     $('#password-signup-repassword').on('input', function () {
         $(".password-on-validations").remove();
         const repeatPassword = $(this).val();
-        checkPasswordMatch(current_password, repeatPassword);
+        is_valid_password = checkPasswordMatch(current_password, repeatPassword);
+    });
+
+    var loc = window.location.pathname;
+    // TODO: Change the Tittle after the Completitoins of DB Connections
+    if (loc === '/users/signup') {
+        $("title").text('User SignUp Page');
+    } else if (loc === '/users/signin') {
+        $("title").text('User SignIn Page');
+    } else if (loc === '/dashboard/') {
+        $("title").text('Dashboard');
+    } else if (loc === '/test') {
+        $("title").text('Test Page');
+    } else if (loc === 'http://127.0.0.1:7000') {
+        $("title").text('Home Page');
+    } else if (loc === '/admin/signup') {
+        $("title").text('Admin SignUp Page');
+    } else if (loc === '/admin/signin') {
+        $("title").text('Admin SignIn Page');
+    }
+    if (loc === '/users/signin') {
+        $('.sign_up_redirections').attr('href', '/users/signup');
+    } else if (loc === '/users/signup') {
+        $('.sign_in_redirections').attr('href', '/users/signin');
+    }
+    else if (loc === '/admin/signup') {
+        $('.sign_in_redirections').attr('href', '/admin/signin');
+    }
+    else if (loc === '/admin/signin') {
+        $('.sign_up_redirections').attr('href', '/admin/signup');
+    }
+
+    $('.save-user-profile').on('click', function () {
+        var formData = {
+            firstname: $('input[name=first_name]'),
+            last_name: $('input[name=last_name]'),
+            email: $('input[name=email]'),
+            location: $('input[name=location]'),
+            phone_number: $('input[name=phonenumber]')
+        }
+
+        $.ajax({
+            type: 'POST',
+            url: '/profile/user/save',
+            data: formData,
+            success: function (response) {
+                if (response['status'] == 200) {
+                    alert("Success");
+                    console.log(response);
+                } else {
+                    alert(response['message']);
+                }
+            },
+            error: function (xhr, status, error) {
+                alert(`${error}`);
+                console.error('Request failed', status, error);
+            }
+        });
     });
 });

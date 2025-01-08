@@ -1,6 +1,6 @@
-from flask import Blueprint, request, jsonify, render_template, redirect, url_for, flash
+from flask import Blueprint, request, jsonify, render_template, redirect, url_for, flash,session
 import base64
-
+from src.User import User
 bp = Blueprint("users", __name__, url_prefix="/users")
 
 
@@ -19,43 +19,80 @@ def reset_password():
     return render_template('reset_password.html')
 
 
-@bp.route('/login', methods=['POST'])
-def login():
-    name = request.form['email']
-    password = request.form['password']
 
-    print(f"Name ;; {name}")
-    if name and password:
-        # TODO: Implement user email and password validations with db connections
-        return redirect(url_for('dashboard.index'))
-    else:
-        return redirect(url_for('users.signin'))
-
-
-@bp.route('/register', methods=['POST'])
+@bp.route("/register", methods=['POST'])
 def register():
-    # Get form data
-    name = request.form.get('email')
-    password = request.form.get('password')
-    repeat_password = request.form.get('repeat_password')
-    email = request.form.get('email')
-    is_checked = request.form.get('is_checked')  # Get checkbox value
-    
-    print(f'is Checked =>', is_checked)
-    
-    # Validation for required fields
-    if not is_checked:
-        flash('You must agree to the Terms and Conditions', 'error')  # Flash error message
-        return redirect(url_for('users.signup'))
-    
-    if not name or not password or not repeat_password or not email:
-        flash('All fields are required', 'error')  # Flash error message
-        return redirect(url_for('users.signup'))
-    
-    if password != repeat_password:
-        flash('Passwords do not match', 'error')  # Flash error message
+    if 'name' in request.form and 'password' in request.form and 'repeatpassword' in request.form and 'email' in request.form:
+        username = request.form['name']
+        password = request.form['password']
+        email = request.form['email']
+        repeat_password = request.form['repeatpassword']
+        if password == repeat_password :
+            try:
+                uid = User.register(username, password, password, email)
+                session['authenticated'] = True
+                session['username'] = username
+                session['email'] = email
+                session['sessid'] = uid
+                if session['authenticated'] :
+                    print(uid)
+                    return redirect(url_for('dashboard.index')) 
+
+            except Exception as e:
+                print(str(e))
+                return redirect(url_for('users.signup'))
+
+            except Exception as e:
+                print(str(e))
+                return redirect(url_for('users.signup'))
+        else:
+            return redirect(url_for('users.signup'))
+        
+    else:
         return redirect(url_for('users.signup'))
 
-    # If everything is correct
-    flash('Signup successful! Redirecting...', 'success')  # Flash success message
-    return redirect(url_for('dashboard.index'))  # Redirect to dashboard
+
+
+@bp.route("/deauth")
+def deauth():
+   if session.get('authenticated'): #TODO: Need more validattion like login expiry
+        #Remove / invalidate session from database
+        session['authenticated'] = False
+        return redirect(url_for('dashboard.index')) 
+   else:
+        return redirect(url_for('users.signin'))
+      
+
+@bp.route("/login", methods=['POST'])
+def authenticate():
+    if session.get('authenticated'): #TODO: Need more validattion like login expiry, and session expiry
+        print(session)
+        sess = Session(session['sessid'])
+        if sess.is_valid():
+            return redirect(url_for('dashboard.index')) 
+        else:
+            session['authenticated'] = False
+            sess.collection.active = False
+            return redirect(url_for('users.signin'))
+
+    else:
+        if 'email' in request.form and 'password' in request.form:
+            email = request.form['email']
+            password = request.form['password']
+            try:
+                sessid = User.login(email, password)
+                session['authenticated'] = True
+                session['email'] = email
+                session['sessid'] = sessid
+                session['type'] = 'web'
+                
+                if 'redirect' in request.form and request.form['redirect'] == 'true':
+                    return redirect(url_for('dashboard.index'))
+                else:
+                    return redirect(url_for('dashboard.index'))
+                
+            except Exception as e:
+                print(str(e))
+                return redirect(url_for('users.signin'))
+        else:
+            return redirect(url_for('users.signin'))

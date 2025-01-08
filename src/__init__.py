@@ -16,19 +16,47 @@ def get_config(key):
         raise Exception("Key {} is not found in config.json".format(key))
     
 
-logging.basicConfig(
-    filename='App_logging.log',
-    level=logging.INFO,
-    format='%(asctime)s - %(levelname)s - %(message)s',
-)
+import logging
+from pymongo import MongoClient
+from logging import Handler
+import os
 
-def logger(admin_user, action, details=""):
-    log_message = f"Admin: {admin_user}, Action: {action}, Details: {details}"
-    logging.info(log_message)
-    logging.debug('debug message')
-    logging.info('info message')
-    logging.warning('warn message')
-    logging.error('error message')
-    logging.critical('critical message')
+
+# client = MongoClient("mongodb://localhost:27017")  
+# db = client.get_database('app_logs')  
+# log_collection = db.logs  
+
+# class MongoDBHandler(Handler):
+#     def emit(self, record):
+#         log_entry = self.format(record)
+#         log_collection.insert_one({"log": log_entry})
+
+
+# logging.basicConfig(
+#     filename='App_logging.log',
+#     level=logging.INFO,
+#     format='%(asctime)s - %(levelname)s - %(message)s',
+# )
+
+
+# mongo_handler = MongoDBHandler()
+# mongo_handler.setLevel(logging.INFO)
+# mongo_handler.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s - %(message)s'))
+
+# logging.getLogger().addHandler(mongo_handler)
+
+# def logger(admin_user, action, details=""):
+#     log_message = f"Admin: {admin_user}, Action: {action}, Details: {details}"
+    
+#     logging.info(log_message)
+
+#     logging.debug('debug message')
+#     logging.info('info message')
+#     logging.warning('warn message')
+#     logging.error('error message')
+#     logging.critical('critical message')
+
+# logger("admin_user1", "Logged in", "User logged into the system")
+
    
 

@@ -1,9 +1,14 @@
 {
-    "mongodb_connection_string" : "mongodb+srv://sridhardcse:sridhar@cluster0.59wpv.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0",
-    "mongodb_database" : "community",
+    "mongodb_connection_string" : "mongodb+srv://Sample_app:SgMFpfX0obpl9ATS@cluster0.fzfdd.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0",
+    "mongodb_database" : "applications",
     "home" : "This is a Home Page",
     "s3_aws_access_key" : "aws access key",
     "s3_aws_secret_access_key" : "aws secret key",
     "s3_aws_bucket_name" : "Amazon S3 Buckets",
     "user_secret" : "sdfhjk,mnhg"
 }
+
+
+
+
+
