@@ -1,19 +1,36 @@
 {% extends '__master.html' %}
 
 {% block content %}
-<div class="container">
-    {% for i in range(0, posts|length, 5) %}
-    <div class="row mb-4">
-        {% for post in posts[i:i+5] %}
-        <div class="col-md-2">
-            <div class="card card-frame clickable-card" data-key="{{ post }}">
-                <div class="card-body">
-                    {{ post }}
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 50vh;">
+    {% if posts %}
+    <div class="w-100">
+        {% for i in range(0, posts|length, 5) %}
+        <div class="row mb-4">
+            {% for post in posts[i:i+5] %}
+            <div class="col-md-2">
+                <div class="card card-frame">
+                    <div class="card-body">
+                        {{ post }}
+                    </div>
+                    <div class="card-footer">
+                        <div class="btn btn-primary btn-rounded" id="user-delete-post" data-key="{{ post }}"
+                            data-attribute="{{collection_name}}">Delete Post</div>
+                    </div>
                 </div>
             </div>
+            {% endfor %}
         </div>
         {% endfor %}
     </div>
-    {% endfor %}
+    {% else %}
+    <div class="text-center">
+        <div class="card card-frame">
+            <div class="card-body">
+                <h5>No posts available</h5>
+                <p>Please check back later or save a new post.</p>
+            </div>
+        </div>
+    </div>
+    {% endif %}
 </div>
 {% endblock %}

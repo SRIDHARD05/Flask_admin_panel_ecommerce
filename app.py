@@ -15,6 +15,9 @@ app = Flask(__name__, static_folder='assets', static_url_path="/")
 
 app.config['MAX_CONTENT_LENGTH'] = 100 * 1024 * 1024  
 app.config['SECRET_KEY'] = get_config("user_secret")
+# app.config['SESSION_COOKIE_SECURE'] = True  
+# app.config['SESSION_COOKIE_HTTPONLY'] = True  
+# app.config['PERMANENT_SESSION_LIFETIME'] = 3600 
 
 @app.route('/')
 def home():
@@ -378,9 +381,11 @@ app.register_blueprint(shopify_seo.bp)
 app.register_blueprint(profile.bp)
 app.register_blueprint(tools.bp)
 
+# if __name__ == '__main__':
+#    app.run(host='0.0.0.0', port=7000, debug=True,ssl_context='adhoc')
+
+
+
+
 if __name__ == '__main__':
    app.run(host='0.0.0.0', port=7000, debug=True)
-
-
-
-

@@ -1,8 +1,10 @@
 from flask import Blueprint, request, jsonify, render_template, redirect, url_for, flash,session
 import base64
 from src.User import User
-bp = Blueprint("users", __name__, url_prefix="/users")
+from src.Session import Session
+from src import hash_data
 
+bp = Blueprint("users", __name__, url_prefix="/users")
 
 @bp.route('/signin')
 def signin():
@@ -35,8 +37,8 @@ def register():
                 session['username'] = username
                 session['email'] = email
                 session['sessid'] = uid
+                session['user_id'] = hash_data(uid)
                 if session['authenticated'] :
-                    print(uid)
                     return redirect(url_for('dashboard.index')) 
 
             except Exception as e:
@@ -67,7 +69,6 @@ def deauth():
 @bp.route("/login", methods=['POST'])
 def authenticate():
     if session.get('authenticated'): #TODO: Need more validattion like login expiry, and session expiry
-        print(session)
         sess = Session(session['sessid'])
         if sess.is_valid():
             return redirect(url_for('dashboard.index')) 

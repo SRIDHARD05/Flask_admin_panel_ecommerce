@@ -6,32 +6,4 @@
     <p>We take security seriously. Please avoid using developer tools while browsing.</p>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-    $(document).ready(function () {
-        function detectDevTools() {
-            const threshold = 160;
-            const width = window.outerWidth - window.innerWidth;
-            const height = window.outerHeight - window.innerHeight;
-
-            if (width > threshold || height > threshold) {
-                alert("Developer tools are disabled.");
-                window.location.href = "/users/deauth";
-            }
-        }
-
-        setInterval(detectDevTools, 1000);
-        $(document).on('contextmenu', function (e) {
-            e.preventDefault();
-            alert("Right-click is disabled.");
-        });
-
-        $(document).on('keydown', function (e) {
-            if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I') || (e.ctrlKey && e.key === 'U')) {
-                e.preventDefault();
-                alert("Developer tools are disabled.");
-            }
-        });
-    });
-</script>
 {% endblock %}

@@ -1,7 +1,8 @@
-from mongogettersetter import MongoGetterSetter
-from src.Database import Database
-from uuid import uuid4
 from time import time
+from uuid import uuid4
+import pymongo
+from src.Database import Database
+from mongogettersetter import MongoGetterSetter
 
 db = Database.get_connection()
 
@@ -20,10 +21,6 @@ class Session:
         validity = self.collection.validity
         now = time()
         return now - login_time < validity
-        # ifnow - login_time < validity
-        #     return True
-        # else:
-        #     return False
         
     @staticmethod
     def register_session(username, request=None, validity=604800, _type="plain"):
@@ -39,6 +36,7 @@ class Session:
         1. plain - Username and Password used for authentication
         2. api - API Key used for authentication
         """
+        
         if request is not None:
             request_info = {
                 'ip': request.remote_addr,
@@ -55,12 +53,12 @@ class Session:
             "id": uuid,
             "username": username,
             "time": time(),
-            "validity": validity, # 7 days,
+            "validity": validity,  # 7 days
             "active": True,
-            "type": _type, 
-            "request": request_info 
+            "type": _type,
+            "request": request_info
         })
         
         return Session(uuid)
-        
-        
+
+   

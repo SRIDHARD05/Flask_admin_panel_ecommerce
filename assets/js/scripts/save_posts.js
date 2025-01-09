@@ -1,12 +1,13 @@
 $(document).ready(function () {
-    $(".product-save").on('click', function () {
-        var product_id = $(".product-save").data('key');
+    $(document).on('click', '.product-save', function () {
+        var product_id = $(this).data('key');
+
         $.ajax({
             url: "/save/collection/show",
             type: "GET",
             success: function (response) {
                 $(document.body).append(response);
-                console.log(response)
+                // console.log(response)
                 $("#user-save-collections-show").modal('show');
 
                 $('#user-save-collections-show').on('hidden.bs.modal', function () {
@@ -19,7 +20,8 @@ $(document).ready(function () {
                     var data = JSON.stringify({
                         'collection_id': collection_id,
                         'product_id': product_id
-                    })
+                    });
+
                     console.log(data);
                     $.ajax({
                         url: "/save/posts/save",
@@ -28,29 +30,26 @@ $(document).ready(function () {
                         contentType: "application/json",
                         success: function (response) {
                             if (response['status'] === 200) {
-                                alert("Success")
+                                alert("Success");
                             }
                         },
                         error: function (xhr, status, error) {
                             alert(error);
                         }
                     });
-                })
+                });
+
                 $("#user-show-collection-cancel").on('click', function () {
                     $("#user-save-collections-show").modal('hide');
-                })
+                });
 
             },
             error: function (xhr, status, error) {
                 alert(error);
             }
         });
+    });
 
-
-    })
-})
-
-$(document).ready(function () {
     $('.user-save-collection-create').click(function () {
         $.ajax({
             url: "/save/collection/create/modal",
@@ -67,6 +66,8 @@ $(document).ready(function () {
 
                 $('#submit-btn-user-collections').on('click', function () {
                     var collection_name = $('#user-collection-create').val().trim();
+                    collection_name = collection_name.replace(/\s+/g, '');
+                    collection_name = collection_name.replace(/\s+/g, '');
 
                     if (!collection_name) {
                         alert("Collection name cannot be empty!");
@@ -98,20 +99,75 @@ $(document).ready(function () {
         });
     });
 
-    $(".clickable-card").on("click", function () { 
+    $(".view-saved-posts").on("click", function () {
         var collection_name = $(this).data("key");
         $.ajax({
-            url: `/save/posts/saved_post/${collection_name}`,  
+            url: `/save/posts/saved_post/${collection_name}`,
             type: "GET",
             success: function (response) {
-                window.location.href = `/save/posts/saved_post/${collection_name}`;  
+                window.location.href = `/save/posts/saved_post/${collection_name}`;
             },
             error: function (xhr, status, error) {
                 console.log(xhr.responseText);
             }
         });
     });
-    
+
+    $('.delete-user-saved-collections').on('click', function () {
+        var collection_name = $(this).data("key");
+
+        if (confirm("Are you sure you want to delete the collection: " + collection_name + "?")) {
+            $.ajax({
+                url: '/save/collection/delete',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    "name": collection_name
+                }),
+                success: function (response) {
+                    if (response.status === 200) {
+                        alert(response.message);
+                        location.reload();
+                    } else {
+                        alert(response.message);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    alert("Error: " + error);
+                }
+            });
+        }
+    });
+
+    $('#user-delete-post').on('click', function () {
+        var post_name = $(this).data("key");
+        var collection_name = $(this).data("attribute");
+
+        if (confirm("Are you sure you want to delete the collection?")) {
+            $.ajax({
+                url: '/save/post/delete',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    "post_name": post_name,
+                    "collection_name": collection_name
+                }),
+                success: function (response) {
+                    if (response.status === 200) {
+                        alert(response.message);
+                        location.reload();
+                    } else {
+                        alert(response.message);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    alert("Error: " + error);
+                }
+            });
+        }
+    });
+
+
 });
 
 

@@ -44,3 +44,19 @@ def index():
     user_data = User.get_user()
     return render_template('dashboard.html', videos=videos,session = session,user_data = user_data)
 
+
+# TODO: For Accessing the DevTools based on the User Roles
+@bp.route('/user_validations', methods=['GET'])
+def user_validations():
+    user_data = User.get_user()
+    if not user_data:
+        return jsonify({'result': False, 'error': 'User not authenticated'}), 401
+
+    user_role = user_data['role']
+    if user_role in ['admin', 'developer']:
+        return jsonify({'result': True}), 200
+    else:
+        User.log_unauthorized_attempt(user_data)
+        return jsonify({'result': False}), 403
+
+

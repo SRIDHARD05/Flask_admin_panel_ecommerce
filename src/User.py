@@ -1,13 +1,12 @@
-import pymongo
+from src.Session import Session
 from src.Database import Database
 from time import time
-from src import get_config
 from random import randint
 import bcrypt
-from src.Session import Session
-from mongogettersetter import MongoGetterSetter
-from flask import Blueprint, render_template, redirect, url_for, request, session
 from uuid import uuid4
+from flask import Blueprint, render_template, redirect, url_for, request, session as flask_session
+from src.Save import Save
+from mongogettersetter import MongoGetterSetter
 
 db = Database.get_connection()
 users = db.users
@@ -34,19 +33,10 @@ class User:
             "email": email
         })
         if result:
-            # # this is very veyr insecure
-            # # alternate: if result.get('password') == password:
-            # if result['password'] == password:
-            #     # TODO: initialize session token for additional security
-            #     return True
-            # else:
-            #     raise Exception("Incorrect Password")
-            
             hashedpw = result['password']
             if bcrypt.checkpw(password.encode(), hashedpw):
-                # TODO: Register a session and return a session ID on successful login
                 sess = Session.register_session(email, request=request)
-                return sess.id
+                return sess.id  # Return the session ID correctly
             else:
                 raise Exception("Incorrect Password")
         else:
@@ -55,29 +45,60 @@ class User:
     @staticmethod
     def register(username, password, confirm_password, email):
         uuid = str(uuid4())
-        # TODO: Avoid duplicate signups
         if password != confirm_password:
             raise Exception("Password and Confirm Password do not match")
         
         password = password.encode()
-        salt = bcrypt.gensalt() # like a secret key that is embedded into the password for verification purposes while logging in
+        salt = bcrypt.gensalt()
         password = bcrypt.hashpw(password, salt)
+        
         _id = users.insert_one({
-            "username": username, # TODO: Make as unique index to avoid duplicate entries
+            "username": username,
             "password": password,
             "register_time": time(),
             "active": False,
             "activate_token": randint(100000, 999999),
             "id": uuid,
-            "role" : 'users', # Admin can Manuvally edit the Roles
-            "email" : email
+            "role" : 'users',
+            "email" : email,
+            "credits" : 200  
         })
-        # we should send this OTP (activate_token) via SMS or Email to the user
-        # TODO: Use gmail to send emails with OTP
+        create_collections = Save.create_collections(email,uuid,'default')
         return uuid
-        
+    
     @staticmethod
     def get_user():
-        return db.users.find_one({'email' : session['email']})
+        return db.users.find_one({'email' : flask_session['email']})
 
+    @staticmethod
+    def log_unauthorized_attempt(user_data):
+        with open("unauthorized_access.log", "a") as log_file:
+            log_file.write(f"Unauthorized Developer Tools access attempt by user: {user_data.get('email', 'Unknown')}\n")
     
+    @staticmethod
+    def get_credits(email):
+        """Method to retrieve the user's credits"""
+        user = users.find_one({"email": email})
+        if user:
+            return user.get("credits", 0)  # Default to 0 if no credits are found
+        return None  # Return None if user is not found
+
+    @staticmethod
+    def update_credits(email, new_credits):
+        """Method to update the user's credits"""
+        result = users.update_one(
+            {"email": email},
+            {"$set": {"credits": new_credits}}
+        )
+        if result.modified_count > 0:
+            return True  # Successfully updated credits
+        return False  # Update failed or no changes were made
+
+    @staticmethod
+    def add_credits(email, amount):
+        """Method to add credits to a user's account"""
+        current_credits = User.get_credits(email)
+        if current_credits is not None:
+            new_credits = current_credits + amount
+            return User.update_credits(email, new_credits)
+        return False  # User not found or credits couldn't be updated

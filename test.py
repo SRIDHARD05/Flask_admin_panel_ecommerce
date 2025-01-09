@@ -70,12 +70,28 @@
 
 
 
-# from src import hash_data
+from src import hash_data
 
-# print(hash_data('sdfghj'))
-from src.Save import Save
-from flask import session
+print(hash_data('sdfghj'))
+# from src.Save import Save
+# from flask import session
 
-# print(Save.get_saved_posts_collections('sri@gmail.com'))
-# print(Save.create_collections('sri@gmail.com', 'collection_name'))
-print(Save.get_saved_posts_collections('sri@gmail.com'))
+# # print(Save.get_saved_posts_collections('sri@gmail.com'))
+# # print(Save.create_collections('sri@gmail.com', 'collection_name'))
+# # print(Save.get_saved_posts_collections('sri@gmail.com'))
+
+
+# from src.Credits import Credits
+
+
+# # # Store credits for a user, this will create or update the user's credits
+# # response = Credits.store(email="user@example.com", credits=100)
+# # print(response)
+
+
+# response = Credits.create(email="newuser@example.com", credits=200)
+# print(response)
+
+# # Update credits for an existing user
+# response = Credits.update(email="user@example.com", credits=+1000)
+# print(response)
