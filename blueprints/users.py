@@ -22,6 +22,7 @@ def reset_password():
 
 @bp.route("/register", methods=['POST'])
 def register():
+    # TODO: Create a Default User Save Collecitons Records
     if 'name' in request.form and 'password' in request.form and 'repeatpassword' in request.form and 'email' in request.form:
         username = request.form['name']
         password = request.form['password']

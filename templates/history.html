@@ -2,7 +2,9 @@
 
 {% block content %}
 <div class="container">
-  <div class="row" style="margin-bottom: 20px;">
+
+  <div class="user-save-collection-create btn btn-primary btn-rounded">create Collections</div>
+  <!-- <div class="row" style="margin-bottom: 20px;">
     {% for video in videos %}
     <div class="col-xl-4 col-md-6 col-sm-12" style="margin-bottom: 20px;">
       <div class="card card-frame" style="border: 1px solid #ddd; border-radius: 10px; padding: 10px;">
@@ -51,6 +53,45 @@
   <div class="row" style="margin-bottom: 20px;">
     {% endif %}
     {% endfor %}
+  </div> -->
+
+  <div class="product-container">
+    <div class="image-header"></div>
+    <div class="media-src"></div>
+    <div class="product-title"></div>
+    <div class="product-descriptions"></div>
+    <div class="product-likes"></div>
+    <div class="product-shares"></div>
+    <div class="products-comments"></div>
+    <div class="products-save"></div>
+    <div class="product-regions"></div>
+    <div class="created-date"></div>
+    <div class="btn btn-primary btn-rounded product-save"
+      data-key="2e5a2d226aca2cc3d99bc9f6107687ae3edd065d5350ec751f8583a2484884e9">Save</div>
   </div>
+
+  <br>
+  <div class="container">
+    {% for i in range(0, saved_posts|length, 5) %}
+    <div class="row mb-4">
+      {% for post in saved_posts[i:i+5] %}
+      <div class="col-md-2">
+        <div class="card card-frame clickable-card" data-key="{{ post }}">
+          <div class="card-body">
+            {{ post }}
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% endfor %}
+  </div>
+
+
+
+
+
+
+
 </div>
 {% endblock %}

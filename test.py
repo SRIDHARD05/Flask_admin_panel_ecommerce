@@ -70,6 +70,12 @@
 
 
 
-from src import hash_data
+# from src import hash_data
 
-print(hash_data('sdfghj'))
+# print(hash_data('sdfghj'))
+from src.Save import Save
+from flask import session
+
+# print(Save.get_saved_posts_collections('sri@gmail.com'))
+# print(Save.create_collections('sri@gmail.com', 'collection_name'))
+print(Save.get_saved_posts_collections('sri@gmail.com'))

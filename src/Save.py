@@ -29,25 +29,93 @@ class Save:
         self.id = self.collection.id
         self.email = self.collection.email        
     
-    @staticmethod
-    def save_posts(user_id, media_type,product_id,product_id_hash):
-        _id = saved_data.insert_one({
-            "user_id" : user_id,
-            "media_type" : media_type,
-            "product_id" : product_id,
-            "product_id_hash" : product_id_hash,
-            "saved_at": time(),
-        })
-        return _id
 
     @staticmethod
-    def create_collections(user_id, collection_name):
-        pass
-    
+    def save_posts(email, collection_name, media_type, product_id, product_id_hash):
+        user_data = db.save.find_one({"email": email})
+        
+        if not user_data:
+            raise ValueError("User not found")
+
+        if "saved_posts" not in user_data:
+            user_data["saved_posts"] = {}
+
+        if collection_name not in user_data["saved_posts"]:
+            user_data["saved_posts"][collection_name] = []
+
+        collection = user_data["saved_posts"][collection_name]
+
+        for product in collection:
+            if product["product_id"] == product_id:
+                product["saved_at"] = time()
+                break
+        else:
+            return {"success": False, "message": "Product not found in collection"}
+
+        db.save.update_one(
+            {"email": email},
+            {"$set": {"saved_posts": user_data["saved_posts"]}}
+        )
+
+        return {"success": True, "message": "Product updated successfully in collection"}
+
+
+
+    @staticmethod
+    def create_collections(email, collection_name):
+        user_data = db.save.find_one({"email": email})
+
+        if user_data is None:
+            default_data = {
+                "email": email,
+                "saved_posts": {
+                    "saved_collections": [],
+                    collection_name: []
+                }
+            }
+            db.save.insert_one(default_data)
+            return {"success": True, "message": f"User not found. Default 'saved_collections' and '{collection_name}' created."}
+
+        if "saved_posts" not in user_data or not user_data["saved_posts"]:
+            user_data["saved_posts"] = {}
+
+        if collection_name in user_data["saved_posts"]:
+            return {"success": False, "message": "Collection already exists"}
+
+        user_data["saved_posts"][collection_name] = []
+
+        db.save.update_one(
+            {"email": email},
+            {"$set": {"saved_posts": user_data["saved_posts"]}}
+        )
+
+        return {"success": True, "message": f"Collection '{collection_name}' created successfully"}
+
+
     @staticmethod
     def get_saved_posts_collections(email):
-        saved_collections = save_posts.find_one({"email": email})
-        return list(user["saved_posts"].keys())
+      saved_collections = db.save.find_one({"email": email})
+      saved_posts = saved_collections['saved_posts']
+      return list(saved_posts.keys())
+
+
+    @staticmethod
+    def get_saved_posts(email, collection_name):
+        user_data = db.save.find_one({"email": email})
+        
+        if not user_data:
+            raise ValueError("User not found")
+        
+        if "saved_posts" not in user_data or not user_data["saved_posts"]:
+            return []
+
+        if collection_name not in user_data["saved_posts"]:
+            raise ValueError(f"Collection '{collection_name}' not found")
+
+        return user_data["saved_posts"][collection_name]
+
+
+
 
 
 """
