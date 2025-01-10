@@ -8,9 +8,12 @@ bp = Blueprint("profile", __name__, url_prefix="/profile")
 
 @bp.route('/')
 def home():
-    user_data = Profile.get_user_profile(session['email'])
-    # print(user_data)
-    return render_template('profile.html',user_data = user_data,session = session)
+    if "authenticated" in session :
+        user_data = Profile.get_user_profile(session['email'])
+        return render_template('profile.html',user_data = user_data,session = session)
+    else:
+        return redirect(url_for('users.signin'))
+
 
 
 @bp.route("/user/save", methods=['POST','GET'])
@@ -44,21 +47,24 @@ def save():
 
 @bp.route("/reset_password", methods=['POST'])
 def reset_password():
-    data = request.get_json()
-    print('data:', data)
+    if "authenticated" in session :
+        data = request.get_json()
 
-    new_password = data['new_password']
-    old_password = data['old_password']
-    email = session['email']
+        new_password = data['new_password']
+        old_password = data['old_password']
+        email = session['email']
 
-    if not email:
-        return jsonify({"status": 400, "message": "User not logged in"}), 400
+        if not email:
+            return jsonify({"status": 400, "message": "User not logged in"}), 400
 
-    if not new_password or not old_password:
-        return jsonify({"status": 400, "message": "Old and new passwords are required"}), 400
+        if not new_password or not old_password:
+            return jsonify({"status": 400, "message": "Old and new passwords are required"}), 400
 
-    try:
-        response = Profile.reset_password(email, old_password, new_password)
-        return jsonify(response), response["status"]
-    except Exception as e:
-        return jsonify({"status": 400, "message": str(e)}), 400
+        try:
+            response = Profile.reset_password(email, old_password, new_password)
+            return jsonify(response), response["status"]
+        except Exception as e:
+            return jsonify({"status": 400, "message": str(e)}), 400
+    else:
+        return redirect(url_for('users.signin'))
+

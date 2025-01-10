@@ -4,10 +4,11 @@ from src.Database import Database
 from src.User import User
 bp = Blueprint("dashboard", __name__, url_prefix="/dashboard")
 
-
+# TODO: Create a Program for Paginations For Fetching the data's from the DB
 @bp.route('/')
 def index():
-    videos = [
+    if session['authenticated']:  
+        videos = [
         {
             'product_uuid': 1, 'src': '/videos/videoplayback_1.mp4', 'height': 300, 
             'likes': 120, 'shares': 30, 'comments': 15,
@@ -40,23 +41,10 @@ def index():
             'title' : 'sample_title',
             'comment_thumb': 'path/to/comment_thumb.jpg'
         }
-    ]
-    user_data = User.get_user()
-    return render_template('dashboard.html', videos=videos,session = session,user_data = user_data)
-
-
-# TODO: For Accessing the DevTools based on the User Roles
-@bp.route('/user_validations', methods=['GET'])
-def user_validations():
-    user_data = User.get_user()
-    if not user_data:
-        return jsonify({'result': False, 'error': 'User not authenticated'}), 401
-
-    user_role = user_data['role']
-    if user_role in ['admin', 'developer']:
-        return jsonify({'result': True}), 200
+        ]
+        user_data = User.get_user()
+        # session['credits'] = user_data['credits']
+        # print(user_data)
+        return render_template('dashboard.html', videos=videos,session = session,user_data = user_data)
     else:
-        User.log_unauthorized_attempt(user_data)
-        return jsonify({'result': False}), 403
-
-
+            return redirect(url_for('users.signin'))

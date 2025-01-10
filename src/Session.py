@@ -5,6 +5,30 @@ from src.Database import Database
 from mongogettersetter import MongoGetterSetter
 
 db = Database.get_connection()
+users = db.users
+sessions = db.sessions
+
+# SECRET_KEY = get_config('products_secret_key').encode()
+
+# # Helper methods for hashing and verifying session IDs
+# def sign_user_id(user_id):
+#     """ Sign the user ID to prevent tampering """
+#     signature = hmac.new(SECRET_KEY, user_id.encode(), hashlib.sha256).digest()
+#     signed_user_id = f"{user_id}.{base64.urlsafe_b64encode(signature).decode()}"
+#     return signed_user_id
+
+# def verify_user_id(signed_user_id):
+#     """ Verify the signed user ID """
+#     try:
+#         user_id, signature = signed_user_id.rsplit('.', 1)
+#         expected_signature = base64.urlsafe_b64encode(
+#             hmac.new(SECRET_KEY, user_id.encode(), hashlib.sha256).digest()
+#         ).decode()
+#         if hmac.compare_digest(signature, expected_signature):
+#             return user_id  # Return the original user ID if valid
+#         return None
+#     except Exception:
+#         return None
 
 class SessionCollection(metaclass=MongoGetterSetter):
     def __init__(self, id):

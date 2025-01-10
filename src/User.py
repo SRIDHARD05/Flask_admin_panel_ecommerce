@@ -4,9 +4,10 @@ from time import time
 from random import randint
 import bcrypt
 from uuid import uuid4
-from flask import Blueprint, render_template, redirect, url_for, request, session as flask_session
+from flask import Blueprint, render_template, redirect, url_for, request, session
 from src.Save import Save
 from mongogettersetter import MongoGetterSetter
+
 
 db = Database.get_connection()
 users = db.users
@@ -68,7 +69,11 @@ class User:
     
     @staticmethod
     def get_user():
-        return db.users.find_one({'email' : flask_session['email']})
+        if "authenticated" in session :
+            email = session['email']
+            return db.users.find_one({'email' : email})
+        else:
+            return redirect(url_for('users.signin'))
 
     @staticmethod
     def log_unauthorized_attempt(user_data):
@@ -76,29 +81,40 @@ class User:
             log_file.write(f"Unauthorized Developer Tools access attempt by user: {user_data.get('email', 'Unknown')}\n")
     
     @staticmethod
-    def get_credits(email):
-        """Method to retrieve the user's credits"""
-        user = users.find_one({"email": email})
-        if user:
-            return user.get("credits", 0)  # Default to 0 if no credits are found
-        return None  # Return None if user is not found
+    def get_credits():
+        if "authenticated" in session :
+            email = session['email']
+            user = users.find_one({"email": email})
+            if user:
+                return user.get("credits", 0)  
+            return None 
+        else:
+            return redirect(url_for('users.signin'))
+
 
     @staticmethod
-    def update_credits(email, new_credits):
-        """Method to update the user's credits"""
-        result = users.update_one(
-            {"email": email},
-            {"$set": {"credits": new_credits}}
-        )
-        if result.modified_count > 0:
-            return True  # Successfully updated credits
-        return False  # Update failed or no changes were made
+    def update_credits(new_credits):
+        if "authenticated" in session :
+            email = session['email']
+            result = users.update_one(
+                {"email": email},
+                {"$set": {"credits": new_credits}}
+            )
+            if result.modified_count > 0:
+                return True 
+            return False 
+        else:
+            return redirect(url_for('users.signin'))
+
 
     @staticmethod
-    def add_credits(email, amount):
-        """Method to add credits to a user's account"""
-        current_credits = User.get_credits(email)
-        if current_credits is not None:
-            new_credits = current_credits + amount
-            return User.update_credits(email, new_credits)
-        return False  # User not found or credits couldn't be updated
+    def add_credits(amount):
+        if "authenticated" in session :
+            email = session['email']
+            current_credits = User.get_credits(email)
+            if current_credits is not None:
+                new_credits = current_credits + amount
+                return User.update_credits(email, new_credits)
+            return False
+        else:
+            return redirect(url_for('users.signin'))

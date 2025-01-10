@@ -192,22 +192,13 @@ $(document).ready(function () {
         $("title").text('Test Page');
     } else if (loc === 'http://127.0.0.1:7000') {
         $("title").text('Home Page');
-    } else if (loc === '/admin/signup') {
-        $("title").text('Admin SignUp Page');
-    } else if (loc === '/admin/signin') {
-        $("title").text('Admin SignIn Page');
+    } else if (loc === '/save/') {
+        $("title").text('My Collections');
+    } else if (loc === '/profile/') {
+        $("title").text('My Profile');
     }
-    if (loc === '/users/signin') {
-        $('.sign_up_redirections').attr('href', '/users/signup');
-    } else if (loc === '/users/signup') {
-        $('.sign_in_redirections').attr('href', '/users/signin');
-    }
-    else if (loc === '/admin/signup') {
-        $('.sign_in_redirections').attr('href', '/admin/signin');
-    }
-    else if (loc === '/admin/signin') {
-        $('.sign_up_redirections').attr('href', '/admin/signup');
-    }
+
+
 });
 
 function show_password_toggle(input_toggle_id, icon_toggle_id, eye_icon_id) {

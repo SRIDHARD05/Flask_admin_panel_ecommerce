@@ -73,6 +73,7 @@ $(document).ready(function () {
                         alert("Collection name cannot be empty!");
                         return;
                     }
+                    console.log(`Collection Name --> ${collection_name}`)
                     $.ajax({
                         url: "/save/collection/create",
                         type: "POST",

@@ -15,9 +15,9 @@ app = Flask(__name__, static_folder='assets', static_url_path="/")
 
 app.config['MAX_CONTENT_LENGTH'] = 100 * 1024 * 1024  
 app.config['SECRET_KEY'] = get_config("user_secret")
-# app.config['SESSION_COOKIE_SECURE'] = True  
-# app.config['SESSION_COOKIE_HTTPONLY'] = True  
-# app.config['PERMANENT_SESSION_LIFETIME'] = 3600 
+app.config['SESSION_COOKIE_SECURE'] = True  
+app.config['SESSION_COOKIE_HTTPONLY'] = True  
+app.config['PERMANENT_SESSION_LIFETIME'] = 3600 
 
 @app.route('/')
 def home():
@@ -334,6 +334,13 @@ def test():
 def loader():
     return render_template('components/loaders/loader.html')
 
+@app.route('/dev_tools_loader')
+def dev_tools_loader():
+    return render_template('components/tools/dev_tools_loader.html')
+
+@app.route('/tables')
+def tables():
+    return render_template('tables.html')
 
 @app.errorhandler(404)
 def page_not_found(e):
@@ -383,8 +390,6 @@ app.register_blueprint(tools.bp)
 
 # if __name__ == '__main__':
 #    app.run(host='0.0.0.0', port=7000, debug=True,ssl_context='adhoc')
-
-
 
 
 if __name__ == '__main__':

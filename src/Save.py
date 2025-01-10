@@ -65,12 +65,11 @@ class Save:
         return {"success": True, "message": "Product saved successfully in collection"}
 
     @staticmethod
-    def create_collections(email,user_id, collection_name):
+    def create_collections(email,collection_name):
         user_data = db.save.find_one({"email": email})
 
         if user_data is None:
             default_data = {
-                "user_id" : user_id,
                 "email": email,
                 "saved_posts": {
                     collection_name: []  
