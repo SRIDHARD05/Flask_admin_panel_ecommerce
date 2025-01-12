@@ -1,21 +1,91 @@
 {% extends '__master.html' %}
 
 {% block content %}
+<button class="btn btn-primary btn-rounded" onclick="window.location.reload()">Try Again</button>
 <div class="container" style="max-width: 1200px; margin: auto; padding: 20px;">
-    <div class="product-container">
-        <div class="image-header"></div>
-        <div class="media-src"></div>
-        <div class="product-title"></div>
-        <div class="product-descriptions"></div>
-        <div class="product-likes"></div>
-        <div class="product-shares"></div>
-        <div class="products-comments"></div>
-        <div class="products-save"></div>
-        <div class="product-regions"></div>
-        <div class="created-date"></div>
-        <div class="btn btn-primary btn-rounded" data-key="2e5a2d226aca2cc3d99bc9f6107687ae3edd065d5350ec751f8583a2484884e9">Click</div>
+    <div class="card mt-4">
+        <div class="card-body">
+            <div class="row">
+                <div class="col col-10">
+                    <div class="input-group input-group-outline">
+                        <input type="url" class="form-control" name="url" id="test-url" onfocus="focused(this)"
+                            onfocusout="defocused(this)" placeholder='Enter URL here'>
+                    </div>
+                </div>
+                <div class="col col-2">
+                    <button class="btn bg-gradient-primary btn-sm" id="test-url-submit">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    &nbsp;
+    <div class="tabs-container">
+        <div class="card card-frame">
+            <div class="card-body">
+                <div class="nav-wrapper position-relative end-0"
+                    style="max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch;">
+                    <ul class="nav nav-pills nav-fill p-1" role="tablist"
+                        style="white-space: nowrap; display: flex; flex-wrap: nowrap;">
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link mb-0 px-0 py-1 active" id="tab1-tab" data-bs-toggle="tab" href="#tab1"
+                                role="tab" aria-controls="tab1" aria-selected="true">
+                                <span class="ms-1">Tab 1</span>
+                            </a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link mb-0 px-0 py-1" id="tab2-tab" data-bs-toggle="tab" href="#tab2"
+                                role="tab" aria-controls="tab2" aria-selected="false">
+                                <span class="ms-1">Tab 2</span>
+                            </a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link mb-0 px-0 py-1" id="tab3-tab" data-bs-toggle="tab" href="#tab3"
+                                role="tab" aria-controls="tab3" aria-selected="false">
+                                <span class="ms-1">Tab 3</span>
+                            </a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link mb-0 px-0 py-1" id="tab4-tab" data-bs-toggle="tab" href="#tab4"
+                                role="tab" aria-controls="tab4" aria-selected="false">
+                                <span class="ms-1">Tab 4</span>
+                            </a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link mb-0 px-0 py-1" id="tab5-tab" data-bs-toggle="tab" href="#tab5"
+                                role="tab" aria-controls="tab5" aria-selected="false">
+                                <span class="ms-1">Tab 5</span>
+                            </a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link mb-0 px-0 py-1" id="tab6-tab" data-bs-toggle="tab" href="#tab6"
+                                role="tab" aria-controls="tab6" aria-selected="false">
+                                <span class="ms-1">Tab 6</span>
+                            </a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link mb-0 px-0 py-1" id="tab7-tab" data-bs-toggle="tab" href="#tab7"
+                                role="tab" aria-controls="tab7" aria-selected="false">
+                                <span class="ms-1">Tab 7</span>
+                            </a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link mb-0 px-0 py-1" id="tab8-tab" data-bs-toggle="tab" href="#tab8"
+                                role="tab" aria-controls="tab8" aria-selected="false">
+                                <span class="ms-1">Tab 8</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        &nbsp;
+        <div class="card">
+            <div class="card-body">
+                <div class="tab-content" id="tabContent">
+                    <div class="d-flex justify-content-center">No Data is Available</div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
-
-
 {% endblock %}

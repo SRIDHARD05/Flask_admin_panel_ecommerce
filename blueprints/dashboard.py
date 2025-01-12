@@ -7,7 +7,7 @@ bp = Blueprint("dashboard", __name__, url_prefix="/dashboard")
 # TODO: Create a Program for Paginations For Fetching the data's from the DB
 @bp.route('/')
 def index():
-    if session['authenticated']:  
+    if 'authenticated' in session:  
         videos = [
         {
             'product_uuid': 1, 'src': '/videos/videoplayback_1.mp4', 'height': 300, 
@@ -43,8 +43,9 @@ def index():
         }
         ]
         user_data = User.get_user()
+        # TODO: Add the Credits
         # session['credits'] = user_data['credits']
         # print(user_data)
         return render_template('dashboard.html', videos=videos,session = session,user_data = user_data)
     else:
-            return redirect(url_for('users.signin'))
+        return redirect(url_for('users.signin'))

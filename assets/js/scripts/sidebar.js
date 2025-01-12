@@ -88,3 +88,20 @@ $('a[data-bs-toggle="tab"]').on('shown.bs.tab', function (e) {
 search_filter_nav_bar_templates_generations("#main-tab-dates-nav-link", "/sidebar/search/tab1/dates", "#nav-bar-dates-search-back-btn");
 search_filter_nav_bar_templates_generations("#main-tab-reactions-nav-link", "/sidebar/search/tab1/reactions", "#nav-bar-reactions-search-back-btn");
 search_filter_nav_bar_templates_generations("#main-tab-target-audience-nav-link", "/sidebar/search/tab1/target_audience", "#nav-bar-target-audience-search-back-btn");
+
+$(document).ready(function () {
+    var path = window.location.pathname;
+
+    $('.nav-link').each(function () {
+        var linkPath = $(this).attr('href');
+        if (linkPath === path) {
+            $(this)
+                .addClass('active bg-gradient-dark text-white')
+                .removeClass('text-dark');
+        } else {
+            $(this)
+                .removeClass('active bg-gradient-dark text-white')
+                .addClass('text-dark');
+        }
+    });
+});

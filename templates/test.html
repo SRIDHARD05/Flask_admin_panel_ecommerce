@@ -43,17 +43,14 @@
                 <div class="row" style="margin-bottom: 20px;">
                     {% for video in videos %}
                     <div class="col-xl-4 col-md-6 col-sm-12" style="margin-bottom: 20px;">
-                        <div class="card card-frame"
-                            style="border: 1px solid #ddd; border-radius: 10px; padding: 10px;">
+                        <div class="card card-frame" style="border: 1px solid #ddd; border-radius: 10px; padding: 10px;">
                             <div class="card-body" style="padding: 0;">
                                 <video data-id="video-{{ video['product_uuid'] }}" src="{{ video['src'] }}"
-                                    class="video-container"
-                                    style="width: 100%; height: {{ video['height'] }}px; border-radius: 10px;" controls
-                                    controlsList="download fullscreen"></video>
+                                    class="video-container" style="width: 100%; height: {{ video['height'] }}px; border-radius: 10px;"
+                                    controls controlsList="download fullscreen"></video>
                                 <div class="progress-bar-container"
                                     style="width: 100%; height: 5px; background: #eee; border-radius: 2px; margin-top: 5px;">
-                                    <div class="progress-bar-filled"
-                                        style="height: 100%; width: 0; background: #76c7c0;"></div>
+                                    <div class="progress-bar-filled" style="height: 100%; width: 0; background: #76c7c0;"></div>
                                 </div>
                             </div>
                         </div>
@@ -64,6 +61,7 @@
                     {% endif %}
                     {% endfor %}
                 </div>
+                
             </div>
 
             <div class="tab-pane fade" id="tab2" role="tabpanel" aria-labelledby="tab2-tab">
@@ -148,5 +146,3 @@
 </div>
 
 {% endblock %}
-
-

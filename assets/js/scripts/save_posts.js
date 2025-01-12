@@ -38,11 +38,9 @@ $(document).ready(function () {
                         }
                     });
                 });
-
                 $("#user-show-collection-cancel").on('click', function () {
                     $("#user-save-collections-show").modal('hide');
                 });
-
             },
             error: function (xhr, status, error) {
                 alert(error);
@@ -85,7 +83,6 @@ $(document).ready(function () {
                                 $("#user-save-collections-create").modal('hide');
                             } else {
                                 console.log(response.message)
-
                             }
                         },
                         error: function (xhr, status, error) {
