@@ -33,11 +33,15 @@ class User:
         result = users.find_one({
             "email": email
         })
+        print(result)
         if result:
             hashedpw = result['password']
             if bcrypt.checkpw(password.encode(), hashedpw):
                 sess = Session.register_session(email, request=request)
-                return sess.id  # Return the session ID correctly
+                return { 'sess_id' : sess.id, # Return the session ID correctly
+                'role' : result['role'],
+                'user_id' : result['id']
+                }
             else:
                 raise Exception("Incorrect Password")
         else:
@@ -52,7 +56,8 @@ class User:
         password = password.encode()
         salt = bcrypt.gensalt()
         password = bcrypt.hashpw(password, salt)
-        
+        # TODO: add the role to dynamically
+        role = 'user'
         _id = users.insert_one({
             "username": username,
             "password": password,
@@ -60,20 +65,20 @@ class User:
             "active": False,
             "activate_token": randint(100000, 999999),
             "id": uuid,
-            "role" : 'users',
+            "role" : role,
             "email" : email,
             "credits" : 200  
         })
-        create_collections = Save.create_collections(email,uuid,'default')
-        return uuid
+        # TODO: Do this into after user redirected to dashboard
+        create_collections = Save.create_collections(email,uuid)
+        return {
+            'uuid' : uuid,
+            'role' : role,
+        }
     
     @staticmethod
-    def get_user():
-        if "authenticated" in session :
-            email = session['email']
-            return db.users.find_one({'email' : email})
-        else:
-            return redirect(url_for('users.signin'))
+    def get_user(email):
+        return db.users.find_one({'email' : email})
 
     @staticmethod
     def log_unauthorized_attempt(user_data):
@@ -89,7 +94,7 @@ class User:
                 return user.get("credits", 0)  
             return None 
         else:
-            return redirect(url_for('users.signin'))
+            return redirect(url_for('signin'))
 
 
     @staticmethod
@@ -104,7 +109,7 @@ class User:
                 return True 
             return False 
         else:
-            return redirect(url_for('users.signin'))
+            return redirect(url_for('signin'))
 
 
     @staticmethod
@@ -117,4 +122,4 @@ class User:
                 return User.update_credits(email, new_credits)
             return False
         else:
-            return redirect(url_for('users.signin'))
+            return redirect(url_for('signin'))

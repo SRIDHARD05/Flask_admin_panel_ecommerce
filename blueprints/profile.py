@@ -12,7 +12,7 @@ def home():
         user_data = Profile.get_user_profile(session['email'])
         return render_template('profile.html',user_data = user_data,session = session)
     else:
-        return redirect(url_for('users.signin'))
+        return redirect(url_for('signin'))
 
 
 
@@ -66,5 +66,5 @@ def reset_password():
         except Exception as e:
             return jsonify({"status": 400, "message": str(e)}), 400
     else:
-        return redirect(url_for('users.signin'))
+        return redirect(url_for('signin'))
 

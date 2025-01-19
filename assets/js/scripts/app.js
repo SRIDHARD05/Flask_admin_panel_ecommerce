@@ -182,9 +182,9 @@ $(document).ready(function () {
 $(document).ready(function () {
     var loc = window.location.pathname;
     // TODO: Change the Tittle after the Completitoins of DB Connections
-    if (loc === '/users/signup') {
+    if (loc === '/signup') {
         $("title").text('User SignUp Page');
-    } else if (loc === '/users/signin') {
+    } else if (loc === '/signin') {
         $("title").text('User SignIn Page');
     } else if (loc === '/dashboard/') {
         $("title").text('Dashboard');

@@ -1,6 +1,6 @@
 $(document).ready(function () {
     // var current_path = window.location.pathname;
-    // if (current_path === '/users/signin') {
+    // if (current_path === '/signin') {
     //     $('body nav').remove();
     //     $('body aside').remove();
     //     $('div.container-fluid.py-2').removeClass('container-fluid py-2');

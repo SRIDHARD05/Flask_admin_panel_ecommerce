@@ -77,8 +77,6 @@ $(document).ready(function () {
     });
 
 
-
-
     $("#test-url-submit").on('click', function () {
         var url = $('#test-url').val();
 
@@ -108,6 +106,12 @@ $(document).ready(function () {
                     success: function (response) {
                         $("#tabContent").empty();
                         $("#tabContent").append(response);
+                        // Initialize the Tabs Toggle by add "show active" to the <ul>
+                        $('a[data-bs-toggle="tab"]').on('shown.bs.tab', function (e) {
+                            $('.tab-pane').removeClass('active');
+                            // console.log(e.target.id)
+                            $($(e.target).attr('href')).addClass('active');
+                        });
                     },
                     error: function (xhr, status, error) {
                         alert("Error: " + error);

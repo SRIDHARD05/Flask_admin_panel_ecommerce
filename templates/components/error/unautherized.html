@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{% include "_head.html" %}
+
+<body class="bg-gray-200">
+    <main class="main-content mt-0 ps">
+        <div class="page-header align-items-center min-vh-100"
+            style="background-image: url('https://images.unsplash.com/photo-1596368708356-6e1e1025ee72?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=1950&amp;q=80'); background-size: cover; background-position: center;">
+            <span class="mask bg-gradient-dark opacity-6"></span>
+            <div class="container my-auto text-center">
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <h1 class="display-1 text-white fw-bold">403 Unauthorized</h1>
+                        <h2 class="text-white mb-4">Access Denied</h2>
+                        <p class="lead text-white mb-4">
+                            You do not have permission to access this page. Please use the correct credentials or contact the administrator.
+                        </p>
+                        <a href="signin" class="btn btn-outline-light btn-lg btn-rounded mt-3">Return to Login Page</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    {% include "_corejs.html" %}
+</body>
+
+</html>

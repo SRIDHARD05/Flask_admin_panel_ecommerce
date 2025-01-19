@@ -1,0 +1,78 @@
+{% extends '__master.html' %}
+
+{% block content %}
+<div class="container-fluid py-2">
+    <div class="row">
+        <div class="col-12">
+            <div class="card my-4">
+                <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                    <div class="bg-gradient-dark shadow-dark border-radius-lg pt-4 pb-3">
+                        <h6 class="text-white text-capitalize ps-3">Best Shopify Apps</h6>
+                    </div>
+                </div>
+                <div class="card-body px-0 pb-2">
+                    <div class="table-responsive p-0">
+                        <table class="table align-items-center mb-0">
+                            <thead>
+                                <tr>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        Apps</th>
+                                    <th
+                                        class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        Total Install's</th>
+                                    <th
+                                        class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        Total Review's</th>
+                                    <th
+                                        class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        Ratings</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for app in apps %}
+                                <tr>
+                                    <td>
+                                        <div class="d-flex px-2 py-1">
+                                            <div>
+                                                <img src="https://media.istockphoto.com/id/1973365581/vector/sample-ink-rubber-stamp.jpg?s=612x612&w=0&k=20&c=_m6hNbFtLdulg3LK5LRjJiH6boCb_gcxPvRLytIz0Ws="
+                                                    class="avatar avatar-sm me-3 border-radius-lg" alt="App Icon">
+                                            </div>
+                                            <div class="d-flex flex-column justify-content-center">
+                                                <h6 class="mb-0 text-sm">{{ app.title }}</h6>
+                                                <p class="text-xs text-secondary mb-0">{{ app.description }}</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="align-middle text-center text-sm">
+                                        <div class="d-flex justify-content-center">
+                                            {{ app.totaldownloads }}
+                                        </div>
+                                    </td>
+                                    <td class="align-middle text-center text-sm">
+                                        <div class="d-flex justify-content-center">
+                                            {{ app.reviews }}
+                                        </div>
+                                    </td>
+                                    <td class="align-middle text-center text-sm">
+                                        <div class="d-flex justify-content-center">
+                                            {% for _ in range(app.rating) %}
+                                            <i class="fa fa-star text-warning"></i>
+                                            {% endfor %}
+                                            {% for _ in range(5 - app.rating) %}
+                                            <i class="fa fa-star text-secondary"></i>
+                                            {% endfor %}
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

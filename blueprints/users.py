@@ -6,14 +6,6 @@ from src import hash_data
 
 bp = Blueprint("users", __name__, url_prefix="/users")
 
-@bp.route('/signin')
-def signin():
-    return render_template('sign_in.html')
-
-
-@bp.route('/signup')
-def signup():
-    return render_template('sign_up.html')
 
 # TODO: Reset Password Templates    
 @bp.route('/reset_password')
@@ -32,27 +24,28 @@ def register():
         repeat_password = request.form['repeatpassword']
         if password == repeat_password :
             try:
-                uid = User.register(username, password, password, email)
+                user_data = User.register(username, password, password, email)
                 session['authenticated'] = True
                 session['username'] = username
                 session['email'] = email
-                session['sessid'] = uid
-                session['user_id'] = hash_data(uid)
+                session['sessid'] = user_data['uuid']
+                session['user_id'] = hash_data(user_data['uuid'])
+                session['role'] = user_data['role']
                 if session['authenticated'] :
                     return redirect(url_for('dashboard.index')) 
 
             except Exception as e:
                 print(str(e))
-                return redirect(url_for('users.signup'))
+                return redirect(url_for('signup'))
 
             except Exception as e:
                 print(str(e))
-                return redirect(url_for('users.signup'))
+                return redirect(url_for('signup'))
         else:
-            return redirect(url_for('users.signup'))
+            return redirect(url_for('signup'))
         
     else:
-        return redirect(url_for('users.signup'))
+        return redirect(url_for('signup'))
 
 
 
@@ -60,41 +53,49 @@ def register():
 def deauth():
    if session.get('authenticated'): #TODO: Need more validattion like login expiry
         #Remove / invalidate session from database
-        session['authenticated'] = False
+        # session['authenticated'] = False
+        session.clear()
         return redirect(url_for('dashboard.index')) 
    else:
-        return redirect(url_for('users.signin'))
+        return redirect(url_for('signin'))
       
 
 @bp.route("/login", methods=['POST'])
 def authenticate():
-    if session.get('authenticated'): #TODO: Need more validattion like login expiry, and session expiry
+    if session.get('authenticated'):  # TODO: Need more validation like login expiry and session expiry
         sess = Session(session['sessid'])
         if sess.is_valid():
-            return redirect(url_for('dashboard.index')) 
+            if session.get('role') == 'admin':
+                return redirect(url_for('admin.dashboard'))  
+            else:
+                return redirect(url_for('dashboard.index'))  
         else:
             session['authenticated'] = False
             sess.collection.active = False
-            return redirect(url_for('users.signin'))
+            return redirect(url_for('signin'))  
 
     else:
         if 'email' in request.form and 'password' in request.form:
             email = request.form['email']
             password = request.form['password']
             try:
-                sessid = User.login(email, password)
+                sess_data = User.login(email, password)
+                print(sess_data)
+                
                 session['authenticated'] = True
                 session['email'] = email
-                session['sessid'] = sessid
+                session['sessid'] = sess_data['sess_id']
                 session['type'] = 'web'
+                session['role'] = sess_data['role']
+                session['user_id'] = hash_data(sess_data['user_id'])
                 
-                if 'redirect' in request.form and request.form['redirect'] == 'true':
-                    return redirect(url_for('dashboard.index'))
+                if session['role'] == 'admin':
+                    return redirect(url_for('admin.dashboard'))  
                 else:
-                    return redirect(url_for('dashboard.index'))
+                    return redirect(url_for('dashboard.index')) 
                 
             except Exception as e:
                 print(str(e))
-                return redirect(url_for('users.signin'))
+                return redirect(url_for('signin')) 
         else:
-            return redirect(url_for('users.signin'))
+            return redirect(url_for('signin'))

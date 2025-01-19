@@ -1,0 +1,63 @@
+{% extends '__master.html' %}
+
+{% block content %}
+
+<div class="container-fluid my-3 py-3">
+    <div class="row mb-5">
+        <div class="card mt-1" id="basic-info">
+            <div class="card-header">
+                <h5>Save Shopify App's</h5>
+            </div>
+            <div class="card-body pt-0">
+                <form id="shopifyAppForm">
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="input-group input-group-static">
+                                <label>App Name</label>
+                                <input type="text" class="form-control" name="apps-name"
+                                    placeholder="Enter your app name" onfocus="focused(this)"
+                                    onfocusout="defocused(this)">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="input-group input-group-static">
+                                <label>Reviews</label>
+                                <input type="text" class="form-control" placeholder="Enter your Reviews"
+                                    onfocus="focused(this)" onfocusout="defocused(this)">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col-6">
+                            <div class="input-group input-group-static">
+                                <label>Total Downloads</label>
+                                <input type="text" class="form-control" name="total-downloads"
+                                    placeholder="Enter your Total Downloads" onfocus="focused(this)"
+                                    onfocusout="defocused(this)">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="input-group input-group-static">
+                                <label>Rating</label>
+                                <input type="text" class="form-control" name="rating"
+                                    placeholder="Enter your rating" onfocus="focused(this)"
+                                    onfocusout="defocused(this)">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="input-group input-group-static">
+                            <label>Descriptions</label>
+                            <textarea class="form-control" rows="2"
+                                placeholder="Short Descriptions about the Shopify App"
+                                spellcheck="true"></textarea>
+                        </div>
+                    </div>
+                    <button class="btn bg-gradient-dark btn-sm float-end mt-6 mb-0" type="submit">Save</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

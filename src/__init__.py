@@ -24,6 +24,46 @@ def hash_data(id):
     return hmac.new(SECRET_KEY, id.encode(), hashlib.sha256).hexdigest()
 
 
+from functools import wraps
+from flask import session, redirect, url_for
+
+def login_required(f):
+    """Decorator to ensure the user is authenticated."""
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if not session.get('authenticated') or session['authenticated'] != True:
+            return redirect(url_for('signin')) 
+        return f(*args, **kwargs)
+    return decorated_function
+
+def admin_required(f):
+    """Decorator to ensure the user is authenticated and has Admin role."""
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if not session.get('authenticated') or session['authenticated'] != True:
+            return redirect(url_for('signin')) 
+        if session.get('role') != 'admin':
+            session.clear()
+            return redirect(url_for('unauthorized'))  
+        return f(*args, **kwargs)
+    return decorated_function
+
+def user_required(f):
+    """Decorator to ensure the user is authenticated and has User role, or Admin role."""
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if not session.get('authenticated') or session['authenticated'] != True:
+            return redirect(url_for('signin'))  
+
+        if session.get('role') not in ['user', 'admin']:
+            session.clear()
+            return redirect(url_for('unauthorized'))  
+
+        return f(*args, **kwargs)
+    return decorated_function
+
+
+
 import logging
 from pymongo import MongoClient
 from logging import Handler

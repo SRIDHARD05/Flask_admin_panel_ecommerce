@@ -10,7 +10,7 @@ def dashboard():
         posts_collections = Save.get_saved_posts_collections(session['email'])
         return render_template('history.html', saved_posts=posts_collections)
     else:
-        return redirect(url_for('users.signin'))
+        return redirect(url_for('signin'))
 
 
 
@@ -30,7 +30,7 @@ def saved_posts(collection_name):
         except Exception as e:
             return redirect(url_for('save_posts.dashboard', _external=True))
     else:
-        return redirect(url_for('users.signin'))
+        return redirect(url_for('signin'))
 
 
 
@@ -58,7 +58,7 @@ def user_save():
                 "message": str(e),
             }), 400
     else:
-        return redirect(url_for('users.signin'))
+        return redirect(url_for('signin'))
 
 
 
@@ -93,7 +93,7 @@ def create_collections():
                 "message": str(e)
             }), 500
     else:
-        return redirect(url_for('users.signin'))
+        return redirect(url_for('signin'))
 
 
 @bp.route('/collection/create/modal')
@@ -117,7 +117,7 @@ def save_collections():
                 "message": str(e),
             }), 400
     else:
-        return redirect(url_for('users.signin'))
+        return redirect(url_for('signin'))
 
 
 
@@ -153,7 +153,7 @@ def delete_collection():
                 "message": str(e)
             }), 500
     else:
-        return redirect(url_for('users.signin'))
+        return redirect(url_for('signin'))
 
 
 
@@ -174,4 +174,4 @@ def delete_post():
         except Exception as e:
             return jsonify({"status": 500, "message": "An internal error occurred. Please try again later."}), 500
     else:
-        return redirect(url_for('users.signin'))
+        return redirect(url_for('signin'))

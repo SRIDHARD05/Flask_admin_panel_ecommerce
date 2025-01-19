@@ -1,0 +1,8 @@
+Flask
+pymongo
+uuid
+mongogettersetter
+bcrypt
+boto3
+boto3
+pandas
