@@ -80,3 +80,90 @@
 //     }
 //     setInterval(detectDevTools, 1000);
 // });
+
+
+$(document).ready(function () {
+    function calculateAdvancedProfit() {
+        const productCost = parseFloat($('#product-cost').val()) || 0;
+        const advertisingCost = parseFloat($('#advertising-cost').val()) || 0;
+        const shippingCost = parseFloat($('#shipping-cost').val()) || 0;
+        const otherCost = parseFloat($('#other-cost').val()) || 0;
+
+        const sellingPrice = parseFloat($('#selling-price').val()) || 0;
+        const shippingRevenues = parseFloat($('#shipping-revenues').val()) || 0;
+        const productDiscounts = parseFloat($('#product-discounts').val()) || 0;
+
+        const totalCosts = productCost + advertisingCost + shippingCost + otherCost;
+        const totalRevenues = sellingPrice + shippingRevenues - productDiscounts;
+
+        const profit = totalRevenues - totalCosts;
+        const profitMargin = totalRevenues > 0 ? ((profit / totalRevenues) * 100).toFixed(2) : 0;
+
+        $('#total-costs').text(totalCosts.toFixed(2));
+        $('#total-revenues').text(totalRevenues.toFixed(2));
+        $('#profit').text(profit.toFixed(2));
+        $('#profit-margin').text(profitMargin);
+    }
+    $('#profit-calculator-form input').on('input', calculateAdvancedProfit);
+
+    function calculateProfit() {
+        const productCost = parseFloat($('#product-cost').val()) || 0;
+        const sellingPrice = parseFloat($('#selling-price').val()) || 0;
+
+        const profit = sellingPrice - productCost;
+        const profitMargin = sellingPrice > 0 ? ((profit / sellingPrice) * 100).toFixed(2) : 0;
+
+        $('#profit').text(profit.toFixed(2));
+        $('#profit-margin').text(profitMargin);
+    }
+
+    $('#product-cost, #selling-price').on('input', calculateProfit);
+});
+
+
+$("#shopify-store-detection-submit").on('click', function () {
+    var url = $("input[name='shopify-store-detection-url']").val();
+
+    if (url.trim() === "") {
+        alert("Please enter a valid URL.");
+        return;
+    }
+
+    var urlPattern = /^(https?:\/\/)?([\w-]+\.)+[\w-]+(\/[\w\-#?&=]*)?$/;
+    if (!urlPattern.test(url)) {
+        alert("Please enter a valid URL.");
+        return;
+    }
+
+    $.ajax({
+        url: "/tools/store/theme_analysis",
+        type: "POST",
+        contentType: "application/json",
+        data: JSON.stringify({ 'url': url }),
+        success: function (response) {
+            $("input[name='shopify-store-detection-url']").prop('disabled', true);
+            $('#shopify-store-detection-submit').prop('disabled', true);
+
+            $.ajax({
+                url: "/test/tabs",
+                type: "GET",
+                success: function (response) {
+                    $("#tabContent").empty();
+                    $("#tabContent").append(response);
+                    // Initialize the Tabs Toggle by add "show active" to the <ul>
+                    $('a[data-bs-toggle="tab"]').on('shown.bs.tab', function (e) {
+                        $('.tab-pane').removeClass('active');
+                        // console.log(e.target.id)
+                        $($(e.target).attr('href')).addClass('active');
+                    });
+                },
+                error: function (xhr, status, error) {
+                    alert("Error: " + error);
+                }
+            });
+        },
+        error: function (xhr, status, error) {
+            alert("Error: " + error);
+        }
+    });
+});

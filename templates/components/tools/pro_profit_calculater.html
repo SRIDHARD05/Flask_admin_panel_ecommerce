@@ -1,0 +1,234 @@
+{% extends '__master.html' %}
+
+{% block content %}
+
+<style>
+    .custom-input {
+        border: 2px solid #525252;
+        border-radius: 5px;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .custom-input:focus {
+        outline: none;
+        box-shadow: 0 0 10px rgba(233, 30, 99, 0.7);
+        border-color: #d81b60;
+    }
+
+    #results p {
+        font-size: 1.2rem;
+    }
+
+    #results .text-success {
+        font-weight: bold;
+        font-size: 1.5rem;
+    }
+
+    .shadow-lg {
+        box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+    }
+</style>
+
+<div class="container-fluid mt-2">
+    <div class="row align-items-start flex-column">
+        <h3 class="mb-0 h4 font-weight-bolder d-flex justify-content-center">Dropshipping Pro Profit Calculator</h3>
+        <br>
+        <p class="mb-0 font-weight-bolder d-flex justify-content-center">Set optimal product prices and enhance your
+            profit margin, Boost Your Dropshiping Business Growth.</p>
+    </div>
+</div>
+<div class="container-fluid my-3 py-3">
+    <div class="row mb-5">
+        <div class="col-lg-6 mt-lg-0 mt-4">
+            <div class="card mt-4 shadow-lg">
+                <div class="card-header text-dark">
+                    <h5>Advanced Profit Calculator</h5>
+                </div>
+                <div class="card-body pt-0">
+                    <form id="profit-calculator-form">
+                        <div class="row mb-3">
+                            <div class="col-6">
+                                <label for="product-cost" class="form-label">Product Cost</label>
+                            </div>
+                            <div class="col-6">
+                                <input type="number" class="form-control custom-input" id="product-cost"
+                                    placeholder="$0.00">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-6">
+                                <label for="advertising-cost" class="form-label">Advertising Cost</label>
+                            </div>
+                            <div class="col-6">
+                                <input type="number" class="form-control custom-input" id="advertising-cost"
+                                    placeholder="$0.00">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-6">
+                                <label for="shipping-cost" class="form-label">Shipping Cost</label>
+                            </div>
+                            <div class="col-6">
+                                <input type="number" class="form-control custom-input" id="shipping-cost"
+                                    placeholder="$0.00">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-6">
+                                <label for="other-cost" class="form-label">Other Costs</label>
+                            </div>
+                            <div class="col-6">
+                                <input type="number" class="form-control custom-input" id="other-cost"
+                                    placeholder="$0.00">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-6">
+                                <label for="selling-price" class="form-label">Selling Price</label>
+                            </div>
+                            <div class="col-6">
+                                <input type="number" class="form-control custom-input" id="selling-price"
+                                    placeholder="$0.00">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-6">
+                                <label for="shipping-revenues" class="form-label">Shipping Revenues</label>
+                            </div>
+                            <div class="col-6">
+                                <input type="number" class="form-control custom-input" id="shipping-revenues"
+                                    placeholder="$0.00">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-6">
+                                <label for="product-discounts" class="form-label">Product Discounts</label>
+                            </div>
+                            <div class="col-6">
+                                <input type="number" class="form-control custom-input" id="product-discounts"
+                                    placeholder="$0.00">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6 mt-lg-0 mt-4">
+            <div class="card mt-4 shadow-lg" id="results">
+                <div class="card-header text-dark">
+                    <h5>Profit Margin Calculation Results</h5>
+                </div>
+                <div class="card-body pt-0">
+                    <p><strong>Total Costs:</strong> <span id="total-costs" class="text-danger">0</span></p>
+                    <p><strong>Total Revenues:</strong> <span id="total-revenues" class="text-success">0</span></p>
+                    <p><strong>Profit:</strong> <span id="profit" class="text-success">0</span></p>
+                    <p><strong>Profit Margin:</strong> <span id="profit-margin" class="text-success">0</span>%</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+
+<div class="container-fluid mt-2">
+    <div class="row align-items-start flex-column">
+        <h3 class="mb-0 h4 font-weight-bolder d-flex justify-content-center">What Can a Dropshipping Profit Calculator
+            Do for You?</h3>
+    </div>
+</div>
+<br>
+
+<div class="container-fluid mt-2">
+    <div class="row align-items-start flex-column">
+        <p style="text-align: center;">
+            The Dropshipping Profit Calculator is an essential tool for entrepreneurs seeking to maximize profits,
+            optimize pricing strategies, and maintain a competitive edge in the e-commerce market.
+        </p>
+        <div class="card mt-2">
+            <div class="card-header">
+                <h4>1. Understand Your Profit Margins</h4>
+            </div>
+            <div class="card-body">
+                <p>
+                    Knowing your profit margins is critical to success in dropshipping. The calculator provides a clear
+                    breakdown of your profits, helping you avoid hidden costs and focus on high-margin products that
+                    drive
+                    growth.
+                </p>
+            </div>
+        </div>
+        <div class="card mt-2">
+            <div class="card-header">
+                <h4>2. Optimize Pricing Strategies</h4>
+            </div>
+            <div class="card-body">
+                <p>
+                    Pricing your products effectively can make or break your business. The Dropshipping Profit
+                    Calculator
+                    ensures you strike the perfect balance between profitability and competitiveness, maximizing revenue
+                    without
+                    overpricing or undercutting your offerings.
+                </p>
+            </div>
+        </div>
+        <div class="card mt-2">
+            <div class="card-header">
+                <h4>3. Track Costs and Expenses</h4>
+            </div>
+            <div class="card-body">
+                <p>
+                    From supplier charges to advertising expenses and shipping fees, keeping track of your costs is
+                    vital. This
+                    tool helps you analyze and optimize your cost structure, allowing you to cut unnecessary expenses
+                    and
+                    improve your bottom line.
+                </p>
+            </div>
+        </div>
+        <div class="card mt-2">
+            <div class="card-header">
+                <h4>4. Quickly Calculate Profit and Margins</h4>
+            </div>
+            <div class="card-body">
+                <p>
+                    Save time and simplify your decision-making process. Input your product cost and selling price to
+                    instantly
+                    see your profit and margin analysis, making it easy to identify your most lucrative items and
+                    prioritize
+                    them.
+                </p>
+            </div>
+        </div>
+        <div class="card mt-2">
+            <div class="card-header">
+                <h4>5. Make Data-Driven Decisions</h4>
+            </div>
+            <div class="card-body">
+                <p>
+                    The insights provided by the calculator allow you to make informed decisions on product selection,
+                    pricing
+                    adjustments, and promotional strategies, giving your business a strategic advantage in the
+                    competitive
+                    dropshipping landscape.
+                </p>
+            </div>
+        </div>
+        <div class="card mt-2">
+            <div class="card-header">
+                <h4>6. Scale Your Business Efficiently</h4>
+            </div>
+            <div class="card-body">
+                <p>
+                    As your dropshipping business grows, managing profitability becomes increasingly complex. This tool
+                    simplifies the process, ensuring that you maintain healthy profit margins and scale sustainably.
+                </p>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}
