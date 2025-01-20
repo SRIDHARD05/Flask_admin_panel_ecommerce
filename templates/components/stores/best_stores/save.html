@@ -1,0 +1,57 @@
+{% extends '__master.html' %}
+
+{% block content %}
+
+<div class="container-fluid my-3 py-3">
+    <div class="row mb-5">
+        <div class="card mt-1" id="basic-info">
+            <div class="card-header">
+                <h5>Save Top 100 Shopify Stores < only table-body-content ></h5>
+            </div>
+            <div class="card-body pt-0">
+                <form id="shopifyStoresForm">
+                    <div class="row mt-4">
+                        <div class="col-6">
+                            <div class="input-group input-group-static">
+                                <label>Store Type</label>
+                                <select class="form-control" name="store_type" required>
+                                    <option value="">Select Store Type</option>
+                                    <option value="aliexpress">aliexpress</option>
+                                    <option value="amazon">amazon</option>
+                                    <option value="lazada">lazada</option>
+                                    <option value="shope">shope</option>
+                                    <option value="shopify">shopify</option>
+                                    <option value="wish">wish</option>
+                                    <option value="austrilia">austrilia</option>
+                                    <option value="brazil">brazil</option>
+                                    <option value="canada">canada</option>
+                                    <option value="france">france</option>
+                                    <option value="uk">uk</option>
+                                    <option value="us">us</option>
+                                    <option value="beauty">beauty</option>
+                                    <option value="clothing">clothing</option>
+                                    <option value="consumer">consumer</option>
+                                    <option value="home_improvement">home_improvement</option>
+                                    <option value="home">home</option>
+                                    <option value="office">office</option>
+                                    <option value="sports">sports</option>
+                                    <option value="toyes">toyes</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="input-group input-group-static">
+                            <label>Stores HTML</label>
+                            <textarea class="form-control" rows="5" name="stores-data"
+                                placeholder="Enter the HTML Codes" spellcheck="true" required></textarea>
+                        </div>
+                    </div>
+                    <button class="btn bg-gradient-dark btn-sm float-end mt-6 mb-0" type="submit">Save</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

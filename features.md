@@ -13,14 +13,6 @@
    - Shopify
    - Ali Express
    - Scrape the Products from the SellerCenter
-
-### Section 3: Stores
-   - Shopify Stores
-   - Aliexpress
-   - amazon
-   - wish
-   - shopee
-   - lizada
   
 
 ### Section 4: SEO for Shopify Stores
@@ -34,14 +26,6 @@
    - Etsy Products
    - Amazon Products
 
-### Section 6: Top 100 Shopify Stores -> SellerCenter.io
-   - Shopify Products
-   - AliExpress Products
-   - Etsy Products
-   - Amazon Products
-
-### Section 7: Shopify Apps -> SellerCenter.io
-### Section 8: eCommerce Profit Calculator
 
 ### Section 9: Shopify Stores -> Stores Spy tool
 ### Section 10: Shopify Stores -> Competators Stores Analys Tool

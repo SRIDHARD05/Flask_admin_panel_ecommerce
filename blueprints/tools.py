@@ -1,6 +1,9 @@
 from flask import Blueprint, request, jsonify, render_template
 import base64
 from src import login_required, user_required, admin_required 
+import requests
+import re
+from bs4 import BeautifulSoup
 
 bp = Blueprint("tools", __name__, url_prefix="/tools")
 
@@ -23,22 +26,50 @@ def calculate_dropshipping_profit():
     return render_template('components/tools/pro_profit_calculater.html')
 
 
-@bp.route('/store/theme_analysis', methods=['GET'])
+@bp.route('/store/theme_detector', methods=['GET'])
 @user_required
 def shopify_theme_detections():
     return render_template('components/shopify/themes/dashboard.html')
 
 
-@bp.route('/store/theme_analysis', methods=['POST'])
+@bp.route('/store/theme_detector', methods=['POST'])
 @user_required
 def shopify_theme_detections_result():
     data = request.get_json()
     url = data['url']
-    print(url)
-    return {
-        'message' : 'success',
-        'status' : '200'
-    }
+
+    try:
+        response = requests.get(url)
+        if response.status_code != 200:
+            return jsonify({'message': 'Failed to fetch the page', 'status': '500'}), 500
+
+        html_content = response.text
+        
+        soup = BeautifulSoup(html_content, 'html.parser')
+
+        theme_name = None
+        theme_version = None
+
+        theme_name_match = re.search(r'window\.BOOMR\.themeName\s*=\s*"(.*?)"', html_content)
+        theme_version_match = re.search(r'window\.BOOMR\.themeVersion\s*=\s*"(.*?)"', html_content)
+
+        if theme_name_match:
+            theme_name = theme_name_match.group(1)
+        if theme_version_match:
+            theme_version = theme_version_match.group(1)
+
+        if theme_name and theme_version:
+            return jsonify({
+                'message': 'success',
+                'status': 200,
+                'theme_name': theme_name,
+                'theme_version': theme_version
+            })
+        if theme_name is None and theme_version is None:
+            return jsonify({'message': 'Theme name/version not found', 'status': 404}), 200
+    
+    except Exception as e:
+        return jsonify({'message': f'Error occurred: {str(e)}', 'status': '500'}), 500
 
 
 

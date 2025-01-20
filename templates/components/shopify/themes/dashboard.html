@@ -1,91 +1,275 @@
 {% extends '__master.html' %}
 
 {% block content %}
-<button class="btn btn-primary btn-rounded" onclick="window.location.reload()">Try Again</button>
-<div class="container" style="max-width: 1200px; margin: auto; padding: 20px;">
-    <div class="card mt-4">
-        <div class="card-body">
-            <div class="row">
-                <div class="col col-10">
-                    <div class="input-group input-group-outline">
-                        <input type="url" class="form-control" name="shopify-store-detection-url" onfocus="focused(this)"
-                            onfocusout="defocused(this)" placeholder='Enter Shopify Store URL here'>
-                    </div>
-                </div>
-                <div class="col col-2">
-                    <button class="btn bg-gradient-primary btn-sm" id="shopify-store-detection-submit">Submit</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    &nbsp;
-    <div class="tabs-container">
-        <div class="card card-frame">
-            <div class="card-body">
-                <div class="nav-wrapper position-relative end-0"
-                    style="max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch;">
-                    <ul class="nav nav-pills nav-fill p-1" role="tablist"
-                        style="white-space: nowrap; display: flex; flex-wrap: nowrap;">
-                        <li class="nav-item" role="presentation">
-                            <a class="nav-link mb-0 px-0 py-1 active" id="tab1-tab" data-bs-toggle="tab" href="#tab1"
-                                role="tab" aria-controls="tab1" aria-selected="true">
-                                <span class="ms-1">Tab 1</span>
-                            </a>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <a class="nav-link mb-0 px-0 py-1" id="tab2-tab" data-bs-toggle="tab" href="#tab2"
-                                role="tab" aria-controls="tab2" aria-selected="false">
-                                <span class="ms-1">Tab 2</span>
-                            </a>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <a class="nav-link mb-0 px-0 py-1" id="tab3-tab" data-bs-toggle="tab" href="#tab3"
-                                role="tab" aria-controls="tab3" aria-selected="false">
-                                <span class="ms-1">Tab 3</span>
-                            </a>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <a class="nav-link mb-0 px-0 py-1" id="tab4-tab" data-bs-toggle="tab" href="#tab4"
-                                role="tab" aria-controls="tab4" aria-selected="false">
-                                <span class="ms-1">Tab 4</span>
-                            </a>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <a class="nav-link mb-0 px-0 py-1" id="tab5-tab" data-bs-toggle="tab" href="#tab5"
-                                role="tab" aria-controls="tab5" aria-selected="false">
-                                <span class="ms-1">Tab 5</span>
-                            </a>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <a class="nav-link mb-0 px-0 py-1" id="tab6-tab" data-bs-toggle="tab" href="#tab6"
-                                role="tab" aria-controls="tab6" aria-selected="false">
-                                <span class="ms-1">Tab 6</span>
-                            </a>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <a class="nav-link mb-0 px-0 py-1" id="tab7-tab" data-bs-toggle="tab" href="#tab7"
-                                role="tab" aria-controls="tab7" aria-selected="false">
-                                <span class="ms-1">Tab 7</span>
-                            </a>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <a class="nav-link mb-0 px-0 py-1" id="tab8-tab" data-bs-toggle="tab" href="#tab8"
-                                role="tab" aria-controls="tab8" aria-selected="false">
-                                <span class="ms-1">Tab 8</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        &nbsp;
-        <div class="card">
-            <div class="card-body">
-                <div class="tab-content" id="tabContent">
-                    <div class="d-flex justify-content-center">No Data is Available</div>
-                </div>
-            </div>
+<div class="container-fluid mt-2">
+    <div class="row align-items-start flex-column">
+        <div class="col-lg-5 ms-3 col-sm-8">
+            <h3 class="mb-0 h4 font-weight-bolder">Shopify Theme Detector</h3>
         </div>
     </div>
 </div>
-{% endblock %}
+<div class="container" style="max-width: 1200px; margin: auto; padding: 20px;">
+    <div class="card mt-3 shadow-lg">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-10">
+                    <div class="input-group input-group-outline">
+                        <input type="url" class="form-control" name="shopify-store-detection-url"
+                            onfocus="focused(this)" onfocusout="defocused(this)"
+                            placeholder="Enter Shopify Store URL here">
+                    </div>
+                </div>
+                <div class="col-2">
+                    <button class="btn bg-gradient-primary btn-rounded w-100" id="shopify-store-detection-submit">Check
+                        Now</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="my-3"></div>
+
+    <div class="card card-frame shadow-lg">
+        <div class="card-body" id="shopify-theme-body">
+            <div class="d-flex justify-content-center mt-2 text-muted">
+                No Data is Available
+            </div>
+        </div>
+    </div>
+
+    <div class="card mt-3">
+        <div class="card-body">
+            <h4>Checking Website Theme On Shopify Detector</h4>
+            &nbsp;
+            <div style="text-align: center;">
+                <!-- TODO: Rewrite the Paragrpah based on the Tool Name -->
+                <p>To check the theme of a Shopify store, simply enter the website URL into our tool and click "Check
+                    Now." You will receive detailed results that include both the "Theme Name" and "Theme Version."
+                    Unlike other theme detectors that only provide the theme name, Sitely Pro goes a step further by
+                    also revealing the specific version of the Shopify theme in use. This is particularly useful, as
+                    Shopify updates its themes regularly, and knowing the version helps you understand the features and
+                    functionalities available for that theme.
+                    Shopify is renowned for its extensive functionality, allowing merchants to implement features like
+                    customer reviews, loyalty programs, and comprehensive analytics. Additionally, it integrates
+                    seamlessly with accounting software and social media platforms. One of Shopify's standout features
+                    is its focus on search engine optimization (SEO), which enhances your website's visibility in search
+                    results, making it easier for potential customers to find you. Furthermore, all Shopify themes are
+                    designed to be mobile-responsive, catering to the growing number of users who browse on mobile
+                    devices.
+                    With Sitely Pro's Theme Detector, all you need is a product to sell. Our tool will assist you in
+                    identifying the best themes that align with your business needs. By leveraging our advanced
+                    detection capabilities, you can gain insights into successful store designs and make informed
+                    decisions for your own Shopify store.
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="card mt-3">
+        <div class="card-body">
+            <div class="accordion-1">
+                <div class="container">
+                    <div class="row my-3">
+                        <div class="col-md-6 mx-auto text-center">
+                            <h2>Frequently Asked Questions</h2>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-10 mx-auto">
+                            <div class="accordion" id="accordionFAQ">
+                                <!-- FAQ Item 1 -->
+                                <div class="accordion-item mb-3">
+                                    <h5 class="accordion-header" id="headingOne">
+                                        <button class="accordion-button border-bottom font-weight-bold collapsed"
+                                            type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
+                                            aria-expanded="false" aria-controls="collapseOne">
+                                            What is a Shopify Theme Detector?
+                                            <i class="collapse-close fa fa-plus text-xs pt-1 position-absolute end-0 me-3"
+                                                aria-hidden="true"></i>
+                                            <i class="collapse-open fa fa-minus text-xs pt-1 position-absolute end-0 me-3"
+                                                aria-hidden="true"></i>
+                                        </button>
+                                    </h5>
+                                    <div id="collapseOne" class="accordion-collapse collapse"
+                                        aria-labelledby="headingOne" data-bs-parent="#accordionFAQ">
+                                        <div class="accordion-body text-md opacity-8">
+
+                                            A Shopify Theme Detector is a tool that helps users identify the theme used
+                                            by any
+                                            Shopify store. It simplifies the process of discovering the theme behind a
+                                            store's
+                                            design, allowing users to find inspiration or replicate successful designs
+                                            for their
+                                            own stores.=
+
+                                        </div>
+                                    </div>
+
+                                    <!-- FAQ Item 2 -->
+                                    <div class="accordion-item mb-3">
+                                        <h5 class="accordion-header" id="headingTwo">
+                                            <button class="accordion-button border-bottom font-weight-bold collapsed"
+                                                type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo"
+                                                aria-expanded="false" aria-controls="collapseTwo">
+                                                How does a Shopify Theme Detector work?
+                                                <i class="collapse-close fa fa-plus text-xs pt-1 position-absolute end-0 me-3"
+                                                    aria-hidden="true"></i>
+                                                <i class="collapse-open fa fa-minus text-xs pt-1 position-absolute end-0 me-3"
+                                                    aria-hidden="true"></i>
+                                            </button>
+                                        </h5>
+                                        <div id="collapseTwo" class="accordion-collapse collapse"
+                                            aria-labelledby="headingTwo" data-bs-parent="#accordionFAQ">
+                                            <div class="accordion-body text-md opacity-8">
+                                                Shopify Theme Detectors typically analyze the source code of a Shopify
+                                                store. They
+                                                look for specific identifiers and patterns that indicate which theme is
+                                                being used.
+                                                This can involve scanning for keywords like "Shopify.theme" within the
+                                                code.
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- FAQ Item 3 -->
+                                    <div class="accordion-item mb-3">
+                                        <h5 class="accordion-header" id="headingThree">
+                                            <button class="accordion-button border-bottom font-weight-bold collapsed"
+                                                type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree"
+                                                aria-expanded="false" aria-controls="collapseThree">
+                                                Is using a Shopify Theme Detector free?
+                                                <i class="collapse-close fa fa-plus text-xs pt-1 position-absolute end-0 me-3"
+                                                    aria-hidden="true"></i>
+                                                <i class="collapse-open fa fa-minus text-xs pt-1 position-absolute end-0 me-3"
+                                                    aria-hidden="true"></i>
+                                            </button>
+                                        </h5>
+                                        <div id="collapseThree" class="accordion-collapse collapse"
+                                            aria-labelledby="headingThree" data-bs-parent="#accordionFAQ">
+                                            <div class="accordion-body text-md opacity-8">
+                                                Yes, many Shopify Theme Detectors, including those provided by platforms
+                                                like Mageplaza
+                                                and Koala Inspector, are free to use. Users can access these tools
+                                                without
+                                                any hidden
+                                                costs.
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- FAQ Item 4 -->
+                                    <div class="accordion-item mb-3">
+                                        <h5 class="accordion-header" id="headingFour">
+                                            <button class="accordion-button border-bottom font-weight-bold collapsed"
+                                                type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour"
+                                                aria-expanded="false" aria-controls="collapseFour">
+                                                Are Shopify Theme Detectors accurate?
+                                                <i class="collapse-close fa fa-plus text-xs pt-1 position-absolute end-0 me-3"
+                                                    aria-hidden="true"></i>
+                                                <i class="collapse-open fa fa-minus text-xs pt-1 position-absolute end-0 me-3"
+                                                    aria-hidden="true"></i>
+                                            </button>
+                                        </h5>
+                                        <div id="collapseFour" class="accordion-collapse collapse"
+                                            aria-labelledby="headingFour" data-bs-parent="#accordionFAQ">
+                                            <div class="accordion-body text-md opacity-8">
+                                                Most Shopify Theme Detectors are quite accurate in identifying the core
+                                                theme used by
+                                                a store. However, they may not always detect customizations made to the
+                                                theme accurately,
+                                                as these modifications can alter the recognizable elements of the
+                                                original
+                                                theme.
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- FAQ Item 5 -->
+                                    <div class="accordion-item mb-3">
+                                        <h5 class="accordion-header" id="headingFive">
+                                            <button class="accordion-button border-bottom font-weight-bold collapsed"
+                                                type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive"
+                                                aria-expanded="false" aria-controls="collapseFive">
+                                                Can I use a Shopify Theme Detector on any website?
+                                                <i class="collapse-close fa fa-plus text-xs pt-1 position-absolute end-0 me-3"
+                                                    aria-hidden="true"></i>
+                                                <i class="collapse-open fa fa-minus text-xs pt-1 position-absolute end-0 me-3"
+                                                    aria-hidden="true"></i>
+                                            </button>
+                                        </h5>
+                                        <div id="collapseFive" class="accordion-collapse collapse"
+                                            aria-labelledby="headingFive" data-bs-parent="#accordionFAQ">
+                                            <div class="accordion-body text-md opacity-8">
+                                                No, Shopify Theme Detectors can only be used on websites that are built
+                                                on
+                                                the Shopify
+                                                platform. If you try to use them on non-Shopify sites, you will receive
+                                                a
+                                                notification
+                                                indicating that the site is not supported.
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- FAQ Item 6 -->
+                                    <div class="accordion-item mb-3">
+                                        <h5 class="accordion-header" id="headingSix">
+                                            <button class="accordion-button border-bottom font-weight-bold collapsed"
+                                                type="button" data-bs-toggle="collapse" data-bs-target="#collapseSix"
+                                                aria-expanded="false" aria-controls="collapseSix">
+                                                How long does it take to identify a Shopify theme using these tools?
+                                                <i class="collapse-close fa fa-plus text-xs pt-1 position-absolute end-0 me-3"
+                                                    aria-hidden="true"></i>
+                                                <i class="collapse-open fa fa-minus text-xs pt-1 position-absolute end-0 me-3"
+                                                    aria-hidden="true"></i>
+                                            </button>
+                                        </h5>
+                                        <div id="collapseSix" class="accordion-collapse collapse"
+                                            aria-labelledby="headingSix" data-bs-parent="#accordionFAQ">
+                                            <div class="accordion-body text-md opacity-8">
+                                                The detection process is typically very quick, often providing results
+                                                within seconds after
+                                                entering the store's URL. Most tools are designed for instant
+                                                identification, making them
+                                                efficient for users.
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- FAQ Item 7 -->
+                                    <div class="accordion-item mb-3">
+                                        <h5 class="accordion-header" id="headingSeven">
+                                            <button class="accordion-button border-bottom font-weight-bold collapsed"
+                                                type="button" data-bs-toggle="collapse" data-bs-target="#collapseSeven"
+                                                aria-expanded="false" aria-controls="collapseSeven">
+                                                What information can I expect from a Shopify Theme Detector?
+                                                <i class="collapse-close fa fa-plus text-xs pt-1 position-absolute end-0 me-3"
+                                                    aria-hidden="true"></i>
+                                                <i class="collapse-open fa fa-minus text-xs pt-1 position-absolute end-0 me-3"
+                                                    aria-hidden="true"></i>
+                                            </button>
+                                        </h5>
+                                        <div id="collapseSeven" class="accordion-collapse collapse"
+                                            aria-labelledby="headingSeven" data-bs-parent="#accordionFAQ">
+                                            <div class="accordion-body text-md opacity-8">
+                                                When using a Shopify Theme Detector, you can expect to receive details
+                                                such
+                                                as the name of
+                                                the theme, its version, and sometimes additional information about
+                                                customizations or related
+                                                apps. This information can help users understand design choices and find
+                                                similar themes for
+                                                their own stores.
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    {% endblock %}

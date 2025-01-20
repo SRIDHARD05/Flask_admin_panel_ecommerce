@@ -116,54 +116,46 @@ $(document).ready(function () {
         $('#profit').text(profit.toFixed(2));
         $('#profit-margin').text(profitMargin);
     }
-
     $('#product-cost, #selling-price').on('input', calculateProfit);
-});
 
 
-$("#shopify-store-detection-submit").on('click', function () {
-    var url = $("input[name='shopify-store-detection-url']").val();
+    $("#shopify-store-detection-submit").on('click', function () {
+        $("#shopify-store-detection-submit").text('Detecting...');
+        var store_url = $("input[name='shopify-store-detection-url']").val();
 
-    if (url.trim() === "") {
-        alert("Please enter a valid URL.");
-        return;
-    }
-
-    var urlPattern = /^(https?:\/\/)?([\w-]+\.)+[\w-]+(\/[\w\-#?&=]*)?$/;
-    if (!urlPattern.test(url)) {
-        alert("Please enter a valid URL.");
-        return;
-    }
-
-    $.ajax({
-        url: "/tools/store/theme_analysis",
-        type: "POST",
-        contentType: "application/json",
-        data: JSON.stringify({ 'url': url }),
-        success: function (response) {
-            $("input[name='shopify-store-detection-url']").prop('disabled', true);
-            $('#shopify-store-detection-submit').prop('disabled', true);
-
-            $.ajax({
-                url: "/test/tabs",
-                type: "GET",
-                success: function (response) {
-                    $("#tabContent").empty();
-                    $("#tabContent").append(response);
-                    // Initialize the Tabs Toggle by add "show active" to the <ul>
-                    $('a[data-bs-toggle="tab"]').on('shown.bs.tab', function (e) {
-                        $('.tab-pane').removeClass('active');
-                        // console.log(e.target.id)
-                        $($(e.target).attr('href')).addClass('active');
-                    });
-                },
-                error: function (xhr, status, error) {
-                    alert("Error: " + error);
-                }
-            });
-        },
-        error: function (xhr, status, error) {
-            alert("Error: " + error);
+        if (store_url.trim() === "") {
+            alert("Please enter a valid URL.");
+            return;
         }
+
+        $.ajax({
+            url: "/tools/store/theme_detector",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify({ 'url': store_url }),
+            success: function (response) {
+                $("#shopify-store-detection-submit").text('Check Now');
+                $("#shopify-theme-body").empty();
+                if (response['status'] == 200) {
+                    var theme_name = response['theme_name']
+                    var theme_version = response['theme_version']
+                    var template = `<ul class="list-unstyled">
+                        <li><strong>Shopify Theme Name:</strong> <span class="text-success">${theme_name}</span></li>
+                        <li><strong>Shopify Theme Version:</strong> <span class="text-success">${theme_version}</span></li>
+                    </ul>`;
+                    $("#shopify-theme-body").append(template);
+                } else {
+                    var template = `<div class="d-flex justify-content-start mt-2 text-danger">
+                        ${store_url} is not built with Shopify
+                    </div>`;
+                    $("#shopify-theme-body").append(template);
+                }
+            },
+            error: function (xhr, status, error) {
+                alert("Error: " + error);
+            }
+        });
     });
 });
+
+
