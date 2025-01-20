@@ -4,7 +4,7 @@ import os
 import math
 import base64
 import time
-from blueprints import search_filters, products, videos, dashboard, users, pricing, save_posts, credits, sidebar, queries, shopify_seo, profile, tools, testsfile, admin, shopify
+from blueprints import search_filters, products, videos, dashboard, users, pricing, save_posts, credits, sidebar, queries, shopify_seo, profile, tools, testsfile, admin, shopify, stores
 import json
 import pandas as pd
 from datetime import datetime
@@ -122,8 +122,7 @@ app.register_blueprint(tools.bp)
 app.register_blueprint(testsfile.bp)   
 app.register_blueprint(admin.bp) 
 app.register_blueprint(shopify.bp) 
-
-
+app.register_blueprint(stores.bp)
 
 
 

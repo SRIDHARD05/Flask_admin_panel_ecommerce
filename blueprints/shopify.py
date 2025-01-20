@@ -11,7 +11,7 @@ user Routes -
     2. 
 
 Admin Routes - 
-    1. 
+    1. /best-shoify-apps/save
 """
 
 @bp.route("/best-shoify-apps", methods=["GET"])
@@ -25,3 +25,17 @@ def view_best_apps():
 @user_required
 def view_best_apps_save():
     return render_template('components/shopify/apps/save.html')
+
+
+@bp.route("/best-shoify-apps/save", methods=["POST"])
+@admin_required
+def save_best_apps():
+    try:
+        app_data = request.form.to_dict()
+        data = Shopify.save_best_apps(app_data)
+        return {'success':True, 'message':f"App saved successfully"}
+    except Exception as e:
+        return {'success':False, 'message':str(e)}
+
+
+

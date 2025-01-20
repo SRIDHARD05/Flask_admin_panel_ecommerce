@@ -16,14 +16,23 @@
                                 <label>App Name</label>
                                 <input type="text" class="form-control" name="apps-name"
                                     placeholder="Enter your app name" onfocus="focused(this)"
-                                    onfocusout="defocused(this)">
+                                    onfocusout="defocused(this)" required>
                             </div>
                         </div>
-                        <div class="col-6">
+                        <div class="col-3">
                             <div class="input-group input-group-static">
                                 <label>Reviews</label>
-                                <input type="text" class="form-control" placeholder="Enter your Reviews"
-                                    onfocus="focused(this)" onfocusout="defocused(this)">
+                                <input type="number" name="reviews" class="form-control"
+                                    placeholder="Enter your Reviews" onfocus="focused(this)"
+                                    onfocusout="defocused(this)" required>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="input-group input-group-static">
+                                <label>Rating</label>
+                                <input type="number" class="form-control" name="rating"
+                                    placeholder="Enter your rating (1-5)" onfocus="focused(this)"
+                                    onfocusout="defocused(this)" min="1" max="5" required>
                             </div>
                         </div>
                     </div>
@@ -31,26 +40,26 @@
                         <div class="col-6">
                             <div class="input-group input-group-static">
                                 <label>Total Downloads</label>
-                                <input type="text" class="form-control" name="total-downloads"
+                                <input type="number" class="form-control" name="total-downloads"
                                     placeholder="Enter your Total Downloads" onfocus="focused(this)"
-                                    onfocusout="defocused(this)">
+                                    onfocusout="defocused(this)" required>
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="input-group input-group-static">
-                                <label>Rating</label>
-                                <input type="text" class="form-control" name="rating"
-                                    placeholder="Enter your rating" onfocus="focused(this)"
-                                    onfocusout="defocused(this)">
+                                <label>Image URL</label>
+                                <input type="url" class="form-control" name="image-url"
+                                    placeholder="Enter your App Image URL" onfocus="focused(this)"
+                                    onfocusout="defocused(this)" required>
                             </div>
                         </div>
                     </div>
                     <div class="row mt-4">
                         <div class="input-group input-group-static">
                             <label>Descriptions</label>
-                            <textarea class="form-control" rows="2"
-                                placeholder="Short Descriptions about the Shopify App"
-                                spellcheck="true"></textarea>
+                            <textarea class="form-control" rows="2" name="description"
+                                placeholder="Short Descriptions about the Shopify App" spellcheck="true"
+                                required></textarea>
                         </div>
                     </div>
                     <button class="btn bg-gradient-dark btn-sm float-end mt-6 mb-0" type="submit">Save</button>

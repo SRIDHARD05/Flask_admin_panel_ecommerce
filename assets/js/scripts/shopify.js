@@ -2,16 +2,16 @@ $(document).ready(function () {
     $('#shopifyAppForm').submit(function (e) {
         e.preventDefault();
 
-        // Serialize the form data
         var formData = $(this).serialize();
 
-        // Make a POST request to 'shopify-apps/db/save'
         $.ajax({
-            url: 'shopify-apps/db/save',
+            url: '/shopify//best-shoify-apps/save',
             method: 'POST',
             data: formData,
             success: function (response) {
-                alert('App saved successfully!');
+                if (response) {
+                    console.log(response);
+                }
             },
             error: function (xhr, status, error) {
                 alert('Error saving app. Please try again.');
@@ -19,3 +19,31 @@ $(document).ready(function () {
         });
     });
 });
+
+
+// TODO: for Stores code
+$(document).ready(function () {
+    $('#shopifyStoresForm').on('submit', function (e) {
+        e.preventDefault();
+        var store_type = $('select[name=store_type]').val(); 
+        const formData = {
+            'stores-data': $('textarea[name="stores-data"]').val(),
+            'store_type': store_type
+        };
+
+        console.log(store_type);
+        $.ajax({
+            url: '/stores/save',
+            method: 'POST',
+            data: formData,
+            success: function (response) {
+                alert(response);
+            },
+            error: function (xhr) {
+                const errorMsg = xhr.responseJSON?.message || 'An error occurred while saving the stores.';
+                alert(errorMsg);
+            }
+        });
+    });
+});
+

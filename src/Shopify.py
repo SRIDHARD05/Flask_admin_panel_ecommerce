@@ -19,4 +19,19 @@ class Shopify:
             app['rating'] = int(app['rating'])  
         return apps
 
+    @staticmethod
+    def save_best_apps(data):
+        collection = db.shopify_apps
+        d = {}
+        d['title'] = data['apps-name']
+        d['description'] = data['description']
+        d['rating'] = int(data['rating'])  
+        d['reviews'] = int(data['reviews'])
+        d['totaldownloads'] = int(data['total-downloads'])
+        d['image_url'] = data['image-url']
+        id = apps.insert_one(d)
+        return id
+
+
+
 
