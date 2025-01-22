@@ -15,7 +15,7 @@ def store_insights_view():
     if store_url:
         decoded_store_url = unquote(store_url)
         store_insights_data = Stores.view_insights(decoded_store_url)
-
+        print(store_insights_data)
         return render_template('components/stores/reports/dashboard.html', data=store_insights_data)
 
 

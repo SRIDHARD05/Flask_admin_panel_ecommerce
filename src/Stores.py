@@ -495,9 +495,9 @@ class Stores:
             response = requests.get(products_url, headers=headers, verify=False)
             response.raise_for_status()  
             product_data = response.json()
-            # json_result = json.dumps(product_data, indent=4)
-            # with open("products_data.json", "w") as json_file:
-            #     json_file.write(json_result)
+            json_result = json.dumps(product_data, indent=4)
+            with open("products_data.json", "w") as json_file:
+                json_file.write(json_result)
 
             reports = Reports(product_data)
             data = reports.get_data()
@@ -509,7 +509,7 @@ class Stores:
             seller_response.raise_for_status()
             seller_html_content = seller_response.text
             best_seller_products = reports.best_seller_products(seller_html_content)
-
+            # print(best_seller_products)
             data.update({
                 "data_application": data_application_scripts,
                 "data_render_region": data_render_region,
