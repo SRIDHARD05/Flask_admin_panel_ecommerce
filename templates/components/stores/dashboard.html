@@ -54,25 +54,25 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <p class="text-sm font-weight-bold mb-0">{{ store.store_title}}</p>
+                                        <p class="text-sm font-weight-bold mb-0 store_title">{{ store.store_title}}</p>
                                         <a href="{{ store.store_url }}"
-                                            class="text-sm font-weight-bold mb-0 text-primary" target="_blank"
+                                            class="text-sm font-weight-bold mb-0 text-primary store_url" target="_blank"
                                             data-store="{{ store.store_url }}">Goto
                                             Store</a>
                                     </td>
                                     <td>
-                                        <span class="text-xs font-weight-bold">{{store.total_products }}</span>
+                                        <span class="text-xs font-weight-bold total_products">{{store.total_products }}</span>
                                     </td>
                                     <td>
-                                        <span class="text-xs font-weight-bold">{{store.monthly_visits }}</span>
+                                        <span class="text-xs font-weight-bold monthly_visits">{{store.monthly_visits }}</span>
                                     </td>
                                     <td>
-                                        <span class="text-xs font-weight-bold">{{ store.monthly_sales }}</span>
+                                        <span class="text-xs font-weight-bold monthly_sales">{{ store.monthly_sales }}</span>
                                     </td>
                                     <td>
                                         <div class="column-item column-item7">
                                             {% if store.social_links.facebook_url %}
-                                            <a href="{{ store.social_links.facebook_url }}" target="_blank"
+                                            <a href="{{ store.social_links.facebook_url }}" id="facebook_url" target="_blank"
                                                 aria-label="facebook"><img
                                                     src="https://static-oss-cdn.oss-us-west-1.aliyuncs.com/sc/static/img/facebook.png"
                                                     alt="facebook" style="width: 24px;"></a>
@@ -82,7 +82,7 @@
                                             {% endif %}
 
                                             {% if store.social_links.instagram_url %}
-                                            <a href="{{ store.social_links.instagram_url }}" target="_blank"
+                                            <a href="{{ store.social_links.instagram_url }}" id="instagram_url" target="_blank"
                                                 aria-label="instagram"><img
                                                     src="https://static-oss-cdn.oss-us-west-1.aliyuncs.com/sc/static/img/instagram.png"
                                                     alt="instagram" style="width: 24px;"></a>
@@ -92,7 +92,7 @@
                                             {% endif %}
 
                                             {% if store.social_links.twitter_url %}
-                                            <a href="{{ store.social_links.twitter_url }}" target="_blank"
+                                            <a href="{{ store.social_links.twitter_url }}" id="twitter_url" target="_blank"
                                                 aria-label="twitter">
                                                 <img src="https://static-oss-cdn.oss-us-west-1.aliyuncs.com/sc/static/img/twitter.png"
                                                     alt="twitter" style="width: 24px;margin-right: 4px;">
@@ -104,7 +104,7 @@
                                             {% endif %}
 
                                             {% if store.social_links.youtube_url %}
-                                            <a href="{{store.social_links.youtube_url}}" target="_blank"
+                                            <a href="{{store.social_links.youtube_url}}" id="youtube_url" target="_blank"
                                                 aria-label="youtube"><img
                                                     src="https://static-oss-cdn.oss-us-west-1.aliyuncs.com/sc/static/img/youtube.png"
                                                     alt="youtube" style="width: 24px;"></a>
@@ -115,7 +115,7 @@
                                             {% endif %}
 
                                             {% if store.social_links.pinterest_url %}
-                                            <a href="{{store.social_links.pinterest_url}}" target="_blank"
+                                            <a href="{{store.social_links.pinterest_url}}" id="pinterest_url" target="_blank"
                                                 aria-label="pinterest">
                                                 <img src="https://static-oss-cdn.oss-us-west-1.aliyuncs.com/sc/static/img/pinterest.png"
                                                     alt="pinterest" style="width: 24px;">
@@ -127,7 +127,7 @@
                                             {% endif %}
 
                                             {% if store.social_links.snapchat_url %}
-                                            <a href="{{store.social_links.snapchat_url}}" target="_blank"
+                                            <a href="{{store.social_links.snapchat_url}}" id="snapchat_url" target="_blank"
                                                 aria-label="snapchat_gray"> <svg xmlns="http://www.w3.org/2000/svg"
                                                     x="0px" y="0px" width="20" height="20" viewBox="0 0 80 80">
                                                     <path fill="#ffeea3"
@@ -152,7 +152,7 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <span class="text-xs font-weight-bold">{{ store.total_fb_ads }}
+                                        <span class="text-xs font-weight-bold total_fb_ads">{{ store.total_fb_ads }}
                                         </span>
                                     </td>
                                     <td>

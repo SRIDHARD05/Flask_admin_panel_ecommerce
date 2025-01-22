@@ -95,3 +95,74 @@ print(hash_data('sdfghj'))
 # # Update credits for an existing user
 # response = Credits.update(email="user@example.com", credits=+1000)
 # print(response)
+
+
+
+""""
+
+# def find_repeated_class_and_id_combinations(html_content):
+#     soup = BeautifulSoup(html_content, 'html.parser')
+#     class_combinations = []
+#     id_combinations = []
+
+#     for element in soup.find_all(True):  
+#         if element.get('class'):
+#             class_combination = ' '.join(element.get('class')) 
+#             class_combinations.append(class_combination)
+#         if element.get('id'):
+#             id_combinations.append(element.get('id'))  
+
+#     class_combination_counter = Counter(class_combinations)
+#     id_combination_counter = Counter(id_combinations)
+
+#     repeated_class_combinations = {combination: count for combination, count in class_combination_counter.items() if count > 1}
+#     repeated_id_combinations = {combination: count for combination, count in id_combination_counter.items() if count > 1}
+
+#     return repeated_class_combinations, repeated_id_combinations
+
+# repeated_class_combinations, repeated_id_combinations = find_repeated_class_and_id_combinations(html_content)
+# unique_repeated_class_combinations = {k: v for k, v in repeated_class_combinations.items()}
+# filtered_classes_with_product = {k: v for k, v in unique_repeated_class_combinations.items() if 'product' in k}
+# max_classes_with_product = Counter(filtered_classes_with_product).most_common(2)
+
+# def extract_data(html_content, parent_class):
+#     def clean_text(text):
+#         text = re.sub(r'\s{4,}', '   ', text)
+#         text = re.sub(r'\n{4,}', '\n\n\n', text)
+#         return text.strip()
+
+#     soup = BeautifulSoup(html_content, 'html.parser')
+#     class_dict = {}
+
+#     parent_elements = soup.find_all(class_=parent_class)
+
+#     for idx, element in enumerate(parent_elements):
+#         title_element = element.find('h2')
+#         href = element.find('a', href=True)
+#         all_text = element.get_text(separator="|||")
+
+#         assets = [img['src'] for img in element.find_all('img', src=True)]
+#         assets_string = ', '.join(assets)
+
+#         text_elements = [clean_text(t) for t in all_text.split("|||") if t.strip()]
+
+#         max_length_text = max(text_elements, key=len) if text_elements else ""
+#         max_length = len(max_length_text)
+
+#         title = clean_text(title_element.get_text()) if title_element else ""
+#         if title != max_length_text:
+#             title = max_length_text
+
+#         class_dict[idx] = {
+#             "title": title,
+#             "href": href['href'] if href else "",
+#             "assets": assets_string,
+#             "max_length": max_length
+#         }
+#     return class_dict
+# result = extract_data(html_content, max_classes_with_product[0][0])
+
+
+
+
+""""

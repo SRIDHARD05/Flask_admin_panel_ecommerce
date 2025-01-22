@@ -1,0 +1,41 @@
+{% extends '__master.html' %}
+
+{% block content %}
+<div class="spinner-border" id="loading" role="status">
+    <span class="sr-only">Loading...</span>
+</div>
+
+<div class="container-fluid py-2">
+    <div class="vendors-data">vendorsList -> {{data.vendors}}</div>
+    <br>
+    <div class="tags">tags -> {{data.tags}}</div>
+    <br>
+    <div class="product-types">Products Types ->
+        {{data.product_types}}
+    </div>
+    <br>
+    <div class="total-products">Total Products -> {{data.total_products}}</div>
+    <br>
+    <div class="keywords">keywords -> {{data.keywords}}</div>
+    <br>
+    <div class="average-price">Average Proce -> {{data.average_price}}</div>
+    <br>
+    <div class="max-price">Max Price -> {{data.max_price}}</div>
+    <br>
+    <div class="min-price">Min Proice -> {{data.min_price}}</div>
+    <br>
+    <div class="first-modified">First Modified Date -> {{data.first_modified}}</div>
+    <br>
+    <div class="last-modified">Last Modified Date -> {{data.last_modified}}</div>
+    <br>
+    <div class="last-6-months">Last 6 Months -> {{data.last_6_months}}</div>
+    <br>
+    <div class="last-12-months">Last 12 Months -> {{data.last_12_months}}</div>
+
+    <br><br>
+    {{data.best_seller_products }}
+    <br><br>
+
+</div>
+
+{% endblock %}

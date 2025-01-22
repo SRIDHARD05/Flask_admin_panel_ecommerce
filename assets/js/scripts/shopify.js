@@ -66,22 +66,26 @@ $(document).ready(function () {
     });
 
     $(document).on('click', '#view-store-insights', function (e) {
+        $(this).text("Processing...");
         e.preventDefault();
         var storeUrl = $(this).data('se');
+
+        setTimeout(() => {
+            $(this).text("View Insights");
+        }, 2000);
 
         $.ajax({
             url: `/stores/view/insights?store_url=${encodeURIComponent(storeUrl)}`,
             method: 'GET',
             success: function (response) {
-               console.log(response);  
-                // window.open(`/stores/view/insights?store_url=${encodeURIComponent(storeUrl)}`, '_blank');
+                // console.log(response);
+
+                window.open(`/stores/view/insights?store_url=${encodeURIComponent(storeUrl)}`, '_blank');
             },
             error: function (xhr, status, error) {
                 alert('Error saving app. Please try again.');
             }
         });
     });
-
 });
-
 

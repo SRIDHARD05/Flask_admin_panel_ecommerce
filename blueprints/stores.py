@@ -3,23 +3,20 @@ from bson import ObjectId, errors
 from src import login_required, user_required, admin_required 
 from src.Stores import Stores
 from urllib.parse import unquote
+from bson import ObjectId
 
 bp = Blueprint("stores", __name__, url_prefix="/stores")
 
-@bp.route("/view/insights", methods=['GET'])
-@user_required
-def store_insights():
-    store_url = request.args.get('store_url')
 
+@bp.route("/view/insights", methods=['GET'])  
+@user_required
+def store_insights_view():
+    store_url = request.args.get('store_url')
     if store_url:
         decoded_store_url = unquote(store_url)
         store_insights_data = Stores.view_insights(decoded_store_url)
-        return store_insights_data  
-    else:
-        return {
-            'status': 400,
-            'message': 'Store URL is required'
-        }
+
+        return render_template('components/stores/reports/dashboard.html', data=store_insights_data)
 
 
 @bp.route("/shopify/all",methods=['GET'])
@@ -171,6 +168,9 @@ def best_stores(store_type):
     return render_template('components/stores/best_stores/view.html',data = data)
 
             
+
+
+
 
 
 

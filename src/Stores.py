@@ -8,6 +8,17 @@ import re
 import urllib3  
 from datetime import datetime, timedelta
 import pytz
+import json
+from flask import jsonify
+from bs4 import BeautifulSoup
+from collections import Counter
+import json
+import re
+
+# TODO: For Bypassing the SSL Certifications Issue's
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
+db = Database.get_connection()
 
 class Reports:
     def __init__(self, data):
@@ -62,7 +73,7 @@ class Reports:
             'first_modified': self.first_modified,
             'last_modified': self.last_modified,
             'last_6_months': self.last_6_months,
-            'last_12_months': self.last_12_months
+            'last_12_months': self.last_12_months,
         }
 
     def extract_vendor_name(self, product):
@@ -130,16 +141,66 @@ class Reports:
         if title:
             self.keywords.add(title)
 
+    def best_seller_products(self,html_content):
+        def clean_text(text):
+            text = re.sub(r'\s{4,}', '   ', text)
+            text = re.sub(r'\n{4,}', '\n\n\n', text)
+            return text.strip()
 
-# TODO: For Bypassing the SSL Certifications Issue's
-urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+        def format_title(title):
+            return re.sub(r'\s+', ' ', title)  
 
-db = Database.get_connection()
+        soup = BeautifulSoup(html_content, 'html.parser')
+        class_combinations = []
+        id_combinations = []
+        class_dict = {}
+
+        for element in soup.find_all(True):
+            if element.get('class'):
+                class_combination = ' '.join(element.get('class'))
+                class_combinations.append(class_combination)
+            if element.get('id'):
+                id_combinations.append(element.get('id'))
+
+        class_combination_counter = Counter(class_combinations)
+        id_combination_counter = Counter(id_combinations)
+
+        repeated_class_combinations = {combination: count for combination, count in class_combination_counter.items() if count > 1}
+        # print(repeated_class_combinations,'\n')
+        unique_repeated_class_combinations = {k: v for k, v in repeated_class_combinations.items()}
+        filtered_classes_with_product = {k: v for k, v in unique_repeated_class_combinations.items() if 'product' in k}
+        max_classes_with_product = Counter(filtered_classes_with_product).most_common(2)
+        # print(max_classes_with_product)
+        if not max_classes_with_product:
+            return {"error": "No class combinations with 'product' found."}
+
+        parent_class = max_classes_with_product[0][0]
+        parent_elements = soup.find_all(class_=parent_class)
+
+        for idx, element in enumerate(parent_elements):
+            title_element = element.find('h2')
+            href = element.find('a', href=True)
+            all_text = element.get_text(separator="|||")
+
+            assets = [img['src'] for img in element.find_all('img', src=True)]
+            
+
+            text_elements = [clean_text(t) for t in all_text.split("|||") if t.strip()]
+
+            max_length_text = max(text_elements, key=len) if text_elements else ""
+            title = clean_text(title_element.get_text()) if title_element else ""
+            if title != max_length_text:
+                title = max_length_text
+
+            class_dict[idx] = {
+                "title": title,
+                "href": href['href'] if href else "",
+                "assets": assets
+            }
+        return class_dict
+
 
 class Stores:
-    def __init__(self):
-        self.reports = Reports()
-
     @staticmethod
     def store_save(html_content):
         collection = db.shopify_stores
@@ -358,37 +419,125 @@ class Stores:
 
 
     @staticmethod
+    def get_store_data(store_url):
+        collection = db.shopify_stores
+        store_data = collection.find_one({'store_url': store_url})
+        
+        if store_data:
+            store_data['_id'] = str(store_data['_id'])  
+            # print(store_data, '\n')
+            return store_data  
+        else:
+            return {'status': 404, 'message': 'Store not found'}  
+
+    @staticmethod
     def view_insights(store_url):
         headers = {
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
             'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
         }
-
+        
         try:
-            html_content = requests.get(store_url, headers=headers, verify=False).text
+            response = requests.get(store_url, headers=headers, verify=False)
+            response.raise_for_status()
+            html_content = response.text
             soup = BeautifulSoup(html_content, 'html.parser')
 
-            script_tag = soup.find('script', text=re.compile(r'window\.BOOMR\.shop_id|shop_id[=:]\s*(\d+)'))
-            
-            if script_tag:
-                match = re.search(r'window\.BOOMR\.shop_id\s*=\s*"(\d+)";|shop_id[=:]\s*(\d+)', script_tag.string)
+            data_application_scripts = [script.get('data-application') for script in soup.find_all('script', attrs={'data-application': True}) if script.get('data-application')]
+            data_render_region = [script.get('data-render-region') for script in soup.find_all('script', attrs={'data-render-region': True}) if script.get('data-render-region')]
+
+            title_tag = soup.find('title')
+            title = title_tag.string.strip() if title_tag else None
+
+            meta_description_tag = soup.find('meta', attrs={'name': 'description'})
+            description = meta_description_tag['content'] if meta_description_tag else None
+
+            shop_url = None
+            locale = None
+            currency = None
+            country = None
+            theme = None
+            shop_id = None
+            shop_script = soup.find_all('script', string=lambda text: text and re.search(
+                r'Shopify\.shop|Shopify\.locale|Shopify\.currency|Shopify\.country|Shopify\.theme', text
+            ))
+
+            for script in shop_script:
+                script_content = script.string
+
+                if 'Shopify.shop' in script_content:
+                    shop_url_match = re.search(r'Shopify\.shop\s*=\s*["\'](.*?)["\'];', script_content)
+                    shop_url = shop_url_match.group(1) if shop_url_match else shop_url
+
+                if 'Shopify.locale' in script_content:
+                    locale_match = re.search(r'Shopify\.locale\s*=\s*["\'](.*?)["\'];', script_content)
+                    locale = locale_match.group(1) if locale_match else locale
+
+                if 'Shopify.currency' in script_content:
+                    currency_match = re.search(r'Shopify\.currency\s*=\s*{.*?"active":\s*"(.*?)".*?}', script_content)
+                    currency = currency_match.group(1) if currency_match else currency
+
+                if 'Shopify.country' in script_content:
+                    country_match = re.search(r'Shopify\.country\s*=\s*["\'](.*?)["\'];', script_content)
+                    country = country_match.group(1) if country_match else country
+
+                if 'Shopify.theme' in script_content:
+                    theme_match = re.search(r'Shopify\.theme\s*=\s*(.*?);', script_content)
+                    theme = theme_match.group(1) if theme_match else theme
+
+            shop_id_tag = soup.find('script', string=lambda text: text and re.search(r'window\.BOOMR\.shop_id|shop_id[=:]\s*(\d+)', text))
+            if shop_id_tag:
+                match = re.search(r'window\.BOOMR\.shop_id\s*=\s*"(\d+)";|shop_id[=:]\s*(\d+)', shop_id_tag.string)
                 if match:
                     shop_id = match.group(1) or match.group(2)
-                    data = {}
-                    data['shop_id'] = shop_id
 
-                    # TODO: Products Data
-                    store_url = f'{store_url}/products.json'
-                    product_data = requests.get(store_url, headers=headers, verify=False).text
-                    reports = Reports(product_data)
-                    
-                    data = reports.get_data()
-                    return data
-                    
-            return 'Error Fetching the Shop ID'
+            products_url = f'{store_url}/products.json'
+            response = requests.get(products_url, headers=headers, verify=False)
+            response.raise_for_status()  
+            product_data = response.json()
+            # json_result = json.dumps(product_data, indent=4)
+            # with open("products_data.json", "w") as json_file:
+            #     json_file.write(json_result)
+
+            reports = Reports(product_data)
+            data = reports.get_data()
+            
+            store_data = Stores.get_store_data(store_url)
+            # print(store_data)
+
+            seller_response = requests.get(f"{store_url}/collections/all?sort_by=best-selling", headers=headers, verify=False)
+            seller_response.raise_for_status()
+            seller_html_content = seller_response.text
+            best_seller_products = reports.best_seller_products(seller_html_content)
+
+            data.update({
+                "data_application": data_application_scripts,
+                "data_render_region": data_render_region,
+                "title": title,
+                "description": description,
+                "shop_url": shop_url,
+                "locale": locale,
+                "currency": currency,
+                "country": country,
+                "theme": theme,
+                "shop_id": shop_id,
+                "store_title": store_data["store_url"],
+                "monthly_sales": store_data["montly_sales"],
+                "monthly_visits": store_data["montly_visits"],
+                "social_links": store_data["social_links"],
+                "total_fb_ads": store_data["total_fb_ads"],
+                "total_products": store_data["total_products"],
+                "best_seller_products" : best_seller_products
+            })
+
+            return data
 
         except requests.exceptions.RequestException as e:
-            return f"Error fetching data: {str(e)}"
+            return {"error": f"Error fetching data: {str(e)}"}
 
-    def parse_view_insight(html_content):
-        return html_content
+        except Exception as e:
+            return {"error": f"An unexpected error occurred: {str(e)}"}
+
+
+
+

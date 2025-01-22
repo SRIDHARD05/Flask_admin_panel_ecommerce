@@ -327,3 +327,37 @@ show_password_toggle('#current-password', '.toggle-current-password', '#current-
 show_password_toggle('#new-password', '.toggle-new-password', '#new-password-eye');
 show_password_toggle('#confirm-password', '.toggle-confirm-password', '#confirm-password-eye');
 
+
+
+$(document).ready(function () {
+    function getStoreUrl() {
+        var urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get('store_url');
+    }
+
+    $('#loading').show();
+
+    var storeUrl = getStoreUrl();
+
+    if (storeUrl) {
+        $.ajax({
+            url: 'http://127.0.0.1:7345/stores/view/insights?store_url=' + encodeURIComponent(storeUrl),
+            method: 'GET',
+            success: function (data) {
+                $('#loading').hide();
+                $('#content').show();
+                $('#content').html(data);
+            },
+            error: function () {
+                $('#loading').hide();
+            }
+        });
+    } else {
+        $('#loading').hide();
+    }
+
+    $(window).on('load', function () {
+        $('#loading').hide();
+        $('#content').show();
+    });
+});
