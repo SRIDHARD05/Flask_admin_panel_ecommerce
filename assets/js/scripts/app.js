@@ -329,35 +329,68 @@ show_password_toggle('#confirm-password', '.toggle-confirm-password', '#confirm-
 
 
 
+// $(document).ready(function () {
+//     function getStoreUrl() {
+//         var urlParams = new URLSearchParams(window.location.search);
+//         return urlParams.get('store_url');
+//     }
+
+//     $('#loading').show();
+
+//     var storeUrl = getStoreUrl();
+
+//     if (storeUrl) {
+//         $.ajax({
+//             url: 'http://127.0.0.1:7345/stores/view/insights?store_url=' + encodeURIComponent(storeUrl),
+//             method: 'GET',
+//             success: function (data) {
+//                 $('#loading').hide();
+//                 $('#content').show();
+//                 $('#content').html(data);
+//             },
+//             error: function () {
+//                 $('#loading').hide();
+//             }
+//         });
+//     } else {
+//         $('#loading').hide();
+//     }
+
+//     $(window).on('load', function () {
+//         $('#loading').hide();
+//         $('#content').show();
+//     });
+// });
+
+
+
 $(document).ready(function () {
-    function getStoreUrl() {
-        var urlParams = new URLSearchParams(window.location.search);
-        return urlParams.get('store_url');
-    }
 
-    $('#loading').show();
+    $('#update-credits-btn').on('click', function () {
+        const credits = parseInt($('#credits-input').val());
 
-    var storeUrl = getStoreUrl();
+        if (isNaN(credits)) {
+            alert('Please enter a valid credit amount');
+            return;
+        }
 
-    if (storeUrl) {
         $.ajax({
-            url: 'http://127.0.0.1:7345/stores/view/insights?store_url=' + encodeURIComponent(storeUrl),
-            method: 'GET',
-            success: function (data) {
-                $('#loading').hide();
-                $('#content').show();
-                $('#content').html(data);
+            url: '/credits/update',
+            method: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({ credits: credits }),
+            success: function (response) {
+                alert(response.message);
+                if (response.credits !== undefined) {
+                    $('#current-credits').text(response.credits);
+                }
             },
-            error: function () {
-                $('#loading').hide();
+            error: function (xhr) {
+                const errorMsg = xhr.responseJSON?.message || 'Unable to update credits';
+                alert('Error: ' + errorMsg);
             }
         });
-    } else {
-        $('#loading').hide();
-    }
-
-    $(window).on('load', function () {
-        $('#loading').hide();
-        $('#content').show();
     });
-});
+
+
+})

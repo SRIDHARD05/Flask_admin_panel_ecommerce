@@ -33,14 +33,15 @@ class User:
         result = users.find_one({
             "email": email
         })
-        print(result)
         if result:
             hashedpw = result['password']
             if bcrypt.checkpw(password.encode(), hashedpw):
                 sess = Session.register_session(email, request=request)
-                return { 'sess_id' : sess.id, # Return the session ID correctly
+                return { 'sess_id' : sess.id,
                 'role' : result['role'],
-                'user_id' : result['id']
+                'user_id' : result['id'],
+                'credits' : result['credits'],
+                'username' : result['username']
                 }
             else:
                 raise Exception("Incorrect Password")
@@ -96,30 +97,43 @@ class User:
         else:
             return redirect(url_for('signin'))
 
-
     @staticmethod
-    def update_credits(new_credits):
-        if "authenticated" in session :
-            email = session['email']
+    def add_credits(new_credits): 
+        if "authenticated" in session:
+            email = session.get('email')
             result = users.update_one(
                 {"email": email},
                 {"$set": {"credits": new_credits}}
             )
             if result.modified_count > 0:
+                session['credits'] = new_credits
                 return True 
             return False 
-        else:
-            return redirect(url_for('signin'))
-
+        return None 
 
     @staticmethod
-    def add_credits(amount):
-        if "authenticated" in session :
-            email = session['email']
-            current_credits = User.get_credits(email)
-            if current_credits is not None:
-                new_credits = current_credits + amount
-                return User.update_credits(email, new_credits)
-            return False
-        else:
-            return redirect(url_for('signin'))
+    def update_credits(credits):
+        try:
+            if "authenticated" in session:
+                email = session.get('email')
+
+                if not email:
+                    return None 
+                user = users.find_one({"email": email}, {"credits": 1})
+
+                if not user:
+                    return None 
+                current_credits = int(user.get('credits', 0))
+                new_credits = current_credits + int(credits)
+                result = users.update_one(
+                    {"email": email},
+                    {"$set": {"credits": new_credits}}
+                )
+
+                if result.modified_count > 0:
+                    return new_credits  
+                return False 
+            return None 
+        except Exception as e:
+            print(f"Error in update_credits: {e}")  
+            raise

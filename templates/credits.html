@@ -1,6 +1,15 @@
 {% extends '__master.html' %}
 
 {% block content %}
+<br>
+<div class="container">
+    <h3>Update Credits</h3>
+    <p>Current Credits: <span id="current-credits">{{data.credits}}</span></p>
+    <input type="number" id="credits-input" class="form-control custom-input" placeholder="Enter new credits">
+    <button id="update-credits-btn" class="btn btn-primary mt-3">Update Credits</button>
+</div>
+
+<br>
 <div class="container-fluid py-2">
     <div class="row">
         <div class="col-12">

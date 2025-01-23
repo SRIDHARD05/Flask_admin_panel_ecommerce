@@ -88,6 +88,8 @@ def authenticate():
                 session['type'] = 'web'
                 session['role'] = sess_data['role']
                 session['user_id'] = hash_data(sess_data['user_id'])
+                session['credits'] = sess_data['credits']
+                session['username'] = sess_data['username']
                 
                 if session['role'] == 'admin':
                     return redirect(url_for('admin.dashboard'))  

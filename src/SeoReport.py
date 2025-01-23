@@ -1,40 +1,51 @@
-from src.AmazonS3 import AmazonS3
+import subprocess
+import json
+from datetime import datetime
 
 class SeoReport:
-    def generate_report(self,domain_name):
-        urls = [
-            domain_name
-        ]
-
-        name = "LighthouseReport"
-        getdate = datetime.now().strftime("%Y-%m-%d")
+    @staticmethod
+    def generate_report(domain_name):
+        urls = [domain_name]
+        print(f"Generating report for domain: {domain_name}")
 
         try:
             for url in urls:
                 command = f'lighthouse {url} --output=json --quiet --chrome-flags="--headless"'
+                print(f"Running command: {command}")
+                result = subprocess.run(
+                    command, capture_output=True, text=True, shell=True, encoding='utf-8', errors='replace'
+                )
+
+                if result.returncode != 0:
+                    # Command execution failed
+                    print(f"Error in command execution: {result.stderr.strip()}")
+                    return {
+                        'status': 'failed',
+                        'message': f'Error executing command for {url}',
+                        'error': result.stderr.strip()
+                    }
 
                 try:
-                    result = subprocess.run(command, capture_output=True, text=True)
-                    if result.returncode != 0 : 
-                        return str(e)
+                    # Parse the JSON output
+                    report = json.loads(result.stdout)
+                    print("Report generated successfully.")
+                    return {
+                        'data': report,
+                        'status': 'success'
+                    }
 
-                    else:
-                        try:
-                            report = json.loads(result.stdout)
-                            # file_path = f"{get_config("s3_aws_bucket_name")}/{user_id}_{datetime.now().strftime("%Y-%m-%d-%H-%M-%S")}.json"
-                            # amazon_s3_connection.put_object(Body = report, Bucket = get_config("s3_aws_bucket_name"),Key = file_path)
-                            return {
-                                "data" : report,
-                                'status' : 'success'
-                            }
-
-                        except json.JSONDecodeError:
-                            return str(e)
-
-                except subprocess.CalledProcessError as e:
-                    return str(e)
+                except json.JSONDecodeError as e:
+                    print(f"JSON Decode Error: {e}")
+                    return {
+                        'status': 'failed',
+                        'message': 'Failed to parse JSON output from Lighthouse',
+                        'error': str(e)
+                    }
 
         except Exception as e:
-            return str(e)
-
-
+            print(f"Unexpected exception: {e}")
+            return {
+                'status': 'failed',
+                'message': 'Unexpected error occurred',
+                'error': str(e)
+            }

@@ -5,6 +5,7 @@ from pymongo import UpdateOne
 from bson import ObjectId
 import requests
 import re
+from flask import Flask, request, jsonify
 import urllib3  
 from datetime import datetime, timedelta
 import pytz
@@ -166,11 +167,11 @@ class Reports:
         id_combination_counter = Counter(id_combinations)
 
         repeated_class_combinations = {combination: count for combination, count in class_combination_counter.items() if count > 1}
-        # print(repeated_class_combinations,'\n')
+        print(repeated_class_combinations,'\n')
         unique_repeated_class_combinations = {k: v for k, v in repeated_class_combinations.items()}
         filtered_classes_with_product = {k: v for k, v in unique_repeated_class_combinations.items() if 'product' in k}
         max_classes_with_product = Counter(filtered_classes_with_product).most_common(2)
-        # print(max_classes_with_product)
+        print(max_classes_with_product)
         if not max_classes_with_product:
             return {"error": "No class combinations with 'product' found."}
 
