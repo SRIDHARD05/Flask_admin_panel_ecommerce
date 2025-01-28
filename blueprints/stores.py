@@ -7,16 +7,22 @@ from bson import ObjectId
 
 bp = Blueprint("stores", __name__, url_prefix="/stores")
 
-
-@bp.route("/view/insights", methods=['GET'])  
+@bp.route("/view/insights", methods=['GET'])
 @user_required
 def store_insights_view():
     store_url = request.args.get('store_url')
     if store_url:
         decoded_store_url = unquote(store_url)
         store_insights_data = Stores.view_insights(decoded_store_url)
-        print(store_insights_data)
-        return render_template('components/stores/reports/dashboard.html', data=store_insights_data)
+        # print(store_insights_data)
+        if 'error' in store_insights_data:
+            return store_insights_data['error'], 500  
+
+        return render_template(
+            'components/stores/reports/dashboard.html',
+            data=store_insights_data['data'],
+            product_data=store_insights_data['product_data']
+        )
 
 
 @bp.route("/shopify/all",methods=['GET'])
@@ -168,8 +174,6 @@ def best_stores(store_type):
     return render_template('components/stores/best_stores/view.html',data = data)
 
             
-
-
 
 
 

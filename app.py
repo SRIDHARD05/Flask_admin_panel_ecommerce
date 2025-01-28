@@ -4,14 +4,12 @@ import os
 import math
 import base64
 import time
-from blueprints import search_filters, products, videos, dashboard, users, pricing, save_posts, credits, sidebar, queries, shopify_seo, profile, tools, testsfile, admin, shopify, stores
+from blueprints import search_filters, products, ads_data, dashboard, users, pricing, save_posts, credits, sidebar, queries, shopify_seo, profile, tools, testsfile, admin, shopify, stores
 import json
 import pandas as pd
 from datetime import datetime
 import subprocess
 from src import get_config
-
-
 
 app = Flask(__name__, static_folder='assets', static_url_path="/")
 
@@ -23,16 +21,14 @@ app.config['PERMANENT_SESSION_LIFETIME'] = 3600
 # TODO: After change it to Productions
 app.config['TEMPLATES_AUTO_RELOAD'] = True
 
+
 @app.route('/')
 def home():
-    return {
-        'page' : 'Home Page'
-    }
+    return redirect(url_for('dashboard.index'))
 
 # @app.route('/videos')
 # def sample_page():
 #     return render_template('videos.html')
-
 
 
 # @app.route('/popover')
@@ -106,9 +102,10 @@ def method_not_allowed(e):
         return render_template("405.html"), 405
 
 """
+
 app.register_blueprint(search_filters.bp)
 app.register_blueprint(products.bp)
-app.register_blueprint(videos.bp)
+app.register_blueprint(ads_data.bp)
 app.register_blueprint(dashboard.bp)
 app.register_blueprint(users.bp)
 app.register_blueprint(pricing.bp)
@@ -124,12 +121,9 @@ app.register_blueprint(admin.bp)
 app.register_blueprint(shopify.bp) 
 app.register_blueprint(stores.bp)
 
-
-
-
 # if __name__ == '__main__':
 #    app.run(host='0.0.0.0', port=7000, debug=True,ssl_context='adhoc')
 
 
 if __name__ == '__main__':
-   app.run(host='0.0.0.0', port=7345, debug=True)
+   app.run(host='0.0.0.0', port=7034, debug=True)

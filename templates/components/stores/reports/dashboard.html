@@ -1,10 +1,8 @@
 {% extends '__master.html' %}
 {% block content %}
-<div class="spinner-border" id="loading" role="status">
-    <span class="sr-only">Loading...</span>
-</div>
-
 <div class="container-fluid py-2">
+    <br>
+    <div id="download-products-data" class="btn btn-primary btn-rounded">Download Products Data</div>
     <div class="vendors-data">vendorsList -> {{data.vendors}}</div>
     <br>
     <div class="tags">tags -> {{data.tags}}</div>
@@ -63,44 +61,25 @@
     {{data.best_seller_products}}
     <br><br>
 
-    {% for product_id, product in data.best_seller_products.items() %}
-
-    &nbsp;
-    <div class="row">
-        <div class="col-md-8 mx-auto">
-            <div id="carouselExampleIndicators-{{ product_id }}" class="carousel slide" data-bs-ride="carousel">
-                <ol class="carousel-indicators">
-                    {% for asset in product.assets %}
-                    {{asset}}
-                    <li data-bs-target="#carouselExampleIndicators{{ product_id }}" data-bs-slide-to="{{ loop.index }}"
-                        class="{% if loop.first %}active{% endif %}"></li>
-                    {% endfor %}
-                </ol>
-                <div class="carousel-inner">
-                    {% for asset in product.assets %}
-                    <div class="carousel-item {% if loop.first %}active{% endif %}">
-                        <img class="d-block w-100" src="{{ asset }}" alt="Slide {{ loop.index }}">
-                    </div>
-                    {% endfor %}
-                </div>
-                <a class="carousel-control-prev" href="#carouselExampleIndicators{{ product_id }}" role="button"
-                    data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Previous</span>
-                </a>
-                <a class="carousel-control-next" href="#carouselExampleIndicators{{ product_id }}" role="button"
-                    data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Next</span>
-                </a>
-            </div>
-        </div>
-    </div>
-    <br><br>
-    {% endfor %}
-
-
-
 </div>
+<script type="application/javascript">
+    var product_datas = {{ product_data | safe }};
+    var store_url = "{{ data.shop_url | safe }}";
+    console.log(product_datas);
+    $(document).ready(function () {
+        $("#download-products-data").on('click', function () {
+            const jsonString = JSON.stringify(product_datas, null, 4);
+            const blob = new Blob([jsonString], { type: 'application/json' });
+
+            const link = document.createElement('a');
+
+            link.href = URL.createObjectURL(blob);
+            link.download = `${store_url}-product_data.json`;
+            
+            document.body.appendChild(link);
+            link.click(); document.body.removeChild(link);
+        });
+    });
+</script>
 
 {% endblock %}

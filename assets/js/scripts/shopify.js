@@ -1,4 +1,5 @@
 $(document).ready(function () {
+    
     $('#shopifyAppForm').submit(function (e) {
         e.preventDefault();
 
@@ -68,14 +69,12 @@ $(document).ready(function () {
 
         setTimeout(() => {
             $(this).text("View Insights");
-        }, 2000);
+        }, 4000);
 
         $.ajax({
             url: `/stores/view/insights?store_url=${encodeURIComponent(storeUrl)}`,
             method: 'GET',
             success: function (response) {
-                // console.log(response);
-
                 window.open(`/stores/view/insights?store_url=${encodeURIComponent(storeUrl)}`, '_blank');
             },
             error: function (xhr, status, error) {
@@ -93,7 +92,7 @@ $(document).ready(function () {
         }
 
         $.ajax({
-            url: `/shopify_seo/report/generate?s=${encodeURIComponent(domain_name)}`, 
+            url: `/shopify_seo/report/generate?s=${encodeURIComponent(domain_name)}`,
             type: "GET",
             contentType: "application/json",
             success: function (response) {

@@ -497,8 +497,8 @@ class Stores:
             response.raise_for_status()  
             product_data = response.json()
             json_result = json.dumps(product_data, indent=4)
-            with open("products_data.json", "w") as json_file:
-                json_file.write(json_result)
+            # with open("products_data.json", "w") as json_file:
+            #     json_file.write(json_result)
 
             reports = Reports(product_data)
             data = reports.get_data()
@@ -531,14 +531,14 @@ class Stores:
                 "best_seller_products" : best_seller_products
             })
 
-            return data
+            return {
+            'data': data,
+            'product_data': json_result
+            }
 
         except requests.exceptions.RequestException as e:
             return {"error": f"Error fetching data: {str(e)}"}
-
         except Exception as e:
             return {"error": f"An unexpected error occurred: {str(e)}"}
-
-
 
 
