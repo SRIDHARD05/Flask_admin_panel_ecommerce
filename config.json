@@ -6,7 +6,8 @@
     "s3_aws_secret_access_key" : "aws secret key",
     "s3_aws_bucket_name" : "Amazon S3 Buckets",
     "user_secret" : "sdfhjk,mnhg",
-    "products_secret_key" : "fcvgbnm,mnbvbnm"
+    "products_secret_key" : "fcvgbnm,mnbvbnm",
+    "IP-LOCATIONS-API-KEY" : "de0ee17605ce6a"
 }
 
 

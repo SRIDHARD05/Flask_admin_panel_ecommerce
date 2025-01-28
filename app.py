@@ -10,6 +10,7 @@ import pandas as pd
 from datetime import datetime
 import subprocess
 from src import get_config
+import requests
 
 app = Flask(__name__, static_folder='assets', static_url_path="/")
 
@@ -103,6 +104,52 @@ def method_not_allowed(e):
 
 """
 
+
+@app.route('/get-location', methods=['GET'])
+def get_location():
+    api_key = get_config("IP-LOCATIONS-API-KEY")  
+    user_ip = request.remote_addr
+
+    # Special case: if the user IP is '127.0.0.1' (localhost), return dummy or custom info
+    if user_ip == '127.0.0.1':
+        return jsonify({
+            'ip': user_ip,
+            'city': 'Local Machine',
+            'region': 'N/A',
+            'country': 'N/A',
+            'latitude': 'N/A',
+            'longitude': 'N/A'
+        })
+    
+    # Call ipinfo.io to get location info based on IP
+    url = f'https://ipinfo.io/{user_ip}/json?token={api_key}'
+
+    try:
+        response = requests.get(url)
+        data = response.json()
+
+        ip = data.get('ip', '')
+        city = data.get('city', '')
+        region = data.get('region', '')
+        country = data.get('country', '')
+        loc = data.get('loc', '')
+
+        latitude, longitude = loc.split(',') if loc else ('', '')
+
+        location_info = {
+            'ip': ip,
+            'city': city,
+            'region': region,
+            'country': country,
+            'latitude': latitude,
+            'longitude': longitude
+        }
+
+        return jsonify(location_info)
+    
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
 app.register_blueprint(search_filters.bp)
 app.register_blueprint(products.bp)
 app.register_blueprint(ads_data.bp)
@@ -127,3 +174,5 @@ app.register_blueprint(stores.bp)
 
 if __name__ == '__main__':
    app.run(host='0.0.0.0', port=7034, debug=True)
+
+

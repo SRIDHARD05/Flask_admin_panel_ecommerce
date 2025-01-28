@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 {% include "_head.html" %}
@@ -11,7 +9,7 @@
         {% include "_topnav.html" %}
         <div class="container-fluid py-2">
             {% block content %} {% endblock %}
-            {# {% include "_footer.html" %} #}
+            {% include "_footer.html" %}
         </div>
     </main>
     {% include "_corejs.html" %}
