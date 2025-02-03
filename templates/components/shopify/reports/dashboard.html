@@ -1,29 +1,36 @@
 {% extends '__master.html' %}
 
 {% block content %}
-<div class="container card card-body" style="max-width: 800px; margin: 50px auto; padding: 20px; border: 1px solid #ddd; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+<div class="container card card-body"
+    style="max-width: 800px; margin: 50px auto; padding: 20px; border: 1px solid #ddd; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
     <h1 class="text-center mb-4" style="font-size: 24px; font-weight: bold; color: #333;">Generate SEO Report</h1>
     <div class="form-group">
         <label for="domain_name" style="font-size: 16px; font-weight: 500; color: #555;">Domain Name</label>
-        <input 
-            type="url" 
-            name="domain_name" 
-            id="domain_name" 
-            class="form-control" 
-            placeholder="Enter a valid domain URL (e.g., https://example.com)" 
-            style="padding: 10px; font-size: 14px; border: 1px solid #ccc; border-radius: 4px;" 
-            required>
+        <input type="url" name="domain_name" id="domain_name" class="form-control"
+            placeholder="Enter a valid domain URL (e.g., https://example.com)"
+            style="padding: 10px; font-size: 14px; border: 1px solid #ccc; border-radius: 4px;" required>
     </div>
     <div class="text-center mt-4">
-        <button 
-            id="generate_report" 
-            class="btn btn-primary btn-rounded" 
+        <button id="generate_report" class="btn btn-primary btn-rounded"
             style="padding: 10px 20px; font-size: 16px; font-weight: 500; background-color: #007bff; border: none; border-radius: 25px; color: #fff; cursor: pointer;">
             Submit
         </button>
+        &nbsp;
+        <div id="generate_report-message"></div>
     </div>
 </div>
-
 <br>
-<div id="reports_list"></div>
+
+<div class="container card card-body"
+    style="max-width: 800px; margin: 50px auto; padding: 20px; border: 1px solid #ddd; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+    <h1 class="text-center mb-4" style="font-size: 24px; font-weight: bold; color: #333;">Generate SEO Report</h1>
+    <div id="reports_list"></div>
+
+</div>
+
+<div class="container" id="shopify-store-seo-report-container">
+   
+</div>
+
+
 {% endblock %}

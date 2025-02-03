@@ -1,7 +1,8 @@
 class Accordion {
-    constructor(containerId, ...items) {
+    constructor(containerId, items) {
         this.container = containerId ? document.querySelector(containerId) : document.createElement('div');
-        this.items = items;
+        this.items = Array.isArray(items) ? items : [];
+        this.accordionElements = {};
         this.renderAccordion();
     }
 
@@ -13,7 +14,7 @@ class Accordion {
         accordionContainer.classList.add('accordion', 'accordion-flush');
 
         this.items.forEach(item => {
-            const accordionItem = this.createAccordionItem(item, true);
+            const accordionItem = this.createAccordionItem(item);
             accordionContainer.appendChild(accordionItem);
         });
 
@@ -21,18 +22,19 @@ class Accordion {
         this.container.appendChild(card);
     }
 
-    createAccordionItem(item, isMain = false) {
+    createAccordionItem(item) {
         const uniqueId = crypto.randomUUID();
 
         const accordionItem = document.createElement('div');
-        accordionItem.classList.add('accordion-item');
+        accordionItem.classList.add('accordion-item', 'mb-3');
+        accordionItem.id = `item-${uniqueId}`;
 
-        const accordionHeader = document.createElement('h2');
+        const accordionHeader = document.createElement('h6');
         accordionHeader.classList.add('accordion-header');
         accordionHeader.id = `heading-${uniqueId}`;
 
         const button = document.createElement('button');
-        button.classList.add('accordion-button', 'collapsed');
+        button.classList.add('accordion-button', 'collapsed', 'border-bottom', 'font-weight-bold');
         button.type = 'button';
         button.innerHTML = `
             ${item.title}
@@ -41,11 +43,7 @@ class Accordion {
         button.setAttribute('aria-expanded', 'false');
         button.setAttribute('aria-controls', `collapse-${uniqueId}`);
 
-        button.addEventListener('click', () => {
-            const collapseDiv = document.getElementById(`collapse-${uniqueId}`);
-            collapseDiv.classList.toggle('show');
-            button.setAttribute('aria-expanded', collapseDiv.classList.contains('show'));
-        });
+        button.addEventListener('click', () => this.toggleAccordion(uniqueId, button));
 
         accordionHeader.appendChild(button);
         accordionItem.appendChild(accordionHeader);
@@ -56,96 +54,157 @@ class Accordion {
         collapseDiv.setAttribute('aria-labelledby', `heading-${uniqueId}`);
 
         const accordionBody = document.createElement('div');
-        accordionBody.classList.add('accordion-body');
-        accordionBody.innerHTML = item.page_content || '';
+        accordionBody.classList.add('accordion-body', 'text-sm', 'opacity-8');
+        accordionBody.innerHTML = item.page_content;
 
-        // Handle sub-items (sub-accordions)
-        if (item.subItems && Array.isArray(item.subItems)) {
-            if (item.subItems.every(subItem => subItem instanceof Accordion)) {
-                item.subItems.forEach(subAccordion => {
-                    accordionBody.appendChild(subAccordion.container.firstChild);
-                });
-            } else {
-                const subAccordionContainer = document.createElement('div');
-                subAccordionContainer.classList.add('accordion', 'accordion-flush');
-                item.subItems.forEach(subItem => {
-                    const subAccordionItem = this.createAccordionItem(subItem, false);
-                    subAccordionContainer.appendChild(subAccordionItem);
-                });
-                accordionBody.appendChild(subAccordionContainer);
-            }
-        }
-
-        if (isMain) {
-            const mainCardBody = document.createElement('div');
-            mainCardBody.classList.add('card-body');
-            mainCardBody.appendChild(accordionBody);
-            collapseDiv.appendChild(mainCardBody);
-        } else {
-            collapseDiv.appendChild(accordionBody);
-        }
-
+        collapseDiv.appendChild(accordionBody);
         accordionItem.appendChild(collapseDiv);
+
+        this.accordionElements[uniqueId] = {
+            item: accordionItem,
+            header: accordionHeader,
+            button: button,
+            collapse: collapseDiv,
+            body: accordionBody,
+        };
+
         return accordionItem;
     }
 
-    findAccordionBody(title) {
+    toggleAccordion(id, button) {
+        const collapseDiv = document.getElementById(`collapse-${id}`);
+        const isOpen = collapseDiv.classList.contains('show');
+
+        Object.values(this.accordionElements).forEach(({ collapse, button }) => {
+            collapse.classList.remove('show');
+            button.setAttribute('aria-expanded', 'false');
+        });
+
+        if (!isOpen) {
+            collapseDiv.classList.add('show');
+            button.setAttribute('aria-expanded', 'true');
+        }
+    }
+
+    getAccordionElements(container = this.container) {
+        const accordionContainer = container.querySelector('.accordion');
+
+        const items = Array.from(container.querySelectorAll(':scope > .card .accordion-item')).map(item => {
+            const header = item.querySelector('.accordion-header');
+            const button = item.querySelector('.accordion-button');
+            const content = item.querySelector('.accordion-body');
+
+            let nestedItems = [];
+            if (content) {
+                const nestedAccordion = content.querySelector('.accordion');
+                if (nestedAccordion) {
+                    nestedItems = this.getAccordionElements(nestedAccordion).items;
+                }
+            }
+
+            return {
+                id: header?.id || null,
+                title: button?.textContent.trim() || null,
+                header: header ? header.outerHTML : null,
+                button: button ? button.outerHTML : null,
+                content: content ? content.outerHTML : null,
+                nestedItems
+            };
+        });
+
+        return {
+            accordionContainer: accordionContainer ? accordionContainer.outerHTML : null,
+            items
+        };
+    }
+
+    addHtmlToAccordion(title, htmlcode) {
         const targetItem = this.items.find(item => item.title === title);
         if (!targetItem) {
             console.error(`Accordion item with title "${title}" not found.`);
-            return null;
+            return;
         }
 
-        return Array.from(this.container.querySelectorAll('.accordion-body'))
-            .find(body => body.textContent.includes(targetItem.page_content));
-    }
+        const accordionBody = Array.from(this.container.querySelectorAll('.accordion-body'))
+            .find(body => body.textContent.trim().startsWith(targetItem.page_content.trim()));
 
-    addAccordionToAccordion(title, subItems) {
-        const accordionBody = this.findAccordionBody(title);
-        if (!accordionBody) return;
-
-        const subAccordionContainer = document.createElement('div');
-        subAccordionContainer.classList.add('accordion', 'accordion-flush');
-
-        subItems.forEach(subItem => {
-            const subAccordionItem = this.createAccordionItem(subItem, false);
-            subAccordionContainer.appendChild(subAccordionItem);
-        });
-
-        accordionBody.appendChild(subAccordionContainer);
-    }
-
-    addAccordionEditTitle(title, newTitle) {
-        const targetHeader = Array.from(this.container.querySelectorAll('.accordion-header button'))
-            .find(button => button.innerHTML.includes(title));
-        if (targetHeader) {
-            targetHeader.innerHTML = targetHeader.innerHTML.replace(title, newTitle);
-        } else {
-            console.error(`Accordion with title "${title}" not found.`);
+        if (!accordionBody) {
+            console.error(`Accordion body for title "${title}" not found.`);
+            return;
         }
-    }
-
-    addAccordionToHTMLContent(title, htmlContent) {
-        const accordionBody = this.findAccordionBody(title);
-        if (!accordionBody) return;
 
         const htmlFragment = document.createElement('div');
-        htmlFragment.innerHTML = htmlContent;
+        htmlFragment.innerHTML = htmlcode;
         accordionBody.appendChild(htmlFragment);
     }
 
-    addAccordionToTable(title, tableData) {
-        const accordionBody = this.findAccordionBody(title);
-        if (!accordionBody) return;
+    addParaToAccordion(title, paragraph) {
+        const targetItem = this.items.find(item => item.title === title);
+        if (!targetItem) {
+            console.error(`Accordion item with title "${title}" not found.`);
+            return;
+        }
+
+        const accordionBody = Array.from(this.container.querySelectorAll('.accordion-body'))
+            .find(body => body.textContent.trim().startsWith(targetItem.page_content.trim()));
+
+        if (!accordionBody) {
+            console.error(`Accordion body for title "${title}" not found.`);
+            return;
+        }
+
+        const para = document.createElement('p');
+        para.textContent = paragraph;
+        accordionBody.appendChild(para);
+    }
+
+    addAccordionToAccordion(title, content) {
+        const targetItem = this.items.find(item => item.title === title);
+        if (!targetItem) {
+            console.error(`Accordion item with title "${title}" not found.`);
+            return;
+        }
+
+        const accordionBody = Array.from(this.container.querySelectorAll('.accordion-body'))
+            .find(body => body.textContent.trim().startsWith(targetItem.page_content.trim()));
+
+        if (!accordionBody) {
+            console.error(`Accordion body for title "${title}" not found.`);
+            return;
+        }
+
+        const subAccordionContainerId = `sub-accordion-${crypto.randomUUID()}`;
+        const subAccordionContainer = document.createElement('div');
+        subAccordionContainer.id = subAccordionContainerId;
+        accordionBody.appendChild(subAccordionContainer);
+
+        const subAccordion = new Accordion(`#${subAccordionContainerId}`, ...content);
+        return subAccordion;
+    }
+
+    addTableToAccordion(title, tableData) {
+        const targetItem = this.items.find(item => item.title === title);
+        if (!targetItem) {
+            console.error(`Accordion item with title "${title}" not found.`);
+            return;
+        }
+
+        const accordionBody = Array.from(this.container.querySelectorAll('.accordion-body'))
+            .find(body => body.textContent.trim().startsWith(targetItem.page_content.trim()));
+
+        if (!accordionBody) {
+            console.error(`Accordion body for title "${title}" not found.`);
+            return;
+        }
 
         const table = document.createElement('table');
         table.classList.add('table', 'table-bordered', 'table-sm');
+        const { table_header, table_content } = tableData;
 
-        // Create headers
-        if (tableData.title && Array.isArray(tableData.title)) {
+        if (table_header && Array.isArray(table_header)) {
             const thead = document.createElement('thead');
             const headerRow = document.createElement('tr');
-            tableData.title.forEach(header => {
+            table_header.forEach(header => {
                 const th = document.createElement('th');
                 th.textContent = header;
                 headerRow.appendChild(th);
@@ -154,19 +213,59 @@ class Accordion {
             table.appendChild(thead);
         }
 
-        // Create rows
         const tbody = document.createElement('tbody');
-        tableData.table_data.forEach(row => {
-            const tr = document.createElement('tr');
-            Object.values(row).forEach(cell => {
+        table_content.forEach(rowData => {
+            const row = document.createElement('tr');
+            rowData.forEach(cellData => {
                 const td = document.createElement('td');
-                td.textContent = cell;
-                tr.appendChild(td);
+                td.textContent = cellData;
+                row.appendChild(td);
             });
-            tbody.appendChild(tr);
+            tbody.appendChild(row);
         });
         table.appendChild(tbody);
 
         accordionBody.appendChild(table);
     }
 }
+
+
+// const mainAccordion = new Accordion('#report-domain_name',
+//     { title: "Main Section 1", page_content: "Main Content 1" },
+//     { title: "Main Section 2", page_content: "Main Content 2" }
+// );
+
+// const nestedItems = [
+//     { title: "Sub Section 1", page_content: "Nested Content 1" },
+//     { title: "Sub Section 2", page_content: "Nested Content 2" }
+// ];
+
+// setTimeout(() => {
+//     mainAccordion.addAccordionToAccordion("Main Section 1", nestedItems);
+//     setTimeout(() => {
+//         const elements = mainAccordion.getAccordionElements();
+//         console.log(elements);
+//     }, 200);
+// }, 100);
+
+// setTimeout(() => {
+//     mainAccordion.addAccordionToAccordion("Main Section 2", nestedItems);
+//     setTimeout(() => {
+//         const elements = mainAccordion.getAccordionElements();
+
+//         document.getElementById(elements.items[0].id).style.backgroundColor = "black";
+//         document.getElementById(elements.items[2].id).style.backgroundColor = "red";
+
+//         document.getElementById(elements.items[0].id).style.color = "white";
+//         document.getElementById(elements.items[0].id).style.fontSize = "18px";
+
+//         document.getElementById(elements.items[2].id).style.color = "yellow";
+//         document.getElementById(elements.items[2].id).style.fontSize = "20px";
+
+//     }, 200);
+// }, 100);
+
+
+
+
+

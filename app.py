@@ -42,7 +42,28 @@ def test3():
 
 @app.route('/test')
 def test():
-    return render_template('test.html' ,session= session)
+    prompt_data = [
+        {
+            "title": "AI in Healthcare",
+            "description": "Explore the latest advancements in AI and its application in healthcare, from diagnostics to treatment planning.",
+            "category": "Technology",
+            "date_added": "2025-02-03"
+        },
+        {
+            "title": "Machine Learning for Beginners",
+            "description": "An introductory guide to machine learning concepts and techniques.",
+            "category": "Education",
+            "date_added": "2025-01-15"
+        },
+        {
+            "title": "Deep Learning for AI",
+            "description": "Understand the principles of deep learning and its role in modern AI.",
+            "category": "Technology",
+            "date_added": "2025-03-10"
+        }
+    ]
+    
+    return render_template('test.html', session=session, prompts=prompt_data)
 
 
 @app.route('/loader')

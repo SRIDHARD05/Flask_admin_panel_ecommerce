@@ -1,6 +1,5 @@
 $(document).ready(function () {
     var current_path = window.location.pathname;
-
     function appendBreadcrumb(breadcrumbHtml) {
         $('.breadcrumb-design').append(breadcrumbHtml);
     }
@@ -10,35 +9,116 @@ $(document).ready(function () {
             <li class="breadcrumb-item text-sm text-dark active" aria-current="page">/ Dashboard</li>
         </ol>`;
         appendBreadcrumb(template);
-    }
-    else if (current_path === '/test') {
+    } else if (current_path === '/test') {
         var template = `<ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
             <li class="breadcrumb-item text-sm text-dark active" aria-current="page">/ Test Page</li>
         </ol>`;
         appendBreadcrumb(template);
-    }
-    else if (current_path === '/pricing/') {
+    } else if (current_path === '/pricing/') {
         var template = `<ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
             <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="/dashboard">Dashboard</a></li>
             <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Pricing</li>
         </ol>`;
         appendBreadcrumb(template);
-    }
-    else if (current_path === '/save/') {
+    } else if (current_path === '/save/') {
         var template = `<ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
             <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="/dashboard">Dashboard</a></li>
             <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Saved Posts</li>
         </ol>`;
         appendBreadcrumb(template);
-    }
-    else if (current_path === '/credits/') {
+    } else if (current_path === '/credits/') {
         var template = `<ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
             <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="/dashboard">Dashboard</a></li>
             <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Credits</li>
         </ol>`;
         appendBreadcrumb(template);
-    }
-    else if (current_path.match(/^\/products\/([^\/]+)\/([^\/]+)\/show/)) {
+    } else if (current_path === '/tools/store/theme_detector') {
+        var template = `
+        <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+            <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="/dashboard">Dashboard</a></li>
+            <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="#">Tools</a></li>
+            <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Shopify Theme Detector</li>
+        </ol>`;
+        appendBreadcrumb(template);
+    } else if (current_path === '/tools/basic/calculate-dropshipping-profit') {
+        var template = `
+        <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+            <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="/dashboard">Dashboard</a></li>
+            <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="#">Tools</a></li>
+            <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Dropshipping Profit Calculater (Basic Version)</li>
+        </ol>`;
+        appendBreadcrumb(template);
+    } else if (current_path === '/tools/pro/calculate-dropshipping-profit') {
+        var template = `
+        <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+            <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="/dashboard">Dashboard</a></li>
+            <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="#">Tools</a></li>
+            <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Dropshipping Profit Calculater (Pro Version)</li>
+        </ol>`;
+        appendBreadcrumb(template);
+    } else if (current_path === '/stores/shopify/all') {
+        var template = `
+        <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+            <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="/dashboard">Dashboard</a></li>
+            <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Shopify Stores</li>
+        </ol>`;
+        appendBreadcrumb(template);
+    } else if (current_path === '/stores/save') {
+        var template = `
+        <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+            <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="/dashboard">Dashboard</a></li>
+            <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Save Shopify Stores</li>
+        </ol>`;
+        appendBreadcrumb(template);
+    } else if (current_path === '/stores/best-stores/save') {
+        var template = `
+        <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+            <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="/dashboard">Dashboard</a></li>
+            <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Save Best Stores</li>
+        </ol>`;
+        appendBreadcrumb(template);
+    } else if (current_path === '/shopify_seo/') {
+        var template = `
+        <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+            <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="/dashboard">Dashboard</a></li>
+            <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Shopify Stores SEO</li>
+        </ol>`;
+        appendBreadcrumb(template);
+    } else if (current_path.startsWith('/stores/best-stores/')) {
+        const pathParts = current_path.split('/');
+        const lastPath = pathParts[pathParts.length - 1];
+
+        const formattedText = lastPath
+            .replace(/-/g, ' ')
+            .replace(/&/g, 'and')
+            .replace(/[^a-zA-Z0-9\s]/g, '')
+            .split(' ')
+            .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+            .join(' ');
+
+        var template = `
+        <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+            <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="/dashboard">Dashboard</a></li>
+            <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="#">Best Stores</a></li>
+            <li class="breadcrumb-item text-sm text-dark active" aria-current="page">${formattedText}</li>
+        </ol>`;
+
+        appendBreadcrumb(template);
+    } else if (current_path === '/shopify/best-shoify-apps') {
+        var template = `
+        <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+            <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="/dashboard">Dashboard</a></li>
+            <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Best Shopify Apps</li>
+        </ol>`;
+        appendBreadcrumb(template);
+    } else if (current_path === '/shopify/best-shoify-apps/save') {
+        var template = `
+        <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+            <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="/dashboard">Dashboard</a></li>
+            <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Save Shopify Apps</li>
+        </ol>`;
+        appendBreadcrumb(template);
+    } else if (current_path.match(/^\/products\/([^\/]+)\/([^\/]+)\/show/)) {
         // TODO: For Product Page get the Product Name from the URL and convert name url into product name append the data to brudcrumb
         // TODO: /products/product_name/show 
         // var regex = /^\/products\/([^\/]+)\/([^\/]+)\/show/;
@@ -54,8 +134,22 @@ $(document).ready(function () {
         //     </ol>`;
         //     appendBreadcrumb(template);
         // }
+    } else {
+        var currentUrl = window.location.href;
+        if (currentUrl.indexOf("/stores/view/insights?store_url") !== -1) {
+            var urlParams = new URLSearchParams(window.location.search);
+            var storeUrl = urlParams.get('store_url');
+            var template = `
+            <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+                <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="/dashboard">Dashboard</a></li>
+                <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="${decodeURIComponent(storeUrl)}" target="_blank">${decodeURIComponent(storeUrl)}</a></li>
+                <li class="breadcrumb-item text-sm"> View Store Insight's</li>
+            </ol>`;
+            appendBreadcrumb(template);
+        }
     }
 });
+
 
 // TODO: Redesign and solve the DOM Hdi
 // function loader_start(is_hide) {
@@ -196,8 +290,34 @@ $(document).ready(function () {
         $("title").text('My Collections');
     } else if (loc === '/profile/') {
         $("title").text('My Profile');
-    }
+    } else if (loc == '/shopify_seo/') {
+        $("title").text('Shopify SEO');
+    } else if (loc == '/tools/store/theme_detector') {
+        $("title").text('Shopify Theme Detector');
+    } else if (loc == '/tools/basic/calculate-dropshipping-profit') {
+        $("title").text('Dropshipping Profit Calculater (Basic)');
+    } else if (loc == '/tools/pro/calculate-dropshipping-profit') {
+        $("title").text('Dropshipping Profit Calculater (Pro)');
+    } else if (loc == '/stores/shopify/all') {
+        $("title").text('Shopify Stores');
+    } else if (loc == '/stores/save') {
+        $("title").text('Save Shopify Store');
+    } else if (loc == '/stores/best-stores/save') {
 
+    } else if (loc.startsWith('/stores/best-stores/')) {
+        const pathParts = window.location.pathname.split('/');
+        const lastPath = pathParts[pathParts.length - 1];
+
+        const formattedText = lastPath
+            .replace(/-/g, ' ')
+            .replace(/&/g, 'and')
+            .replace(/[^a-zA-Z0-9\s]/g, '')
+            .split(' ')
+            .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+            .join(' ');
+
+        $("title").text(`${formattedText}`);
+    }
 
 });
 

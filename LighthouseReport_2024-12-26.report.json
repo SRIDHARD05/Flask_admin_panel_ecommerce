@@ -283,7 +283,7 @@
     "server-response-time": {
       "id": "server-response-time",
       "title": "Initial server response time was short",
-      "description": "Keep the server response time for the main document short because all other requests depend on it. [Learn more about the Time to First Byte metric](https://developer.chrome.com/docs/lighthouse/performance/time-to-first-byte/).",
+      "description": "Keep the server response time for the main document short because all other requests depend on it. [Learn more about the Time to First Byte metric].",
       "score": 1,
       "scoreDisplayMode": "informative",
       "numericValue": 224.26200000000006,

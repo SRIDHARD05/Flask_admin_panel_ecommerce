@@ -20,12 +20,10 @@ def view_best_apps():
     apps = Shopify.get_best_apps()
     return render_template('components/shopify/apps/view.html', apps=apps)
 
-
 @bp.route("/best-shoify-apps/save", methods=["GET"])
 @user_required
 def view_best_apps_save():
     return render_template('components/shopify/apps/save.html')
-
 
 @bp.route("/best-shoify-apps/save", methods=["POST"])
 @admin_required

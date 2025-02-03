@@ -14,7 +14,7 @@ def store_insights_view():
     if store_url:
         decoded_store_url = unquote(store_url)
         store_insights_data = Stores.view_insights(decoded_store_url)
-        # print(store_insights_data)
+        print(store_insights_data)
         if 'error' in store_insights_data:
             return store_insights_data['error'], 500  
 
@@ -143,7 +143,7 @@ def best_stores(store_type):
         data['title'] = 'Top 100 Shopify Beauty & Health Stores 2025'
         data['store_data'] = Stores.best_stores_view('beauty')
 
-    if store_type == 'top-100-shopify-clothing,-shoes-&-jewelry-stores-2025': 
+    if store_type == 'top-100-shopify-clothing-shoes-&-jewelry-stores-2025': 
         data['title'] = 'Top 100 Shopify Clothing, Shoes & Jewelry Stores 2025'
         data['store_data'] = Stores.best_stores_view('clothing')
 
