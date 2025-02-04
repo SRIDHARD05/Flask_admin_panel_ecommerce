@@ -11,7 +11,6 @@ $(document).ready(function () {
             data: formData,
             success: function (response) {
                 if (response) {
-                    // console.log(response);
                     alert("Shopify Apps Saved to DB")
                 }
             },
@@ -119,7 +118,6 @@ $(document).ready(function () {
     // });
 });
 
-
 $(document).ready(function () {
     $.ajax({
         url: `/shopify_seo/report/generate`,
@@ -172,6 +170,63 @@ function reports_card_elements(title) {
 function add_brak() {
     var br = document.createElement("br");
     $("#shopify-store-seo-report-container").append(br);
+}
+
+function manual_audits(title, category, data) {
+    function formatLinks(text) {
+        return text.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g,
+            '<a href="$2" target="_blank" rel="noopener noreferrer" class="text-primary underline text-bold">$1</a>'
+        );
+    }
+
+    add_brak();
+    reports_card_elements(title)
+    let categoryData = data[category];
+    let selectedData = [];
+    if (categoryData && Array.isArray(categoryData.manual)) {
+        if (categoryData.manual.length === 0) {
+            selectedData.push({
+                title: "Nothing Bad Happened",
+                page_content: "super everything is going to be good"
+            });
+        } else {
+            selectedData = categoryData.manual.map(i => ({
+                title: `${i.title}`,
+                page_content: formatLinks(i.description || 'No description available')
+            }));
+        }
+    }
+    new Accordion(create_div_element(), selectedData);
+}
+
+function notApplicable_audits(title, category, data) {
+    function formatLinks(text) {
+        return text.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g,
+            '<a href="$2" target="_blank" rel="noopener noreferrer" class="text-primary underline text-bold">$1</a>'
+        );
+    }
+
+    add_brak();
+    reports_card_elements(title)
+
+    let categoryData = data[category];
+    let selectedData = [];
+
+    if (categoryData && Array.isArray(categoryData.notApplicable)) {
+        if (categoryData.notApplicable.length === 0) {
+            selectedData.push({
+                title: "Nothing Bad Happened",
+                page_content: "super everything is going to be good"
+            });
+        } else {
+            selectedData = categoryData.notApplicable.map(i => ({
+                title: `${i.title}`,
+                page_content: formatLinks(i.description || 'No description available')
+            }));
+        }
+    }
+
+    new Accordion(create_div_element(), selectedData);
 }
 
 function generate_report(json_data) {
@@ -368,7 +423,6 @@ function generate_report(json_data) {
     for (const key in audits) {
         const data = audits[key];
         categories.forEach(category => {
-            // Ensure passed_audits, un_passed_audits, and other_data_audits are initialized
             if (!passed_audits[category]) {
                 passed_audits[category] = [];
             }
@@ -384,7 +438,7 @@ function generate_report(json_data) {
 
             if (seoChecklist && seoChecklist[category] && seoChecklist[category].includes(data.title)) {
                 if (data.score === null) {
-                    if (data.scoreDisplayMode === 'manual') {
+                    if (data.scoreDisplayMode === 'manual' || data.scoreDisplayMode === 'binary') {
                         other_data_audits[category].manual.push(data);
                     } else if (data.scoreDisplayMode === 'notApplicable') {
                         other_data_audits[category].notApplicable.push(data);
@@ -398,59 +452,156 @@ function generate_report(json_data) {
         });
     }
 
-    console.log(other_data_audits);
+    add_brak();
+    reports_card_elements(`Passed Audits -> Performance`)
+    let performance_data = passed_audits['performance'].map(i => {
+        if (i === null || i === undefined || Object.keys(i).length === 0) {
+            return {
+                title: "Nothing Bad Happened",
+                page_content: "super everything is going to be good"
+            };
+        }
+
+        return {
+            title: `${i.title}`,
+            page_content: formatLinks(i.description || 'No description available')
+        };
+    });
+    const performance_accordin = new Accordion(create_div_element(), performance_data);
+
+
+    add_brak();
+    reports_card_elements(`UNPassed Audits -> performance`)
+    let un_performance_data = un_passed_audits['performance'].map(i => {
+        if (i === null || i === undefined || Object.keys(i).length === 0) {
+            return {
+                title: "Nothing Bad Happened",
+                page_content: "super everything is going to be good"
+            };
+        }
+
+        return {
+            title: `${i.title}`,
+            page_content: formatLinks(i.description || 'No description available')
+        };
+    });
+    const un_performance_accordin = new Accordion(create_div_element(), un_performance_data);
+    manual_audits(`Manuval Audits -> Performance`, 'performance', other_data_audits)
+    notApplicable_audits(`Not Applicable Audits -> Performance`, 'performance', other_data_audits)
+
 
     add_brak();
     reports_card_elements(`Passed Audits -> Accessibility`)
+    let accessibility_data = passed_audits['accessibility'].map(i => {
+        if (i === null || i === undefined || Object.keys(i).length === 0) {
+            return {
+                title: "Nothing Bad Happened",
+                page_content: "super everything is going to be good"
+            };
+        }
 
-    let accessibility_data = passed_audits['accessibility'].map(i => ({
-        title: `${i.title}`,
-        page_content: formatLinks(i.description || 'No description available')
-    }));
+        return {
+            title: `${i.title}`,
+            page_content: formatLinks(i.description || 'No description available')
+        };
+    });
     const accessibility_accordin = new Accordion(create_div_element(), accessibility_data);
 
     add_brak();
     reports_card_elements(`UNPassed Audits -> Accessibility`)
-    let un_accessibility_data = un_passed_audits['accessibility'].map(i => ({
-        title: `${i.title}`,
-        page_content: formatLinks(i.description || 'No description available')
-    }));
+    let un_accessibility_data = un_passed_audits['accessibility'].map(i => {
+        if (i === null || i === undefined || Object.keys(i).length === 0) {
+            return {
+                title: "Nothing Bad Happened",
+                page_content: "super everything is going to be good"
+            };
+        }
+        return {
+            title: `${i.title}`,
+            page_content: formatLinks(i.description || 'No description available')
+        };
+    });
     const un_accessibility_accordin = new Accordion(create_div_element(), un_accessibility_data);
+
+    manual_audits(`Manuval Audits -> accessibility`, 'accessibility', other_data_audits)
+    notApplicable_audits(`Not Applicable Audits -> accessibility`, 'accessibility', other_data_audits)
+
+
 
     add_brak();
     reports_card_elements(`Passed Audits -> bestPractices`)
+    let bestPractices_data = passed_audits['bestPractices'].map(i => {
+        if (i === null || i === undefined || Object.keys(i).length === 0) {
+            return {
+                title: "Nothing Bad Happened",
+                page_content: "super everything is going to be good"
+            };
+        }
 
-    let bestPractices_data = passed_audits['bestPractices'].map(i => ({
-        title: `${i.title}`,
-        page_content: formatLinks(i.description || 'No description available')
-    }));
+        return {
+            title: `${i.title}`,
+            page_content: formatLinks(i.description || 'No description available')
+        };
+    });
     const bestPractices_accordin = new Accordion(create_div_element(), bestPractices_data);
 
     add_brak();
     reports_card_elements(`UNPassed Audits -> bestPractices`)
 
-    let un_bestPractices_data = un_passed_audits['bestPractices'].map(i => ({
-        title: `${i.title}`,
-        page_content: formatLinks(i.description || 'No description available')
-    }));
+    // console.log(un_passed_audits['bestPractices'])
+    let un_bestPractices_data = un_passed_audits['bestPractices'].map(i => {
+        if (i === null || i === undefined || Object.keys(i).length === 0 || (typeof i === 'string' && i.trim() === '')) {
+            return {
+                title: "Nothing Bad Happened",
+                page_content: "super everything is going to be good"
+            };
+        } else {
+            return {
+                title: `${i.title || 'No title available'}`,
+                page_content: formatLinks(i.description || 'No description available')
+            };
+
+        }
+    });
     const un_bestPractices_accordin = new Accordion(create_div_element(), un_bestPractices_data);
+
+
+    manual_audits(`Manuval Audits -> bestPractices`, 'bestPractices', other_data_audits)
+    notApplicable_audits(`Not Applicable Audits -> bestPractices`, 'bestPractices', other_data_audits)
+
 
     add_brak();
     reports_card_elements(`Passed Audits -> SEO`)
+    let seo_data = passed_audits['seo'].map(i => {
+        if (i === null || i === undefined || Object.keys(i).length === 0) {
+            return {
+                title: "Nothing Bad Happened",
+                page_content: "super everything is going to be good"
+            };
+        }
 
-    let seo_data = passed_audits['seo'].map(i => ({
-        title: `${i.title}`,
-        page_content: formatLinks(i.description || 'No description available')
-    }));
+        return {
+            title: `${i.title}`,
+            page_content: formatLinks(i.description || 'No description available')
+        };
+    });
     const seo_accordin = new Accordion(create_div_element(), seo_data);
 
     add_brak();
     reports_card_elements(`UNPassed Audits -> SEO`)
+    let un_passed_seo_data = un_passed_audits['seo'].map(i => {
+        if (i === null || i === undefined || Object.keys(i).length === 0) {
+            return {
+                title: "Nothing Bad Happened",
+                page_content: "super everything is going to be good"
+            };
+        }
 
-    let un_passed_seo_data = un_passed_audits['seo'].map(i => ({
-        title: `${i.title}`,
-        page_content: formatLinks(i.description || 'No description available')
-    }));
+        return {
+            title: `${i.title || 'No title available'}`,
+            page_content: formatLinks(i.description || 'No description available')
+        };
+    });
     const un_seo_accordin = new Accordion(create_div_element(), un_passed_seo_data);
     // const tableData = {
     //     table_header: ['Name', 'Age', 'Country'],
@@ -462,19 +613,12 @@ function generate_report(json_data) {
     // };
 
     // un_seo_accordin.addTableToAccordion('Item 2', tableData);
-}
-
-
-
-
-function get_audits(title, category) {
-    add_brak();
-    reports_card_elements(title)
-
-    let accessibility_data = passed_audits[`${category}`].map(i => ({
-        title: `${i.title}`,
-        page_content: formatLinks(i.description || 'No description available')
-    }));
-    new Accordion(create_div_element(), accessibility_data);
+    manual_audits(`Manuval Audits -> seo`, 'seo', other_data_audits)
+    notApplicable_audits(`Not Applicable Audits -> seo`, 'seo', other_data_audits)
 
 }
+
+
+
+
+
