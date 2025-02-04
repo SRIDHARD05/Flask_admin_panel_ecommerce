@@ -266,6 +266,17 @@ class Accordion {
 // }, 100);
 
 
+const accord_test = new Accordion('#test-accordin',
+    [{ title: "Main Section 1", page_content: "Main Content 1" },
+    { title: "Main Section 2", page_content: "Main Content 2" }]
+);
+const tableData = {
+    table_header: ['Name', 'Age'],
+    table_content: [
+        ['John', '30'],
+        ['Alice', '25'],
+        ['Bob', '35']
+    ]
+};
 
-
-
+accord_test.addTableToAccordion('Main Section 1', tableData);

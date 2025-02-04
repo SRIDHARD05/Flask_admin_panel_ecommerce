@@ -354,18 +354,42 @@ function generate_report(json_data) {
     const categories = ['performance', 'accessibility', 'bestPractices', 'seo'];
     let passed_audits = {};
     let un_passed_audits = {};
-    let other_data_audits = [];
+    let other_data_audits = {};
 
     categories.forEach(category => {
         passed_audits[category] = [];
         un_passed_audits[category] = [];
+        other_data_audits[category] = {
+            manual: [],
+            notApplicable: []
+        };
     });
 
     for (const key in audits) {
         const data = audits[key];
         categories.forEach(category => {
+            // Ensure passed_audits, un_passed_audits, and other_data_audits are initialized
+            if (!passed_audits[category]) {
+                passed_audits[category] = [];
+            }
+            if (!un_passed_audits[category]) {
+                un_passed_audits[category] = [];
+            }
+            if (!other_data_audits[category]) {
+                other_data_audits[category] = {
+                    manual: [],
+                    notApplicable: []
+                };
+            }
+
             if (seoChecklist && seoChecklist[category] && seoChecklist[category].includes(data.title)) {
-                if (data.score >= 1) {
+                if (data.score === null) {
+                    if (data.scoreDisplayMode === 'manual') {
+                        other_data_audits[category].manual.push(data);
+                    } else if (data.scoreDisplayMode === 'notApplicable') {
+                        other_data_audits[category].notApplicable.push(data);
+                    }
+                } else if (data.score >= 1) {
                     passed_audits[category].push(data);
                 } else {
                     un_passed_audits[category].push(data);
@@ -373,23 +397,8 @@ function generate_report(json_data) {
             }
         });
     }
-    add_brak();
-    reports_card_elements(`Passed Audits -> Performance`)
 
-    let performance_data = passed_audits['performance'].map(i => ({
-        title: `${i.title}`,
-        page_content: formatLinks(i.description || 'No description available')
-    }));
-    const audits_accordin = new Accordion(create_div_element(), performance_data);
-
-    add_brak();
-    reports_card_elements(`UNPassed Audits -> Performance`)
-
-    let un_performance_data = un_passed_audits['performance'].map(i => ({
-        title: `${i.title}`,
-        page_content: formatLinks(i.description || 'No description available')
-    }));
-    const un_audits_accordin = new Accordion(create_div_element(), un_performance_data);
+    console.log(other_data_audits);
 
     add_brak();
     reports_card_elements(`Passed Audits -> Accessibility`)
@@ -451,8 +460,21 @@ function generate_report(json_data) {
     //         ['Bob', '35', 'UK']
     //     ]
     // };
-    
-    // accordion.addTableToAccordion('Item 2', tableData);
+
+    // un_seo_accordin.addTableToAccordion('Item 2', tableData);
 }
 
 
+
+
+function get_audits(title, category) {
+    add_brak();
+    reports_card_elements(title)
+
+    let accessibility_data = passed_audits[`${category}`].map(i => ({
+        title: `${i.title}`,
+        page_content: formatLinks(i.description || 'No description available')
+    }));
+    new Accordion(create_div_element(), accessibility_data);
+
+}
