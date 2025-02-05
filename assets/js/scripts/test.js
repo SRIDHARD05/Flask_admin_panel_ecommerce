@@ -290,40 +290,53 @@ function generate_report(json_data) {
     let performance_audits_not_applicable_data = [];
     Object.keys(performanceData).forEach(id => {
         const data = performanceData[id];
-        if (data.score >= 1) {
-            performance_audits_passed_data.push(data);
-        }
-        else if (data.score < 1) {
-            performance_audits_un_passed_data.push(data);
-        }
-        else if (data.score === null) {
+        if (data.score === null) {
             if (data.scoreDisplayMode === 'manual') {
                 performance_audits_manual_data.push(data);
-            }
-            else if (data.scoreDisplayMode === 'notApplicable') {
+            } else if (data.scoreDisplayMode === 'notApplicable') {
                 performance_audits_not_applicable_data.push(data);
             }
+        } else if (data.score >= 1) {
+            performance_audits_passed_data.push(data);
+        } else if (data.score < 1) {
+            performance_audits_un_passed_data.push(data);
         }
     });
 
-   let data = [];
+    // let formattedTitle = audit.title.trim();
+    // let formattedDisplayValue = audit.displayValue
+    //         ? `<span style="color: red;">&nbsp;&nbsp;--- ${audit.displayValue}</span>`
+    //         : '';
+    //     let combinedText = `${formattedTitle}${formattedDisplayValue}`;
+
+    let data = performance_audits_un_passed_data.map(audit => {
+        return {
+            title: audit.title.trim(),
+            page_content: formatLinks(audit.description || 'No description available'),
+        };
+    });
+
+    const accor = new Accordion("#data", data);
 
     performance_audits_un_passed_data.forEach(audit => {
-        data.push({
-            title: `${audit.title}`,
-            page_content: formatLinks(audit.description || 'No description available')
-        });
+        if (audit.details && audit.details.headings && audit.details.items) {
+            const tableHeaders = audit.details.headings.map(heading => heading.label);
+            const tableRows = audit.details.items.map(item =>
+                audit.details.headings.map(heading => item[heading.key] ?? 'N/A')
+            );
+
+            const tableData = {
+                table_header: tableHeaders,
+                table_content: tableRows
+            };
+
+            setTimeout(() => accor.addTableToAccordion(audit.title.trim(), tableData), 500);
+        }
     });
-    const tableData = {
-        table_header: performance_audits_un_passed_data.details.headings.label,
-        table_content: [
-            performance_audits_un_passed_data.details.items
-        ]
-    };
-
-    accor.addTableToAccordion('Item 2', tableData);
-
-    const accor = new Accordion(create_div_element(), data);
+    console.log(performance_audits_un_passed_data);
+    console.log(performance_audits_not_applicable_data);
+    console.log(performance_audits_manual_data);
+    console.log(performance_audits_passed_data);
 
 
 
@@ -397,4 +410,5 @@ function generate_report(json_data) {
 
 
 }
+
 

@@ -2,7 +2,8 @@ class Accordion {
     constructor(containerId, items) {
         this.container = containerId ? document.querySelector(containerId) : document.createElement('div');
         this.items = Array.isArray(items) ? items : [];
-        this.accordionElements = {};
+        this.accordionElements = new Map();  // Store elements by UUID
+        this.titleToUUID = new Map();  // Store UUID mapping for titles
         this.renderAccordion();
     }
 
@@ -60,29 +61,32 @@ class Accordion {
         collapseDiv.appendChild(accordionBody);
         accordionItem.appendChild(collapseDiv);
 
-        this.accordionElements[uniqueId] = {
+        this.accordionElements.set(uniqueId, {
             item: accordionItem,
             header: accordionHeader,
             button: button,
             collapse: collapseDiv,
             body: accordionBody,
-        };
+        });
+
+        this.titleToUUID.set(item.title.trim(), uniqueId);  // Store title mapping
 
         return accordionItem;
     }
 
-    toggleAccordion(id, button) {
-        const collapseDiv = document.getElementById(`collapse-${id}`);
-        const isOpen = collapseDiv.classList.contains('show');
+    toggleAccordion(id) {
+        const target = this.accordionElements.get(id);
+        if (!target) return;
 
-        Object.values(this.accordionElements).forEach(({ collapse, button }) => {
+        const isOpen = target.collapse.classList.contains('show');
+        this.accordionElements.forEach(({ collapse, button }) => {
             collapse.classList.remove('show');
             button.setAttribute('aria-expanded', 'false');
         });
 
         if (!isOpen) {
-            collapseDiv.classList.add('show');
-            button.setAttribute('aria-expanded', 'true');
+            target.collapse.classList.add('show');
+            target.button.setAttribute('aria-expanded', 'true');
         }
     }
 
@@ -183,22 +187,23 @@ class Accordion {
     }
 
     addTableToAccordion(title, tableData) {
-        const targetItem = this.items.find(item => item.title === title);
-        if (!targetItem) {
+        const uuid = this.titleToUUID.get(title.trim());
+        if (!uuid) {
             console.error(`Accordion item with title "${title}" not found.`);
+            console.log('Existing titles:', [...this.titleToUUID.keys()]);
             return;
         }
 
-        const accordionBody = Array.from(this.container.querySelectorAll('.accordion-body'))
-            .find(body => body.textContent.trim().startsWith(targetItem.page_content.trim()));
-
+        const accordionBody = this.accordionElements.get(uuid)?.body;
         if (!accordionBody) {
             console.error(`Accordion body for title "${title}" not found.`);
             return;
         }
 
+        // Create table
         const table = document.createElement('table');
         table.classList.add('table', 'table-bordered', 'table-sm');
+
         const { table_header, table_content } = tableData;
 
         if (table_header && Array.isArray(table_header)) {
@@ -266,17 +271,3 @@ class Accordion {
 // }, 100);
 
 
-const accord_test = new Accordion('#test-accordin',
-    [{ title: "Main Section 1", page_content: "Main Content 1" },
-    { title: "Main Section 2", page_content: "Main Content 2" }]
-);
-const tableData = {
-    table_header: ['Name', 'Age'],
-    table_content: [
-        ['John', '30'],
-        ['Alice', '25'],
-        ['Bob', '35']
-    ]
-};
-
-accord_test.addTableToAccordion('Main Section 1', tableData);
