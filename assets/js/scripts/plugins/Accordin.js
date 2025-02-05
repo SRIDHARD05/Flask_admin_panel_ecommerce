@@ -251,6 +251,7 @@ class Accordion {
             <i class="collapse-close fa fa-plus text-xs pt-1 position-absolute end-0 me-3"></i>
             <i class="collapse-open fa fa-minus text-xs pt-1 position-absolute end-0 me-3"></i>`;
     }
+
     addParagraph(title, paragraph) {
         const uuid = this.titleToUUID.get(title.trim());
         if (!uuid) {
@@ -265,32 +266,8 @@ class Accordion {
         }
 
         const para = document.createElement('p');
-        para.textContent = paragraph;
+        para.innerHTML = paragraph;  // Use innerHTML to render links properly
         accordionBody.appendChild(para);
     }
 
 }
-
-
-performance_audits_passed_data.forEach(audit => {
-    let formattedTitle = audit.title.trim();
-
-    if (audit.details?.headings && audit.details?.items) {
-        const tableHeaders = audit.details.headings.map(heading => `${heading.label} (${heading.valueType})`);
-        const tableRows = audit.details.items.map(item =>
-            audit.details.headings.map(heading => item[heading.key] ?? 'N/A')
-        );
-
-        const tableData = {
-            table_header: tableHeaders,
-            table_content: tableRows
-        };
-
-        const paragraph = `Lorem ipsum dolor sit, amet consectetur adipisicing elit. Non repudiandae exercitationem maxime animi distinctio qui accusantium quod? Aut repellendus repellat accusantium dolorem maxime assumenda laborum, odit quam architecto aspernatur iste.`;
-
-        setTimeout(() => {
-            accor.addTableToAccordion(formattedTitle, tableData);
-            accor.addParagraph(formattedTitle, paragraph);
-        }, 1000);
-    }
-});

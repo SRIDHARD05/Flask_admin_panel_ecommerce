@@ -172,7 +172,6 @@ function add_brak() {
     $("#shopify-store-seo-report-container").append(br);
 }
 
-
 function notApplicable_audits(title, data) {
     if (data && data.length > 0) {
         add_brak();
@@ -197,15 +196,22 @@ function generate_report(json_data) {
 
     function generate_accordin(titles, performance_audits_passed_data, performance_audits_un_passed_data, performance_audits_manual_data, performance_audits_not_applicable_data) {
         function formatLinks(text) {
+            if (typeof text !== "string") {
+                console.warn("formatLinks received a non-string value:", text);
+                return "";
+            }
             return text.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g,
                 '<a href="$2" target="_blank" rel="noopener noreferrer" class="text-primary underline text-bold">$1</a>'
             );
         }
+
         function escapeHtml(text) {
             return text.replace(/[&<>"'`=/]/g, function (char) {
                 return `&#${char.charCodeAt(0)};`;
             });
         }
+
+        const stackPacksData = data_map.get('stackPacks')[0];
 
         // TODO: For Performance Audits Passed Data
         if (performance_audits_passed_data && performance_audits_passed_data.length > 0) {
@@ -213,13 +219,15 @@ function generate_report(json_data) {
             reports_card_elements(titles[0])
             let data = performance_audits_passed_data.map(audit => {
                 return {
-                    title: audit.title.trim(),
+                    title: escapeHtml(audit.title.trim()),
                     page_content: `<strong>${audit.title.trim()}</strong> ${audit.displayValue ? `<span style="color: red;">--- ${audit.displayValue}</span>` : ''}<br><br>${formatLinks(audit.description || 'No description available')}<br><br>`,
                 };
             });
             const accor = new Accordion(create_div_element(), data);
+
             performance_audits_passed_data.forEach(audit => {
                 let formattedTitle = audit.title.trim();
+                let formattedId = audit.id;
 
                 if (audit.details?.headings && audit.details?.items) {
                     const tableHeaders = audit.details.headings.map(heading => `${heading.label} (${heading.valueType})`);
@@ -231,18 +239,15 @@ function generate_report(json_data) {
                         table_header: tableHeaders,
                         table_content: tableRows
                     };
-                    const paragraph = `Lorem ipsum dolor sit, amet consectetur adipisicing elit. Non repudiandae exercitationem maxime animi distinctio qui
-    accusantium quod? Aut repellendus repellat accusantium dolorem maxime assumenda laborum, odit quam architecto
-    aspernatur iste.`;
 
                     setTimeout(() => {
                         accor.addTableToAccordion(formattedTitle, tableData);
-                        accor.addParagraph(formattedTitle, paragraph);
+                        accor.addParagraph(formattedTitle, formatLinks(stackPacksData.descriptions[formattedId] || ""));
                     }, 1000);
                 }
             });
-
         }
+
 
         // TODO: For Performance Audits Unpassed Data
         if (performance_audits_un_passed_data && performance_audits_un_passed_data.length > 0) {
@@ -257,7 +262,8 @@ function generate_report(json_data) {
             const accor = new Accordion(create_div_element(), data);
             performance_audits_un_passed_data.forEach(audit => {
                 let formattedTitle = audit.title.trim();
-                // console.log(audit.displayValue);
+                let formattedId = audit.id;
+
                 let formattedDisplayValue = audit.displayValue
                     ? `<span style="color: red;">&nbsp;&nbsp;--- ${audit.displayValue}</span>`
                     : '';
@@ -273,10 +279,12 @@ function generate_report(json_data) {
                         table_header: tableHeaders,
                         table_content: tableRows
                     };
+                    const paragraph = stackPacksData.descriptions[`${formattedId}`];
 
                     setTimeout(() => {
                         accor.addTableToAccordion(formattedTitle, tableData);
                         accor.updateTitle(formattedTitle, combinedText);
+                        accor.addParagraph(formattedTitle, formatLinks(stackPacksData.descriptions[formattedId] || ""));
                     }, 1000);
                 }
             });
@@ -489,7 +497,52 @@ function generate_report(json_data) {
         `Not Applicable Audits -> Best Practices`
     ], bestPractices_audits_passed_data, bestPractices_audits_un_passed_data, bestPractices_audits_manual_data, bestPractices_audits_not_applicable_data)
 
+    console.log(categories_audits);
+
+    var template = `
+
+    ${categories_audits.performance && categories_audits.performance.title && categories_audits.performance.score !== undefined ? `
+    <div class="row">
+        <div class="h7">${categories_audits.performance.title}</div>
+        <div class="score">${(categories_audits.performance.score * 100)}</div>
+    </div>
+    ` : ''}
+    
+    ${categories_audits.accessibility && categories_audits.accessibility.title && categories_audits.accessibility.score !== undefined ? `
+    <div class="row">
+        <div class="h7">${categories_audits.accessibility.title}</div>
+        <div class="score">${(categories_audits.accessibility.score * 100)}</div>
+        ${categories_audits.accessibility.description ? `<div class="h7">${categories_audits.accessibility.description}</div>` : ''}
+        ${categories_audits.accessibility.manualDescription ? `<div class="h7">${categories_audits.accessibility.manualDescription}</div>` : ''}
+    </div>
+    ` : ''}
+    
+    ${categories_audits['best-practices'] && categories_audits['best-practices'].title && categories_audits['best-practices'].score !== undefined ? `
+    <div class="row">
+        <div class="h7">${categories_audits['best-practices'].title}</div>
+        <div class="score">${(categories_audits['best-practices'].score * 100)}</div>
+        ${categories_audits['best-practices'].description ? `<div class="h7">${categories_audits['best-practices'].description}</div>` : ''}
+        ${categories_audits['best-practices'].manualDescription ? `<div class="h7">${categories_audits['best-practices'].manualDescription}</div>` : ''}
+    </div>
+    ` : ''}
+    
+    ${categories_audits.seo && categories_audits.seo.title && categories_audits.seo.score !== undefined ? `
+    <div class="row">
+        <div class="h7">${categories_audits.seo.title}</div>
+        <div class="score">${(categories_audits.seo.score * 100)}</div>
+        ${categories_audits.seo.description ? `<div class="h7">${categories_audits.seo.description}</div>` : ''}
+        ${categories_audits.seo.manualDescription ? `<div class="h7">${categories_audits.seo.manualDescription}</div>` : ''}
+    </div>
+    ` : ''}`;
+    
+    $(create_div_element()).html(template);
+    
 }
+
+
+
+
+
 
 
 
