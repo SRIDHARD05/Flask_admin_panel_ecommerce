@@ -172,68 +172,153 @@ function add_brak() {
     $("#shopify-store-seo-report-container").append(br);
 }
 
-function manual_audits(title, category, data) {
-    function formatLinks(text) {
-        return text.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g,
-            '<a href="$2" target="_blank" rel="noopener noreferrer" class="text-primary underline text-bold">$1</a>'
-        );
-    }
 
-    add_brak();
-    reports_card_elements(title)
-    let categoryData = data[category];
-    let selectedData = [];
-    if (categoryData && Array.isArray(categoryData.manual)) {
-        if (categoryData.manual.length === 0) {
-            selectedData.push({
-                title: "Nothing Bad Happened",
-                page_content: "super everything is going to be good"
-            });
-        } else {
-            selectedData = categoryData.manual.map(i => ({
-                title: `${i.title}`,
+function notApplicable_audits(title, data) {
+    if (data && data.length > 0) {
+        add_brak();
+        reports_card_elements(title);
+        let not_applicable_data = data.map(i => {
+            if (i === null || i === undefined || Object.keys(i).length === 0) {
+                return {
+                    title: "Nothing Bad Happened",
+                    page_content: "super everything is going to be good"
+                };
+            }
+            return {
+                title: escapeHtml(`${i.title}`),
                 page_content: formatLinks(i.description || 'No description available')
-            }));
-        }
+            };
+        });
+        new Accordion(create_div_element(), not_applicable_data);
     }
-    new Accordion(create_div_element(), selectedData);
-}
-
-function notApplicable_audits(title, category, data) {
-    function formatLinks(text) {
-        return text.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g,
-            '<a href="$2" target="_blank" rel="noopener noreferrer" class="text-primary underline text-bold">$1</a>'
-        );
-    }
-
-    add_brak();
-    reports_card_elements(title)
-
-    let categoryData = data[category];
-    let selectedData = [];
-
-    if (categoryData && Array.isArray(categoryData.notApplicable)) {
-        if (categoryData.notApplicable.length === 0) {
-            selectedData.push({
-                title: "Nothing Bad Happened",
-                page_content: "super everything is going to be good"
-            });
-        } else {
-            selectedData = categoryData.notApplicable.map(i => ({
-                title: `${i.title}`,
-                page_content: formatLinks(i.description || 'No description available')
-            }));
-        }
-    }
-
-    new Accordion(create_div_element(), selectedData);
 }
 
 function generate_report(json_data) {
-    function formatLinks(text) {
-        return text.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g,
-            '<a href="$2" target="_blank" rel="noopener noreferrer" class="text-primary underline text-bold">$1</a>'
-        );
+
+    function generate_accordin(titles, performance_audits_passed_data, performance_audits_un_passed_data, performance_audits_manual_data, performance_audits_not_applicable_data) {
+        function formatLinks(text) {
+            return text.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g,
+                '<a href="$2" target="_blank" rel="noopener noreferrer" class="text-primary underline text-bold">$1</a>'
+            );
+        }
+        function escapeHtml(text) {
+            return text.replace(/[&<>"'`=/]/g, function (char) {
+                return `&#${char.charCodeAt(0)};`;
+            });
+        }
+
+        // TODO: For Performance Audits Passed Data
+        if (performance_audits_passed_data && performance_audits_passed_data.length > 0) {
+            add_brak();
+            reports_card_elements(titles[0])
+            let data = performance_audits_passed_data.map(audit => {
+                return {
+                    title: audit.title.trim(),
+                    page_content: `<strong>${audit.title.trim()}</strong> ${audit.displayValue ? `<span style="color: red;">--- ${audit.displayValue}</span>` : ''}<br><br>${formatLinks(audit.description || 'No description available')}<br><br>`,
+                };
+            });
+            const accor = new Accordion(create_div_element(), data);
+            performance_audits_passed_data.forEach(audit => {
+                let formattedTitle = audit.title.trim();
+
+                if (audit.details?.headings && audit.details?.items) {
+                    const tableHeaders = audit.details.headings.map(heading => `${heading.label} (${heading.valueType})`);
+                    const tableRows = audit.details.items.map(item =>
+                        audit.details.headings.map(heading => item[heading.key] ?? 'N/A')
+                    );
+
+                    const tableData = {
+                        table_header: tableHeaders,
+                        table_content: tableRows
+                    };
+                    const paragraph = `Lorem ipsum dolor sit, amet consectetur adipisicing elit. Non repudiandae exercitationem maxime animi distinctio qui
+    accusantium quod? Aut repellendus repellat accusantium dolorem maxime assumenda laborum, odit quam architecto
+    aspernatur iste.`;
+
+                    setTimeout(() => {
+                        accor.addTableToAccordion(formattedTitle, tableData);
+                        accor.addParagraph(formattedTitle, paragraph);
+                    }, 1000);
+                }
+            });
+
+        }
+
+        // TODO: For Performance Audits Unpassed Data
+        if (performance_audits_un_passed_data && performance_audits_un_passed_data.length > 0) {
+            add_brak();
+            reports_card_elements(titles[1])
+            let data = performance_audits_un_passed_data.map(audit => {
+                return {
+                    title: audit.title.trim(),
+                    page_content: `<strong>${audit.title.trim()}</strong> ${audit.displayValue ? `<span style="color: red;">--- ${audit.displayValue}</span>` : ''}<br><br>${formatLinks(audit.description || 'No description available')}<br><br>`,
+                };
+            });
+            const accor = new Accordion(create_div_element(), data);
+            performance_audits_un_passed_data.forEach(audit => {
+                let formattedTitle = audit.title.trim();
+                // console.log(audit.displayValue);
+                let formattedDisplayValue = audit.displayValue
+                    ? `<span style="color: red;">&nbsp;&nbsp;--- ${audit.displayValue}</span>`
+                    : '';
+                let combinedText = `${formattedTitle}${formattedDisplayValue}`;
+
+                if (audit.details?.headings && audit.details?.items) {
+                    const tableHeaders = audit.details.headings.map(heading => `${heading.label} (${heading.valueType})`);
+                    const tableRows = audit.details.items.map(item =>
+                        audit.details.headings.map(heading => item[heading.key] ?? 'N/A')
+                    );
+
+                    const tableData = {
+                        table_header: tableHeaders,
+                        table_content: tableRows
+                    };
+
+                    setTimeout(() => {
+                        accor.addTableToAccordion(formattedTitle, tableData);
+                        accor.updateTitle(formattedTitle, combinedText);
+                    }, 1000);
+                }
+            });
+        }
+
+        // TODO: For Performance Manuval Audits
+        if (performance_audits_manual_data && performance_audits_manual_data.length > 0) {
+            add_brak();
+            reports_card_elements(titles[2]);
+            let performance_audits_manual_data_report = performance_audits_manual_data.map(i => {
+                if (i === null || i === undefined || Object.keys(i).length === 0) {
+                    return {
+                        title: "Nothing Bad Happened",
+                        page_content: "super everything is going to be good"
+                    };
+                }
+                return {
+                    title: escapeHtml(`${i.title}`),
+                    page_content: formatLinks(i.description || 'No description available')
+                };
+            });
+            new Accordion(create_div_element(), performance_audits_manual_data_report);
+        }
+
+        // TODO: For Performance Not Applicable Audits
+        if (performance_audits_not_applicable_data && performance_audits_not_applicable_data.length > 0) {
+            add_brak();
+            reports_card_elements(titles[3]);
+            let performance_audits_not_applicable_data_report = performance_audits_not_applicable_data.map(i => {
+                if (i === null || i === undefined || Object.keys(i).length === 0) {
+                    return {
+                        title: "Nothing Bad Happened",
+                        page_content: "super everything is going to be good"
+                    };
+                }
+                return {
+                    title: escapeHtml(`${i.title}`),
+                    page_content: formatLinks(i.description || 'No description available')
+                };
+            });
+            new Accordion(create_div_element(), performance_audits_not_applicable_data_report);
+        }
     }
 
     const seo_report_container = $("#shopify-store-seo-report-container");
@@ -303,44 +388,14 @@ function generate_report(json_data) {
         }
     });
 
-    // let formattedTitle = audit.title.trim();
-    // let formattedDisplayValue = audit.displayValue
-    //         ? `<span style="color: red;">&nbsp;&nbsp;--- ${audit.displayValue}</span>`
-    //         : '';
-    //     let combinedText = `${formattedTitle}${formattedDisplayValue}`;
 
-    let data = performance_audits_un_passed_data.map(audit => {
-        return {
-            title: audit.title.trim(),
-            page_content: formatLinks(audit.description || 'No description available'),
-        };
-    });
-
-    const accor = new Accordion("#data", data);
-
-    performance_audits_un_passed_data.forEach(audit => {
-        if (audit.details && audit.details.headings && audit.details.items) {
-            const tableHeaders = audit.details.headings.map(heading => heading.label);
-            const tableRows = audit.details.items.map(item =>
-                audit.details.headings.map(heading => item[heading.key] ?? 'N/A')
-            );
-
-            const tableData = {
-                table_header: tableHeaders,
-                table_content: tableRows
-            };
-
-            setTimeout(() => accor.addTableToAccordion(audit.title.trim(), tableData), 500);
-        }
-    });
-    console.log(performance_audits_un_passed_data);
-    console.log(performance_audits_not_applicable_data);
-    console.log(performance_audits_manual_data);
-    console.log(performance_audits_passed_data);
-
-
-
-
+    // TODO: For Perfromance Auditing
+    generate_accordin([
+        `Passed Audits -> Performance`,
+        `UNPassed Audits -> Performance`,
+        `Manuval Audits -> Performance`,
+        `Not Applicable Audits -> Performance`
+    ], performance_audits_passed_data, performance_audits_un_passed_data, performance_audits_manual_data, performance_audits_not_applicable_data)
 
     let accessibility_audits_passed_data = [];
     let accessibility_audits_un_passed_data = [];
@@ -348,13 +403,7 @@ function generate_report(json_data) {
     let accessibility_audits_not_applicable_data = [];
     Object.keys(accessibilityData).forEach(id => {
         const data = accessibilityData[id];
-        if (data.score >= 1) {
-            accessibility_audits_passed_data.push(data);
-        }
-        else if (data.score < 1) {
-            accessibility_audits_un_passed_data.push(data);
-        }
-        else if (data.score === null) {
+        if (data.score === null) {
             if (data.scoreDisplayMode === 'manual') {
                 accessibility_audits_manual_data.push(data);
             }
@@ -362,7 +411,22 @@ function generate_report(json_data) {
                 accessibility_audits_not_applicable_data.push(data);
             }
         }
+        else if (data.score >= 1) {
+            accessibility_audits_passed_data.push(data);
+        }
+        else if (data.score < 1) {
+            accessibility_audits_un_passed_data.push(data);
+        }
+
     });
+
+    // TODO: For Accessibility Auditing
+    generate_accordin([
+        `Passed Audits -> Accessibility`,
+        `UNPassed Audits -> Accessibility`,
+        `Manuval Audits -> Accessibility`,
+        `Not Applicable Audits -> Accessibility`
+    ], accessibility_audits_passed_data, accessibility_audits_un_passed_data, accessibility_audits_manual_data, accessibility_audits_not_applicable_data)
 
     let seo_audits_passed_data = [];
     let seo_audits_un_passed_data = [];
@@ -370,13 +434,7 @@ function generate_report(json_data) {
     let seo_audits_not_applicable_data = [];
     Object.keys(seoData).forEach(id => {
         const data = seoData[id];
-        if (data.score >= 1) {
-            seo_audits_passed_data.push(data);
-        }
-        else if (data.score < 1) {
-            seo_audits_un_passed_data.push(data);
-        }
-        else if (data.score === null) {
+        if (data.score === null) {
             if (data.scoreDisplayMode === 'manual') {
                 seo_audits_manual_data.push(data);
             }
@@ -384,7 +442,22 @@ function generate_report(json_data) {
                 seo_audits_not_applicable_data.push(data);
             }
         }
+        else if (data.score >= 1) {
+            seo_audits_passed_data.push(data);
+        }
+        else if (data.score < 1) {
+            seo_audits_un_passed_data.push(data);
+        }
+
     });
+
+    // TODO: For SEO Auditing
+    generate_accordin([
+        `Passed Audits -> SEO`,
+        `UNPassed Audits -> SEO`,
+        `Manuval Audits -> SEO`,
+        `Not Applicable Audits -> SEO`
+    ], seo_audits_passed_data, seo_audits_un_passed_data, seo_audits_manual_data, seo_audits_not_applicable_data)
 
     let bestPractices_audits_passed_data = [];
     let bestPractices_audits_un_passed_data = [];
@@ -392,13 +465,7 @@ function generate_report(json_data) {
     let bestPractices_audits_not_applicable_data = [];
     Object.keys(bestPracticesData).forEach(id => {
         const data = bestPracticesData[id];
-        if (data.score >= 1) {
-            bestPractices_audits_passed_data.push(data);
-        }
-        else if (data.score < 1) {
-            bestPractices_audits_un_passed_data.push(data);
-        }
-        else if (data.score === null) {
+        if (data.score === null) {
             if (data.scoreDisplayMode === 'manual') {
                 bestPractices_audits_manual_data.push(data);
             }
@@ -406,9 +473,23 @@ function generate_report(json_data) {
                 bestPractices_audits_not_applicable_data.push(data);
             }
         }
+        else if (data.score >= 1) {
+            bestPractices_audits_passed_data.push(data);
+        }
+        else if (data.score < 1) {
+            bestPractices_audits_un_passed_data.push(data);
+        }
     });
 
+    // TODO: For Best Practice Auditing
+    generate_accordin([
+        `Passed Audits -> Best Practices`,
+        `UNPassed Audits -> Best Practices`,
+        `Manuval Audits -> Best Practices`,
+        `Not Applicable Audits -> Best Practices`
+    ], bestPractices_audits_passed_data, bestPractices_audits_un_passed_data, bestPractices_audits_manual_data, bestPractices_audits_not_applicable_data)
 
 }
+
 
 

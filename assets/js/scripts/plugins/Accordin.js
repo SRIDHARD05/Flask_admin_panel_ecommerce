@@ -2,8 +2,8 @@ class Accordion {
     constructor(containerId, items) {
         this.container = containerId ? document.querySelector(containerId) : document.createElement('div');
         this.items = Array.isArray(items) ? items : [];
-        this.accordionElements = new Map();  // Store elements by UUID
-        this.titleToUUID = new Map();  // Store UUID mapping for titles
+        this.accordionElements = new Map();
+        this.titleToUUID = new Map();
         this.renderAccordion();
     }
 
@@ -232,42 +232,65 @@ class Accordion {
 
         accordionBody.appendChild(table);
     }
+
+    updateTitle(originalTitle, newTitle) {
+        const uuid = this.titleToUUID.get(originalTitle.trim());
+        if (!uuid) {
+            console.error(`Accordion item with title "${originalTitle}" not found.`);
+            return;
+        }
+
+        const accordionButton = this.accordionElements.get(uuid)?.button;
+        if (!accordionButton) {
+            console.error(`Accordion button for title "${originalTitle}" not found.`);
+            return;
+        }
+
+        accordionButton.innerHTML = `
+            ${newTitle}
+            <i class="collapse-close fa fa-plus text-xs pt-1 position-absolute end-0 me-3"></i>
+            <i class="collapse-open fa fa-minus text-xs pt-1 position-absolute end-0 me-3"></i>`;
+    }
+    addParagraph(title, paragraph) {
+        const uuid = this.titleToUUID.get(title.trim());
+        if (!uuid) {
+            console.error(`Accordion item with title "${title}" not found.`);
+            return;
+        }
+
+        const accordionBody = this.accordionElements.get(uuid)?.body;
+        if (!accordionBody) {
+            console.error(`Accordion body for title "${title}" not found.`);
+            return;
+        }
+
+        const para = document.createElement('p');
+        para.textContent = paragraph;
+        accordionBody.appendChild(para);
+    }
+
 }
 
 
-// const mainAccordion = new Accordion('#report-domain_name',
-//     { title: "Main Section 1", page_content: "Main Content 1" },
-//     { title: "Main Section 2", page_content: "Main Content 2" }
-// );
+performance_audits_passed_data.forEach(audit => {
+    let formattedTitle = audit.title.trim();
 
-// const nestedItems = [
-//     { title: "Sub Section 1", page_content: "Nested Content 1" },
-//     { title: "Sub Section 2", page_content: "Nested Content 2" }
-// ];
+    if (audit.details?.headings && audit.details?.items) {
+        const tableHeaders = audit.details.headings.map(heading => `${heading.label} (${heading.valueType})`);
+        const tableRows = audit.details.items.map(item =>
+            audit.details.headings.map(heading => item[heading.key] ?? 'N/A')
+        );
 
-// setTimeout(() => {
-//     mainAccordion.addAccordionToAccordion("Main Section 1", nestedItems);
-//     setTimeout(() => {
-//         const elements = mainAccordion.getAccordionElements();
-//         console.log(elements);
-//     }, 200);
-// }, 100);
+        const tableData = {
+            table_header: tableHeaders,
+            table_content: tableRows
+        };
 
-// setTimeout(() => {
-//     mainAccordion.addAccordionToAccordion("Main Section 2", nestedItems);
-//     setTimeout(() => {
-//         const elements = mainAccordion.getAccordionElements();
+        const paragraph = `Lorem ipsum dolor sit, amet consectetur adipisicing elit. Non repudiandae exercitationem maxime animi distinctio qui accusantium quod? Aut repellendus repellat accusantium dolorem maxime assumenda laborum, odit quam architecto aspernatur iste.`;
 
-//         document.getElementById(elements.items[0].id).style.backgroundColor = "black";
-//         document.getElementById(elements.items[2].id).style.backgroundColor = "red";
-
-//         document.getElementById(elements.items[0].id).style.color = "white";
-//         document.getElementById(elements.items[0].id).style.fontSize = "18px";
-
-//         document.getElementById(elements.items[2].id).style.color = "yellow";
-//         document.getElementById(elements.items[2].id).style.fontSize = "20px";
-
-//     }, 200);
-// }, 100);
-
-
+        setTimeout(() => {
+            accor.addTableToAccordion(formattedTitle, tableData);
+            accor.addParagraph(formattedTitle, paragraph);
+        }, 1000);
+    }
+});
