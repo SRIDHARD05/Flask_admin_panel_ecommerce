@@ -340,9 +340,8 @@ function show_password_toggle(input_toggle_id, icon_toggle_id, eye_icon_id) {
 function onValidationPassword(input_btn, validation_template_id, callback) {
     $(input_btn).on('input', function () {
         const password = $(this).val();
-        $(validation_template_id).empty(); // Clear any previous messages
+        $(validation_template_id).empty();
 
-        // Password strength validation template
         let template = `
         <div class="form-group">
             <ul>

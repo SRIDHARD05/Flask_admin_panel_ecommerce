@@ -1,10 +1,139 @@
 {% extends '__master.html' %}
 
 {% block content %}
-<div class="container-fluid">
 
+<div class="container">
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col col-6">
+                    <div class="accordion" id="accordionRental1">
+                        <hr>
+                        ${first_contentful_paint.title}<br>
+                        success
+                        ${first_contentful_paint.displayValue}<br>
+                        <div class="accordion-item mb-3">
+                            <h5 class="accordion-header" id="${first_contentful_paint.id}">
+                                <button class="accordion-button border-bottom font-weight-bold collapsed" type="button"
+                                    data-bs-toggle="collapse" data-bs-target="#collapseFirst" aria-expanded="false"
+                                    aria-controls="collapseFirst">
+                                    Descriptions
+                                    <i class="collapse-close fa fa-plus text-xs pt-1 position-absolute end-0 me-3"
+                                        aria-hidden="true"></i>
+                                    <i class="collapse-open fa fa-minus text-xs pt-1 position-absolute end-0 me-3"
+                                        aria-hidden="true"></i>
+                                </button>
+                            </h5>
+                            <div id="collapseFirst" class="accordion-collapse collapse"
+                                aria-labelledby="${first_contentful_paint.id}" data-bs-parent="#accordionRental1">
+                                <div class="accordion-body text-sm opacity-8">
+                                    ${formatLinks(first_contentful_paint.description)}<br>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        ${largest_contentfull_paint.title}<br>
+                        success
+                        ${largest_contentfull_paint.displayValue}<br>
+                        <div class="accordion-item mb-3">
+                            <h5 class="accordion-header" id="${largest_contentfull_paint.id}">
+                                <button class="accordion-button border-bottom font-weight-bold collapsed" type="button"
+                                    data-bs-toggle="collapse" data-bs-target="#collapseSecond" aria-expanded="false"
+                                    aria-controls="collapseSecond">
+                                    Descriptions
+                                    <i class="collapse-close fa fa-plus text-xs pt-1 position-absolute end-0 me-3"
+                                        aria-hidden="true"></i>
+                                    <i class="collapse-open fa fa-minus text-xs pt-1 position-absolute end-0 me-3"
+                                        aria-hidden="true"></i>
+                                </button>
+                            </h5>
+                            <div id="collapseSecond" class="accordion-collapse collapse"
+                                aria-labelledby="${largest_contentfull_paint.id}" data-bs-parent="#accordionRental1">
+                                <div class="accordion-body text-sm opacity-8">
+                                    ${formatLinks(largest_contentfull_paint.description)}<br>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        ${total_blocking_time.title}<br>
+                        success
+                        ${total_blocking_time.displayValue}<br>
+                        <div class="accordion-item mb-3">
+                            <h5 class="accordion-header" id="${total_blocking_time.id}">
+                                <button class="accordion-button border-bottom font-weight-bold collapsed" type="button"
+                                    data-bs-toggle="collapse" data-bs-target="#collapseThird" aria-expanded="false"
+                                    aria-controls="collapseThird">
+                                    Descriptions
+                                    <i class="collapse-close fa fa-plus text-xs pt-1 position-absolute end-0 me-3"
+                                        aria-hidden="true"></i>
+                                    <i class="collapse-open fa fa-minus text-xs pt-1 position-absolute end-0 me-3"
+                                        aria-hidden="true"></i>
+                                </button>
+                            </h5>
+                            <div id="collapseThird" class="accordion-collapse collapse"
+                                aria-labelledby="${total_blocking_time.id}" data-bs-parent="#accordionRental1">
+                                <div class="accordion-body text-sm opacity-8">
+                                    ${formatLinks(total_blocking_time.description)}<br>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                    </div>
+                </div>
 
-    <div id="data"></div>
+                <div class="col col-6">
+                    <div class="accordion" id="accordionRental2">
+                        <hr>
+                        ${cumulative_layout_shift.title}<br>
+                        success
+                        ${cumulative_layout_shift.displayValue}<br>
+                        <div class="accordion-item mb-3">
+                            <h5 class="accordion-header" id="${cumulative_layout_shift.id}">
+                                <button class="accordion-button border-bottom font-weight-bold collapsed" type="button"
+                                    data-bs-toggle="collapse" data-bs-target="#collapseFourth" aria-expanded="false"
+                                    aria-controls="collapseFourth">
+                                    Descriptions
+                                    <i class="collapse-close fa fa-plus text-xs pt-1 position-absolute end-0 me-3"
+                                        aria-hidden="true"></i>
+                                    <i class="collapse-open fa fa-minus text-xs pt-1 position-absolute end-0 me-3"
+                                        aria-hidden="true"></i>
+                                </button>
+                            </h5>
+                            <div id="collapseFourth" class="accordion-collapse collapse"
+                                aria-labelledby="${cumulative_layout_shift.id}" data-bs-parent="#accordionRental2">
+                                <div class="accordion-body text-sm opacity-8">
+                                    ${formatLinks(cumulative_layout_shift.description)}<br>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        ${speed_index.title}<br>
+                        success
+                        ${speed_index.displayValue}<br>
+                        <div class="accordion-item mb-3">
+                            <h5 class="accordion-header" id="${speed_index.id}">
+                                <button class="accordion-button border-bottom font-weight-bold collapsed" type="button"
+                                    data-bs-toggle="collapse" data-bs-target="#collapseFifth" aria-expanded="false"
+                                    aria-controls="collapseFifth">
+                                    Descriptions
+                                    <i class="collapse-close fa fa-plus text-xs pt-1 position-absolute end-0 me-3"
+                                        aria-hidden="true"></i>
+                                    <i class="collapse-open fa fa-minus text-xs pt-1 position-absolute end-0 me-3"
+                                        aria-hidden="true"></i>
+                                </button>
+                            </h5>
+                            <div id="collapseFifth" class="accordion-collapse collapse"
+                                aria-labelledby="${speed_index.id}" data-bs-parent="#accordionRental2">
+                                <div class="accordion-body text-sm opacity-8">
+                                    ${formatLinks(speed_index.description)}<br>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 {% endblock %}

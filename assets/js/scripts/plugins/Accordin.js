@@ -125,7 +125,7 @@ class Accordion {
     addHtmlToAccordion(title, htmlcode) {
         const targetItem = this.items.find(item => item.title === title);
         if (!targetItem) {
-            console.error(`Accordion item with title "${title}" not found.`);
+           //  console.error(`Accordion item with title "${title}" not found.`);
             return;
         }
 
@@ -133,7 +133,7 @@ class Accordion {
             .find(body => body.textContent.trim().startsWith(targetItem.page_content.trim()));
 
         if (!accordionBody) {
-            console.error(`Accordion body for title "${title}" not found.`);
+           //  console.error(`Accordion body for title "${title}" not found.`);
             return;
         }
 
@@ -145,7 +145,7 @@ class Accordion {
     addParaToAccordion(title, paragraph) {
         const targetItem = this.items.find(item => item.title === title);
         if (!targetItem) {
-            console.error(`Accordion item with title "${title}" not found.`);
+           //  console.error(`Accordion item with title "${title}" not found.`);
             return;
         }
 
@@ -153,7 +153,7 @@ class Accordion {
             .find(body => body.textContent.trim().startsWith(targetItem.page_content.trim()));
 
         if (!accordionBody) {
-            console.error(`Accordion body for title "${title}" not found.`);
+           //  console.error(`Accordion body for title "${title}" not found.`);
             return;
         }
 
@@ -165,7 +165,7 @@ class Accordion {
     addAccordionToAccordion(title, content) {
         const targetItem = this.items.find(item => item.title === title);
         if (!targetItem) {
-            console.error(`Accordion item with title "${title}" not found.`);
+           //  console.error(`Accordion item with title "${title}" not found.`);
             return;
         }
 
@@ -173,7 +173,7 @@ class Accordion {
             .find(body => body.textContent.trim().startsWith(targetItem.page_content.trim()));
 
         if (!accordionBody) {
-            console.error(`Accordion body for title "${title}" not found.`);
+           //  console.error(`Accordion body for title "${title}" not found.`);
             return;
         }
 
@@ -189,14 +189,14 @@ class Accordion {
     addTableToAccordion(title, tableData) {
         const uuid = this.titleToUUID.get(title.trim());
         if (!uuid) {
-            console.error(`Accordion item with title "${title}" not found.`);
-            console.log('Existing titles:', [...this.titleToUUID.keys()]);
+           //  console.error(`Accordion item with title "${title}" not found.`);
+            // console.log('Existing titles:', [...this.titleToUUID.keys()]);
             return;
         }
 
         const accordionBody = this.accordionElements.get(uuid)?.body;
         if (!accordionBody) {
-            console.error(`Accordion body for title "${title}" not found.`);
+           //  console.error(`Accordion body for title "${title}" not found.`);
             return;
         }
 
@@ -236,13 +236,13 @@ class Accordion {
     updateTitle(originalTitle, newTitle) {
         const uuid = this.titleToUUID.get(originalTitle.trim());
         if (!uuid) {
-            console.error(`Accordion item with title "${originalTitle}" not found.`);
+           //  console.error(`Accordion item with title "${originalTitle}" not found.`);
             return;
         }
 
         const accordionButton = this.accordionElements.get(uuid)?.button;
         if (!accordionButton) {
-            console.error(`Accordion button for title "${originalTitle}" not found.`);
+           //  console.error(`Accordion button for title "${originalTitle}" not found.`);
             return;
         }
 
@@ -255,13 +255,13 @@ class Accordion {
     addParagraph(title, paragraph) {
         const uuid = this.titleToUUID.get(title.trim());
         if (!uuid) {
-            console.error(`Accordion item with title "${title}" not found.`);
+           //  console.error(`Accordion item with title "${title}" not found.`);
             return;
         }
 
         const accordionBody = this.accordionElements.get(uuid)?.body;
         if (!accordionBody) {
-            console.error(`Accordion body for title "${title}" not found.`);
+           //  console.error(`Accordion body for title "${title}" not found.`);
             return;
         }
 

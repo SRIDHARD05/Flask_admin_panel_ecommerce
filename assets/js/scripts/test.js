@@ -191,19 +191,19 @@ function notApplicable_audits(title, data) {
         new Accordion(create_div_element(), not_applicable_data);
     }
 }
+function formatLinks(text) {
+    if (typeof text !== "string") {
+        console.warn("formatLinks received a non-string value:", text);
+        return "";
+    }
+    return text.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g,
+        '<a href="$2" target="_blank" rel="noopener noreferrer" class="text-primary underline text-bold">$1</a>'
+    );
+}
 
 function generate_report(json_data) {
 
     function generate_accordin(titles, performance_audits_passed_data, performance_audits_un_passed_data, performance_audits_manual_data, performance_audits_not_applicable_data) {
-        function formatLinks(text) {
-            if (typeof text !== "string") {
-                console.warn("formatLinks received a non-string value:", text);
-                return "";
-            }
-            return text.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g,
-                '<a href="$2" target="_blank" rel="noopener noreferrer" class="text-primary underline text-bold">$1</a>'
-            );
-        }
 
         function escapeHtml(text) {
             return text.replace(/[&<>"'`=/]/g, function (char) {
@@ -247,7 +247,6 @@ function generate_report(json_data) {
                 }
             });
         }
-
 
         // TODO: For Performance Audits Unpassed Data
         if (performance_audits_un_passed_data && performance_audits_un_passed_data.length > 0) {
@@ -396,7 +395,259 @@ function generate_report(json_data) {
         }
     });
 
+    // TODO: Categories Audit's
+    var template = `
+    ${categories_audits.performance && categories_audits.performance.title && categories_audits.performance.score !== undefined ? `
+    <div class="row">
+        <div class="h7">${categories_audits.performance.title}</div>
+        <div class="score">${(categories_audits.performance.score * 100)}</div>
+    </div>
+    ` : ''}
+    
+    ${categories_audits.accessibility && categories_audits.accessibility.title && categories_audits.accessibility.score !== undefined ? `
+    <div class="row">
+        <div class="h7">${categories_audits.accessibility.title}</div>
+        <div class="score">${(categories_audits.accessibility.score * 100)}</div>
+        ${categories_audits.accessibility.description ? `<div class="h7">${categories_audits.accessibility.description}</div>` : ''}
+        ${categories_audits.accessibility.manualDescription ? `<div class="h7">${categories_audits.accessibility.manualDescription}</div>` : ''}
+    </div>
+    ` : ''}
+    
+    ${categories_audits['best-practices'] && categories_audits['best-practices'].title && categories_audits['best-practices'].score !== undefined ? `
+    <div class="row">
+        <div class="h7">${categories_audits['best-practices'].title}</div>
+        <div class="score">${(categories_audits['best-practices'].score * 100)}</div>
+        ${categories_audits['best-practices'].description ? `<div class="h7">${categories_audits['best-practices'].description}</div>` : ''}
+        ${categories_audits['best-practices'].manualDescription ? `<div class="h7">${categories_audits['best-practices'].manualDescription}</div>` : ''}
+    </div>
+    ` : ''}
+    
+    ${categories_audits.seo && categories_audits.seo.title && categories_audits.seo.score !== undefined ? `
+    <div class="row">
+        <div class="h7">${categories_audits.seo.title}</div>
+        <div class="score">${(categories_audits.seo.score * 100)}</div>
+        ${categories_audits.seo.description ? `<div class="h7">${categories_audits.seo.description}</div>` : ''}
+        ${categories_audits.seo.manualDescription ? `<div class="h7">${categories_audits.seo.manualDescription}</div>` : ''}
+    </div>
+    ` : ''}`;
 
+    $(create_div_element()).html(template);
+
+    const first_contentful_paint = audits['first-contentful-paint']
+    const largest_contentfull_paint = audits['largest-contentful-paint']
+    const total_blocking_time = audits['total-blocking-time']
+    const cumulative_layout_shift = audits['cumulative-layout-shift']
+    const speed_index = audits['speed-index']
+
+    var audits_template = `<div class="container">
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+               
+                <div class="col col-6">
+                    <div class="accordion" id="accordionRental1">
+                        
+                        <div class="row mb-3">
+                            <div class="col-12">
+                                
+                                <h7 style="color: black; font-weight: bold;">${first_contentful_paint.title}</h7>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-12">
+                                <!-- Second Row: Success and Display Value -->
+                                <span class="text-success">Success</span><br>
+                                <span class="text-success">${first_contentful_paint.displayValue}</span>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <!-- Third Row: Accordion -->
+                            <div class="col-12">
+                                <div class="accordion-item mb-3">
+                                    <h5 class="accordion-header" id="${first_contentful_paint.id}">
+                                        <button class="accordion-button border-bottom font-weight-bold collapsed" type="button"
+                                            data-bs-toggle="collapse" data-bs-target="#collapseFirst" aria-expanded="false"
+                                            aria-controls="collapseFirst">
+                                            Descriptions
+                                            <i class="collapse-close fa fa-plus text-xs pt-1 position-absolute end-0 me-3"
+                                                aria-hidden="true"></i>
+                                            <i class="collapse-open fa fa-minus text-xs pt-1 position-absolute end-0 me-3"
+                                                aria-hidden="true"></i>
+                                        </button>
+                                    </h5>
+                                    <div id="collapseFirst" class="accordion-collapse collapse"
+                                        aria-labelledby="${first_contentful_paint.id}" data-bs-parent="#accordionRental1">
+                                        <div class="accordion-body text-sm opacity-8">
+                                            ${formatLinks(first_contentful_paint.description)}<br>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+
+                        <!-- Second Item -->
+                        <div class="row mb-3">
+                            <div class="col-12">
+                                <h7 style="color: black; font-weight: bold;">${largest_contentfull_paint.title}</h7>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-12">
+                                <span class="text-success">Success</span><br>
+                                <span class="text-success">${largest_contentfull_paint.displayValue}</span>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-12">
+                                <div class="accordion-item mb-3">
+                                    <h5 class="accordion-header" id="${largest_contentfull_paint.id}">
+                                        <button class="accordion-button border-bottom font-weight-bold collapsed" type="button"
+                                            data-bs-toggle="collapse" data-bs-target="#collapseSecond" aria-expanded="false"
+                                            aria-controls="collapseSecond">
+                                            Descriptions
+                                            <i class="collapse-close fa fa-plus text-xs pt-1 position-absolute end-0 me-3"
+                                                aria-hidden="true"></i>
+                                            <i class="collapse-open fa fa-minus text-xs pt-1 position-absolute end-0 me-3"
+                                                aria-hidden="true"></i>
+                                        </button>
+                                    </h5>
+                                    <div id="collapseSecond" class="accordion-collapse collapse"
+                                        aria-labelledby="${largest_contentfull_paint.id}" data-bs-parent="#accordionRental1">
+                                        <div class="accordion-body text-sm opacity-8">
+                                            ${formatLinks(largest_contentfull_paint.description)}<br>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+
+                        <!-- Third Item -->
+                        <div class="row mb-3">
+                            <div class="col-12">
+                                <h7 style="color: black; font-weight: bold;">${total_blocking_time.title}</h7>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-12">
+                                <span class="text-success">Success</span><br>
+                                <span class="text-success">${total_blocking_time.displayValue}</span>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-12">
+                                <div class="accordion-item mb-3">
+                                    <h5 class="accordion-header" id="${total_blocking_time.id}">
+                                        <button class="accordion-button border-bottom font-weight-bold collapsed" type="button"
+                                            data-bs-toggle="collapse" data-bs-target="#collapseThird" aria-expanded="false"
+                                            aria-controls="collapseThird">
+                                            Descriptions
+                                            <i class="collapse-close fa fa-plus text-xs pt-1 position-absolute end-0 me-3"
+                                                aria-hidden="true"></i>
+                                            <i class="collapse-open fa fa-minus text-xs pt-1 position-absolute end-0 me-3"
+                                                aria-hidden="true"></i>
+                                        </button>
+                                    </h5>
+                                    <div id="collapseThird" class="accordion-collapse collapse"
+                                        aria-labelledby="${total_blocking_time.id}" data-bs-parent="#accordionRental1">
+                                        <div class="accordion-body text-sm opacity-8">
+                                            ${formatLinks(total_blocking_time.description)}<br>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                    </div>
+                </div>
+
+                <!-- Second Column -->
+                <div class="col col-6">
+                    <div class="accordion" id="accordionRental2">
+                        
+                        <div class="row mb-3">
+                            <div class="col-12">
+                                <h7 style="color: black; font-weight: bold;">${cumulative_layout_shift.title}</h7>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-12">
+                                <span class="text-success">Success</span><br>
+                                <span class="text-success">${cumulative_layout_shift.displayValue}</span>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-12">
+                                <div class="accordion-item mb-3">
+                                    <h5 class="accordion-header" id="${cumulative_layout_shift.id}">
+                                        <button class="accordion-button border-bottom font-weight-bold collapsed" type="button"
+                                            data-bs-toggle="collapse" data-bs-target="#collapseFourth" aria-expanded="false"
+                                            aria-controls="collapseFourth">
+                                            Descriptions
+                                            <i class="collapse-close fa fa-plus text-xs pt-1 position-absolute end-0 me-3"
+                                                aria-hidden="true"></i>
+                                            <i class="collapse-open fa fa-minus text-xs pt-1 position-absolute end-0 me-3"
+                                                aria-hidden="true"></i>
+                                        </button>
+                                    </h5>
+                                    <div id="collapseFourth" class="accordion-collapse collapse"
+                                        aria-labelledby="${cumulative_layout_shift.id}" data-bs-parent="#accordionRental2">
+                                        <div class="accordion-body text-sm opacity-8">
+                                            ${formatLinks(cumulative_layout_shift.description)}<br>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+
+                        <!-- Second Item -->
+                        <div class="row mb-3">
+                            <div class="col-12">
+                                <h7 style="color: black; font-weight: bold;">${speed_index.title}</h7>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-12">
+                                <span class="text-success">Success</span><br>
+                                <span class="text-success">${speed_index.displayValue}</span>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-12">
+                                <div class="accordion-item mb-3">
+                                    <h5 class="accordion-header" id="${speed_index.id}">
+                                        <button class="accordion-button border-bottom font-weight-bold collapsed" type="button"
+                                            data-bs-toggle="collapse" data-bs-target="#collapseFifth" aria-expanded="false"
+                                            aria-controls="collapseFifth">
+                                            Descriptions
+                                            <i class="collapse-close fa fa-plus text-xs pt-1 position-absolute end-0 me-3"
+                                                aria-hidden="true"></i>
+                                            <i class="collapse-open fa fa-minus text-xs pt-1 position-absolute end-0 me-3"
+                                                aria-hidden="true"></i>
+                                        </button>
+                                    </h5>
+                                    <div id="collapseFifth" class="accordion-collapse collapse"
+                                        aria-labelledby="${speed_index.id}" data-bs-parent="#accordionRental2">
+                                        <div class="accordion-body text-sm opacity-8">
+                                            ${formatLinks(speed_index.description)}<br>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+`;
+    $(create_div_element()).html(audits_template);
+
+    
     // TODO: For Perfromance Auditing
     generate_accordin([
         `Passed Audits -> Performance`,
@@ -496,47 +747,6 @@ function generate_report(json_data) {
         `Manuval Audits -> Best Practices`,
         `Not Applicable Audits -> Best Practices`
     ], bestPractices_audits_passed_data, bestPractices_audits_un_passed_data, bestPractices_audits_manual_data, bestPractices_audits_not_applicable_data)
-
-    console.log(categories_audits);
-
-    var template = `
-
-    ${categories_audits.performance && categories_audits.performance.title && categories_audits.performance.score !== undefined ? `
-    <div class="row">
-        <div class="h7">${categories_audits.performance.title}</div>
-        <div class="score">${(categories_audits.performance.score * 100)}</div>
-    </div>
-    ` : ''}
-    
-    ${categories_audits.accessibility && categories_audits.accessibility.title && categories_audits.accessibility.score !== undefined ? `
-    <div class="row">
-        <div class="h7">${categories_audits.accessibility.title}</div>
-        <div class="score">${(categories_audits.accessibility.score * 100)}</div>
-        ${categories_audits.accessibility.description ? `<div class="h7">${categories_audits.accessibility.description}</div>` : ''}
-        ${categories_audits.accessibility.manualDescription ? `<div class="h7">${categories_audits.accessibility.manualDescription}</div>` : ''}
-    </div>
-    ` : ''}
-    
-    ${categories_audits['best-practices'] && categories_audits['best-practices'].title && categories_audits['best-practices'].score !== undefined ? `
-    <div class="row">
-        <div class="h7">${categories_audits['best-practices'].title}</div>
-        <div class="score">${(categories_audits['best-practices'].score * 100)}</div>
-        ${categories_audits['best-practices'].description ? `<div class="h7">${categories_audits['best-practices'].description}</div>` : ''}
-        ${categories_audits['best-practices'].manualDescription ? `<div class="h7">${categories_audits['best-practices'].manualDescription}</div>` : ''}
-    </div>
-    ` : ''}
-    
-    ${categories_audits.seo && categories_audits.seo.title && categories_audits.seo.score !== undefined ? `
-    <div class="row">
-        <div class="h7">${categories_audits.seo.title}</div>
-        <div class="score">${(categories_audits.seo.score * 100)}</div>
-        ${categories_audits.seo.description ? `<div class="h7">${categories_audits.seo.description}</div>` : ''}
-        ${categories_audits.seo.manualDescription ? `<div class="h7">${categories_audits.seo.manualDescription}</div>` : ''}
-    </div>
-    ` : ''}`;
-    
-    $(create_div_element()).html(template);
-    
 }
 
 
